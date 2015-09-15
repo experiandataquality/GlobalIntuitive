@@ -90,8 +90,12 @@ var contactDataServices = {
 			}
 		},
 		canSearch: function(){
-			// If search term is not empty and not the same as previous search term
-			return (contactDataServices.address.currentSearchTerm !== "" && contactDataServices.address.lastSearchTerm !== contactDataServices.address.currentSearchTerm);
+					// If search term is not empty and
+			return (contactDataServices.address.currentSearchTerm !== "" && 
+					// If search term is not the same as previous search term and
+					contactDataServices.address.lastSearchTerm !== contactDataServices.address.currentSearchTerm &&
+					// If the country is not empty
+					contactDataServices.address.countryList.value !== "");
 		},
 		// Bind a list of countries. Using either a user-defined list or creating a new one.
 		setCountryList: function(){
