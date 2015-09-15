@@ -83,6 +83,9 @@ var contactDataServices = {
 					// Initiate new Search request
 					contactDataServices.request.get(url, contactDataServices.address.picklist.show);
 				}
+			} else if (contactDataServices.address.currentSearchTerm === "") {
+				// Clear the picklist if the search term is cleared/empty
+				contactDataServices.address.picklist.hide();
 			}
 		},
 		canSearch: function(){
