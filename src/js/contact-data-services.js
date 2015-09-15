@@ -44,9 +44,10 @@ var contactDataServices = {
 		if(!contactDataServices.token){
 			console.log("Please provide a token for ContactDataServices.");
 		}
+
+		contactDataServices.address.setCountryList();
 		contactDataServices.address.input = contactDataServices.address.elements.input;
-		contactDataServices.address.input.addEventListener("keyup", contactDataServices.address.search);		
-		contactDataServices.country = contactDataServices.address.elements.country;
+		contactDataServices.address.input.addEventListener("keyup", contactDataServices.address.search);
 	},
 	address: {
 		input: null,
@@ -60,7 +61,7 @@ var contactDataServices = {
 		search: function(){
 			console.log(contactDataServices.address.input.value);
 			contactDataServices.address.currentSearchTerm = contactDataServices.address.input.value,
-			contactDataServices.address.currentCountryCode = contactDataServices.country.value;
+			contactDataServices.address.currentCountryCode = contactDataServices.address.countryList.value;
 
 			// Check is searching is permitted
 			if(contactDataServices.address.canSearch()){
@@ -83,11 +84,31 @@ var contactDataServices = {
 					// Initiate new Search request
 					contactDataServices.request.get(url, contactDataServices.address.picklist.show);
 				}
+			} else if (contactDataServices.address.currentSearchTerm === "") {
+				// Clear the picklist if the search term is cleared/empty
+				contactDataServices.address.picklist.hide();
 			}
 		},
 		canSearch: function(){
-			// If search term is not empty and not the same as previous search term
-			return (contactDataServices.address.currentSearchTerm !== "" && contactDataServices.address.lastSearchTerm !== contactDataServices.address.currentSearchTerm);
+					// If search term is not empty and
+			return (contactDataServices.address.currentSearchTerm !== "" && 
+					// If search term is not the same as previous search term and
+					contactDataServices.address.lastSearchTerm !== contactDataServices.address.currentSearchTerm &&
+					// If the country is not empty
+					contactDataServices.address.countryList.value !== "");
+		},
+		// Bind a list of countries. Using either a user-defined list or creating a new one.
+		setCountryList: function(){
+			contactDataServices.address.countryList = contactDataServices.address.elements.countryList;
+			
+			// If the user hasn't passed us a country list, then create new list
+			if(!contactDataServices.address.countryList){
+				contactDataServices.address.createCountryDropdown();
+			}
+		},
+		createCountryDropdown: function(){
+			// What countries?
+			// Where to position it?
 		},
 		// Get a final (Formatted) address
 		format: function(url){
@@ -153,10 +174,22 @@ var contactDataServices = {
 			// Create a new picklist item/row
 			createListItem: function(item){
 				var row = document.createElement("div");
-				row.innerHTML = item.suggestion;
+				row.innerHTML = contactDataServices.address.picklist.addMatchingEmphasis(item);
 				// Store the Format URL
 				row.setAttribute("format", item.format);
 				return row;
+			},
+			// Add emphasis to the picklist items highlighting the match
+			addMatchingEmphasis: function(item){
+				var highlights = item.emphasis || [],
+                	label = item.suggestion;
+
+                for (i = 0; i < highlights.length; i++) {
+                    var replacement = '<b>' + label.substring(highlights[i][0], highlights[i][1]) + '</b>';
+                    label = label.substring(0, highlights[i][0]) + replacement + label.substring(highlights[i][1]);
+                }
+
+                return label;
 			},
 			listen: function(row){
 				row.addEventListener("click", contactDataServices.address.picklist.pick);
@@ -202,6 +235,7 @@ var contactDataServices = {
 		get: function(url, callback){
 			contactDataServices.request.currentRequest = new XMLHttpRequest();
 			contactDataServices.request.currentRequest.open('GET', url, true);
+			contactDataServices.request.currentRequest.timeout = 5000; // 5 seconds
 
 			contactDataServices.request.currentRequest.onload = function() {
 			  if (contactDataServices.request.currentRequest.status >= 200 && contactDataServices.request.currentRequest.status < 400) {
@@ -217,6 +251,10 @@ var contactDataServices = {
 
 			contactDataServices.request.currentRequest.onerror = function() {
 			  // There was a connection error of some sort
+			};
+
+			contactDataServices.request.currentRequest.ontimeout = function() {
+			  // There was a connection timeout			  
 			};
 
 			contactDataServices.request.currentRequest.send();
