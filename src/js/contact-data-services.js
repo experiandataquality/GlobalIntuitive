@@ -156,10 +156,22 @@ var contactDataServices = {
 			// Create a new picklist item/row
 			createListItem: function(item){
 				var row = document.createElement("div");
-				row.innerHTML = item.suggestion;
+				row.innerHTML = contactDataServices.address.picklist.addMatchingEmphasis(item);
 				// Store the Format URL
 				row.setAttribute("format", item.format);
 				return row;
+			},
+			// Add emphasis to the picklist items highlighting the match
+			addMatchingEmphasis: function(item){
+				var highlights = item.emphasis || [],
+                	label = item.suggestion;
+
+                for (i = 0; i < highlights.length; i++) {
+                    var replacement = '<b>' + label.substring(highlights[i][0], highlights[i][1]) + '</b>';
+                    label = label.substring(0, highlights[i][0]) + replacement + label.substring(highlights[i][1]);
+                }
+
+                return label;
 			},
 			listen: function(row){
 				row.addEventListener("click", contactDataServices.address.picklist.pick);
