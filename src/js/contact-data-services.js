@@ -44,9 +44,10 @@ var contactDataServices = {
 		if(!contactDataServices.token){
 			console.log("Please provide a token for ContactDataServices.");
 		}
+
+		contactDataServices.address.setCountryList();
 		contactDataServices.address.input = contactDataServices.address.elements.input;
-		contactDataServices.address.input.addEventListener("keyup", contactDataServices.address.search);		
-		contactDataServices.address.country = contactDataServices.address.elements.country;
+		contactDataServices.address.input.addEventListener("keyup", contactDataServices.address.search);
 	},
 	address: {
 		input: null,
@@ -60,7 +61,7 @@ var contactDataServices = {
 		search: function(){
 			console.log(contactDataServices.address.input.value);
 			contactDataServices.address.currentSearchTerm = contactDataServices.address.input.value,
-			contactDataServices.address.currentCountryCode = contactDataServices.address.country.value;
+			contactDataServices.address.currentCountryCode = contactDataServices.address.countryList.value;
 
 			// Check is searching is permitted
 			if(contactDataServices.address.canSearch()){
@@ -91,6 +92,19 @@ var contactDataServices = {
 		canSearch: function(){
 			// If search term is not empty and not the same as previous search term
 			return (contactDataServices.address.currentSearchTerm !== "" && contactDataServices.address.lastSearchTerm !== contactDataServices.address.currentSearchTerm);
+		},
+		// Bind a list of countries. Using either a user-defined list or creating a new one.
+		setCountryList: function(){
+			contactDataServices.address.countryList = contactDataServices.address.elements.countryList;
+			
+			// If the user hasn't passed us a country list, then create new list
+			if(!contactDataServices.address.countryList){
+				contactDataServices.address.createCountryDropdown();
+			}
+		},
+		createCountryDropdown: function(){
+			// What countries?
+			// Where to position it?
 		},
 		// Get a final (Formatted) address
 		format: function(url){
