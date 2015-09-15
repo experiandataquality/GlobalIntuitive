@@ -205,6 +205,7 @@ var contactDataServices = {
 		get: function(url, callback){
 			contactDataServices.request.currentRequest = new XMLHttpRequest();
 			contactDataServices.request.currentRequest.open('GET', url, true);
+			contactDataServices.request.currentRequest.timeout = 5000; // 5 seconds
 
 			contactDataServices.request.currentRequest.onload = function() {
 			  if (contactDataServices.request.currentRequest.status >= 200 && contactDataServices.request.currentRequest.status < 400) {
@@ -220,6 +221,10 @@ var contactDataServices = {
 
 			contactDataServices.request.currentRequest.onerror = function() {
 			  // There was a connection error of some sort
+			};
+
+			contactDataServices.request.currentRequest.ontimeout = function() {
+			  // There was a connection timeout			  
 			};
 
 			contactDataServices.request.currentRequest.send();
