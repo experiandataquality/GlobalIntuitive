@@ -46,7 +46,7 @@ var contactDataServices = {
 		}
 		contactDataServices.address.input = contactDataServices.address.elements.input;
 		contactDataServices.address.input.addEventListener("keyup", contactDataServices.address.search);		
-		contactDataServices.country = contactDataServices.address.elements.country;
+		contactDataServices.address.country = contactDataServices.address.elements.country;
 	},
 	address: {
 		input: null,
@@ -60,7 +60,7 @@ var contactDataServices = {
 		search: function(){
 			console.log(contactDataServices.address.input.value);
 			contactDataServices.address.currentSearchTerm = contactDataServices.address.input.value,
-			contactDataServices.address.currentCountryCode = contactDataServices.country.value;
+			contactDataServices.address.currentCountryCode = contactDataServices.address.country.value;
 
 			// Check is searching is permitted
 			if(contactDataServices.address.canSearch()){
