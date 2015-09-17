@@ -41,6 +41,7 @@
 		instance.currentSearchUrl = "";
 		instance.currentFormatUrl = "";		
 		instance.enabled = true;
+		instance.placeholder = instance.placeholder || "Start typing an address";
 
 		// Initialise this instance
 		instance.init = function(){
@@ -53,6 +54,7 @@
 			if(instance.elements.input){
 				instance.input = instance.elements.input;
 				instance.input.addEventListener("keyup", instance.search);
+				instance.input.setAttribute("placeholder", instance.placeholder);
 			}
 		};
 		
