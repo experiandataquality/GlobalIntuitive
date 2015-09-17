@@ -120,8 +120,8 @@
 			show: function(items){
 				instance.picklist.hide();
 					
-				// Get picklist container element
-				var picklist = instance.elements.picklist;
+				// Get/Create picklist container element
+				instance.picklist.container = instance.picklist.container || instance.picklist.createList();
 
 				// Prepend an option for "use address entered"
 				instance.picklist.createUseAddressEntered();
@@ -131,14 +131,17 @@
 					items.results.forEach(function(item, i){
 						// Create a new item/row in the picklist
 						var listItem = instance.picklist.createListItem(item);
-						picklist.appendChild(listItem);
+						instance.picklist.container.appendChild(listItem);
 						// Listen for selection on this item
 						instance.picklist.listen(listItem);
 					});
 				}
 			},
+			// Remove the picklist
 			hide: function(){
-				instance.elements.picklist.innerHTML = "";
+				if(instance.picklist.container){
+					instance.picklist.container.innerHTML = "";
+				}
 			},
 			// Create a "use address entered" option
 			createUseAddressEntered: function(){
@@ -147,7 +150,7 @@
 					format: ""
 				};
 				var listItem = instance.picklist.createListItem(item);
-				instance.elements.picklist.appendChild(listItem);
+				instance.picklist.container.appendChild(listItem);
 				listItem.addEventListener("click", instance.picklist.useAddressEntered);
 			},
 			// Use the address entered as the Formatted address
@@ -160,6 +163,14 @@
 					]
 				};
 				instance.result.show(inputData);
+			},
+			// Create the picklist container and inject after the input
+			createList: function(){
+				var list = document.createElement("div");
+				list.classList.add("address-picklist");
+				// Insert the picklist after the input
+				instance.input.parentNode.insertBefore(list, instance.input.nextSibling);
+				return list;
 			},
 			// Create a new picklist item/row
 			createListItem: function(item){
@@ -200,9 +211,12 @@
 					// Get formatted address container element
 					var formattedAddress = instance.elements.formattedAddress;
 					data.address.forEach(function(line, i){
-						var row = document.createElement("div");
-						row.innerHTML = line.content;
-						formattedAddress.appendChild(row);
+						// The line object will only have one property, but we don't know the key
+						for(var key in line){
+							var row = document.createElement("div");
+							row.innerHTML = line[key];
+							formattedAddress.appendChild(row);
+						}
 					});
 				}
 			},
