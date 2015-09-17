@@ -2,8 +2,13 @@
 <html>
 	<head>
 		<title>Contact Data Services - sample code</title>
+		<link rel="stylesheet" type="text/css" href="src/css/styles.css">
 	</head>
 	<body>
+		<div class="filter-primary overlay-dotted">
+			<h1>Contact Data Services</h1>
+		</div>
+
 		<form>
 			<label for="country">Country</label>
 			<select name="country">
@@ -17,8 +22,6 @@
 
 			<label for="input">Address</label>
 			<input type="text" name="address-input">
-		
-			<div id="formatted-address"></div>
 		</form>
 
 		<script src="src/js/contact-data-services.js"></script>
@@ -27,8 +30,7 @@
 				token: "4f0214b7-b7ec-4096-a19e-502b8046278c",
 				elements: {
 					input: document.querySelector("input[name='address-input']"),
-					countryList: document.querySelector("select"),
-					formattedAddress: document.querySelector("#formatted-address")					
+					countryList: document.querySelector("select")					
 				}
 			};
 			var address = new ContactDataServices.address(options);

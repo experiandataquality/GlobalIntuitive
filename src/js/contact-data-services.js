@@ -12,6 +12,7 @@
 					var url = ContactDataServices.urls.endpoint;
 					url += "?query=" + instance.currentSearchTerm;
 					url += "&country=" + instance.currentCountryCode;
+					url += "&take=" + (instance.maxSize || instance.picklist.maxSize);
 
 					url = ContactDataServices.urls.addToken(url, instance.token);
 					return url;
@@ -41,6 +42,7 @@
 		instance.currentSearchUrl = "";
 		instance.currentFormatUrl = "";		
 		instance.enabled = true;
+		instance.placeholder = instance.placeholder || "Start typing an address";
 
 		// Initialise this instance
 		instance.init = function(){
@@ -53,6 +55,7 @@
 			if(instance.elements.input){
 				instance.input = instance.elements.input;
 				instance.input.addEventListener("keyup", instance.search);
+				instance.input.setAttribute("placeholder", instance.placeholder);
 			}
 		};
 		
@@ -121,11 +124,10 @@
 		instance.picklist = {
 			// Set initial size
 			size: 0,
+			// Set initial max size
+			maxSize: 25,
 			// Render a picklist of search results
 			show: function(items){
-				// Hide previous list
-				instance.picklist.hide();
-
 				// Store the picklist items
 				instance.picklist.items = items.results;
 
@@ -134,6 +136,9 @@
 
 				// Get/Create picklist container element
 				instance.picklist.container = instance.picklist.container || instance.picklist.createList();
+
+				// Ensure previous results are cleared
+				instance.picklist.container.innerHTML = "";
 
 				// Prepend an option for "use address entered"
 				instance.picklist.createUseAddressEntered();
@@ -153,7 +158,8 @@
 			// Remove the picklist
 			hide: function(){
 				if(instance.picklist.container){
-					instance.picklist.container.innerHTML = "";
+					instance.input.parentNode.removeChild(instance.picklist.container);
+					instance.picklist.container = undefined;
 				}
 			},
 			// Create a "use address entered" option
@@ -222,7 +228,7 @@
 				
 				if(data.address.length > 0){
 					// Get formatted address container element
-					instance.result.formattedAddress = instance.elements.formattedAddress;
+					instance.result.formattedAddress = instance.elements.formattedAddress || instance.result.createFormattedAddressContainer();
 
 					// Create an array to hold the hidden input fields
 					var inputArray = [];
@@ -232,7 +238,7 @@
 						var line = data.address[i];
 						// The line object will only have one property, but we don't know the key
 						for(var key in line){
-							if( line.hasOwnProperty( key ) ) {
+							if(line.hasOwnProperty(key)) {
 								// Create the address line row and add to the DOM
 								var row = instance.result.createAddressLine.row(line[key]);
 								instance.result.formattedAddress.appendChild(row);
@@ -248,7 +254,18 @@
 				}
 			},
 			hide: function(){
-				instance.elements.formattedAddress.innerHTML = "";
+				if(instance.result.formattedAddress){
+					instance.input.parentNode.removeChild(instance.result.formattedAddress);
+					instance.result.formattedAddress = undefined;
+				}				
+			},
+			// Create the formatted address container and inject after the input
+			createFormattedAddressContainer: function(){
+				var container = document.createElement("div");
+				container.classList.add("formatted-address");
+				// Insert the container after the input
+				instance.input.parentNode.insertBefore(container, instance.input.nextSibling);
+				return container;
 			},
 			createAddressLine: {
 				// Create a hidden input to store the address line
