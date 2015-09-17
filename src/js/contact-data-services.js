@@ -50,8 +50,10 @@
 				instance.enabled = false;
 			}
 			instance.setCountryList();
-			instance.input = instance.elements.input;
-			instance.input.addEventListener("keyup", instance.search);
+			if(instance.elements.input){
+				instance.input = instance.elements.input;
+				instance.input.addEventListener("keyup", instance.search);
+			}
 		};
 		
 		// Main function to search for an address from an input string
