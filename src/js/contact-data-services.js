@@ -78,7 +78,7 @@
 				
 				// Initiate new Search request
 				instance.request.get(url, instance.picklist.show);				
-			} else {
+			} else if(instance.lastSearchTerm !== instance.currentSearchTerm){
 				// Clear the picklist if the search term is cleared/empty
 				instance.picklist.hide();
 			}
