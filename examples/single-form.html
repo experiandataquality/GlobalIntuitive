@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<title>Contact Data Services - sample code</title>
+	</head>
+	<body>
+		<form>
+			<label for="country">Country</label>
+			<select name="country">
+				<option value="">Please select</option>
+				<option value="aus">Australia</option>
+				<option value="fra">France</option>
+				<option value="nzl">New Zealand</option>
+				<option value="gbr" selected>United Kingdom</option>
+				<option value="usa">United States</option>
+			</select>
+
+			<label for="input">Address</label>
+			<input type="text" name="address-input">
+		
+			<div id="formatted-address"></div>
+		</form>
+
+		<script src="../src/js/contact-data-services.js"></script>
+		<script>
+			var options = {
+				token: "4f0214b7-b7ec-4096-a19e-502b8046278c",
+				elements: {
+					input: document.querySelector("input[name='address-input']"),
+					countryList: document.querySelector("select"),
+					formattedAddress: document.querySelector("#formatted-address")					
+				}
+			};
+			var address = new ContactDataServices.address(options);
+		</script>
+	</body>
+</html>
