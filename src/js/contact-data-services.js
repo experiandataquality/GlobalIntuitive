@@ -128,9 +128,6 @@
 			maxSize: 25,
 			// Render a picklist of search results
 			show: function(items){
-				// Hide previous list
-				instance.picklist.hide();
-
 				// Store the picklist items
 				instance.picklist.items = items.results;
 
@@ -139,6 +136,9 @@
 
 				// Get/Create picklist container element
 				instance.picklist.container = instance.picklist.container || instance.picklist.createList();
+
+				// Ensure previous results are cleared
+				instance.picklist.container.innerHTML = "";
 
 				// Prepend an option for "use address entered"
 				instance.picklist.createUseAddressEntered();
@@ -158,7 +158,8 @@
 			// Remove the picklist
 			hide: function(){
 				if(instance.picklist.container){
-					instance.picklist.container.innerHTML = "";
+					instance.input.parentNode.removeChild(instance.picklist.container);
+					instance.picklist.container = undefined;
 				}
 			},
 			// Create a "use address entered" option
