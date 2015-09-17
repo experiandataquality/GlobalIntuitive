@@ -60,6 +60,7 @@
 		instance.search = function(){
 			instance.currentSearchTerm = instance.input.value;
 			instance.currentCountryCode = instance.countryList.value;
+
 			// Check is searching is permitted
 			if(instance.canSearch()){
 				// Abort any outstanding requests
@@ -118,19 +119,28 @@
 		};	
 
 		instance.picklist = {
+			// Set initial size
+			size: 0,
 			// Render a picklist of search results
 			show: function(items){
+				// Hide previous list
 				instance.picklist.hide();
-					
+
+				// Store the picklist items
+				instance.picklist.items = items.results;
+
+				// Update picklist size
+				instance.picklist.size = instance.picklist.items.length;
+
 				// Get/Create picklist container element
 				instance.picklist.container = instance.picklist.container || instance.picklist.createList();
 
 				// Prepend an option for "use address entered"
 				instance.picklist.createUseAddressEntered();
 				
-				if(items.results.length > 0){	
+				if(instance.picklist.items.length > 0){	
 					// Iterate over and show results
-					items.results.forEach(function(item, i){
+					instance.picklist.items.forEach(function(item){
 						// Create a new item/row in the picklist
 						var listItem = instance.picklist.createListItem(item);
 						instance.picklist.container.appendChild(listItem);
@@ -188,7 +198,7 @@
 				var highlights = item.matched || [],
                 	label = item.suggestion;
 
-                for (i = 0; i < highlights.length; i++) {
+                for (var i = 0; i < highlights.length; i++) {
                     var replacement = '<b>' + label.substring(highlights[i][0], highlights[i][1]) + '</b>';
                     label = label.substring(0, highlights[i][0]) + replacement + label.substring(highlights[i][1]);
                 }
@@ -197,11 +207,11 @@
 			},
 			// Listen to a picklist selection
 			listen: function(row){
-				row.addEventListener("click", instance.picklist.pick);
+				row.addEventListener("click", instance.picklist.pick.bind(null, row));
 			},
 			// How to handle a picklist selection				
-			pick: function(){
-				instance.format(this.getAttribute("format"));
+			pick: function(item){
+				instance.format(item.getAttribute("format"));
 			}
 		};
 
@@ -222,12 +232,14 @@
 						var line = data.address[i];
 						// The line object will only have one property, but we don't know the key
 						for(var key in line){
-							// Create the address line row and add to the DOM
-							var row = instance.result.createAddressLine.row(line[key]);
-							instance.result.formattedAddress.appendChild(row);
+							if( line.hasOwnProperty( key ) ) {
+								// Create the address line row and add to the DOM
+								var row = instance.result.createAddressLine.row(line[key]);
+								instance.result.formattedAddress.appendChild(row);
 
-							// Create a hidden input to store the address line as well
-							inputArray.push(instance.result.createAddressLine.input(key, line[key]));
+								// Create a hidden input to store the address line as well
+								inputArray.push(instance.result.createAddressLine.input(key, line[key]));
+							}
 						}
 					}
 
