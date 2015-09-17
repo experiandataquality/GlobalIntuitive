@@ -12,6 +12,7 @@
 					var url = ContactDataServices.urls.endpoint;
 					url += "?query=" + instance.currentSearchTerm;
 					url += "&country=" + instance.currentCountryCode;
+					url += "&take=" + (instance.maxSize || instance.picklist.maxSize);
 
 					url = ContactDataServices.urls.addToken(url, instance.token);
 					return url;
@@ -123,6 +124,8 @@
 		instance.picklist = {
 			// Set initial size
 			size: 0,
+			// Set initial max size
+			maxSize: 25,
 			// Render a picklist of search results
 			show: function(items){
 				// Hide previous list
