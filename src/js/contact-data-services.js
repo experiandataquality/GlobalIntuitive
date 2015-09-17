@@ -4,7 +4,7 @@
 
     // Generate the URLs for the various requests
 	ContactDataServices.urls = {
-		endpoint: "http://int-test-01/capture/v2/search",
+		endpoint: "http://int-test-01/capture/v2/address/search",
 		construct: {
 			address: {
 				// Construct the Search URL by appending query, country & token
@@ -171,7 +171,7 @@
 			},
 			// Add emphasis to the picklist items highlighting the match
 			addMatchingEmphasis: function(item){
-				var highlights = item.emphasis || [],
+				var highlights = item.matched || [],
                 	label = item.suggestion;
 
                 for (i = 0; i < highlights.length; i++) {
