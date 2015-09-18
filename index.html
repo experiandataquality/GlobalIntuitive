@@ -30,6 +30,7 @@
 
 		<script src="src/js/contact-data-services.js"></script>
 		<script>
+			// Set the custom options
 			var options = {
 				token: "4f0214b7-b7ec-4096-a19e-502b8046278c",
 				elements: {
@@ -37,6 +38,8 @@
 					countryList: document.querySelector("select")					
 				}
 			};
+			
+			// Initialise this instance
 			var address = new ContactDataServices.address(options);
 
 			// Show the spinner while we're searching for the formatted address

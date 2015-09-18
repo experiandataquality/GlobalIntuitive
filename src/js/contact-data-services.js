@@ -70,20 +70,28 @@
         return events;
 	}
 
+	// Default settings
+	ContactDataServices.defaults = { 		
+		input: { placeholder: "Start typing an address" },
+		formattedAddress: { headingType: "h3", headingText: "Formatted address" }
+	};
+
 	// Integrate with address searching
 	ContactDataServices.address = function(options){
-		// Build our new instance from user defaults
+		// Build our new instance from user custom options
 		var instance = options || {};
 				
+		// Initialising some defaults
+		instance.enabled = true;		
 		instance.lastSearchTerm = "";
 		instance.currentSearchTerm = "";
 		instance.lastCountryCode = "";
 		instance.currentCountryCode = "";
 		instance.currentSearchUrl = "";
-		instance.currentFormatUrl = "";		
-		instance.enabled = true;
-		instance.placeholder = instance.placeholder || "Start typing an address";
-
+		instance.currentFormatUrl = "";	
+		instance.placeholder = instance.placeholder || ContactDataServices.defaults.input.placeholder;	
+		instance.formattedAddress = instance.formattedAddress || ContactDataServices.defaults.formattedAddress;
+		
 		// Create a new object to hold the events from the event factory
 		instance.events = new ContactDataServices.eventFactory();
 
@@ -313,6 +321,12 @@
 			createFormattedAddressContainer: function(){
 				var container = document.createElement("div");
 				container.classList.add("formatted-address");
+				// Create a heading for the formatted address
+				if(instance.formattedAddress.heading != false){
+					var heading = document.createElement(instance.formattedAddress.headingType);
+					heading.innerHTML = instance.formattedAddress.headingText;
+					container.appendChild(heading);
+				}
 				// Insert the container after the input
 				instance.input.parentNode.insertBefore(container, instance.input.nextSibling);
 				return container;

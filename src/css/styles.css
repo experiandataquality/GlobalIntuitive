@@ -6,9 +6,17 @@
     font-style: normal;
 }
 
+@font-face {
+    font-family: 'OpenSansRegular';
+    src: url('../fonts/OpenSans-Regular-webfont.eot');
+    src: url('../fonts/OpenSans-Regular-webfont.eot?#iefix') format('embedded-opentype'), url('../fonts/OpenSans-Regular-webfont.woff') format('woff'), url('../fonts/OpenSans-Regular-webfont.ttf') format('truetype'), url('../fonts/OpenSans-Regular-webfont.svg#OpenSansRegular') format('svg');
+    font-weight: normal;
+    font-style: normal;
+}
+
 /* Generic page styling */
 body {
-	font-family: Arial;
+	font-family: "OpenSansRegular",Arial,sans-serif;
 }
 
 .filter-primary {
@@ -155,7 +163,15 @@ input[type="text"], select {
 	border: 1px solid #00be8b;
 	border-radius: 4px;
 	font-weight: bold;
-    line-height: 1.4;
+	line-height: 24px;
     margin: 10px auto;
     padding: 10px;
+}
+
+.formatted-address h3 {
+	color: #00be8b;	
+	font-size: 2em;
+	font-family: "OpenSansLight",Helvetica,Arial,sans-serif;	
+    line-height: 1.1;
+    margin: 0 auto 10px;
 }
