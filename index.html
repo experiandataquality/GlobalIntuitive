@@ -10,8 +10,12 @@
 		</div>
 
 		<form>
-			<label for="country">Country</label>
-			<select name="country">
+			<div class="loader loader-overlay hidden">
+            	<div class="spinner"></div>
+        	</div>
+
+			<label for="country" class="toggle">Country</label>
+			<select name="country" class="toggle">
 				<option value="">Please select</option>
 				<option value="aus">Australia</option>
 				<option value="fra">France</option>
@@ -20,12 +24,13 @@
 				<option value="usa">United States</option>
 			</select>
 
-			<label for="input">Address</label>
-			<input type="text" name="address-input">
+			<label for="address-input" class="toggle">Address</label>
+			<input type="text" name="address-input" class="toggle">
 		</form>
 
 		<script src="src/js/contact-data-services.js"></script>
 		<script>
+			// Set the custom options
 			var options = {
 				token: "4f0214b7-b7ec-4096-a19e-502b8046278c",
 				elements: {
@@ -33,7 +38,25 @@
 					countryList: document.querySelector("select")					
 				}
 			};
+			
+			// Initialise this instance
 			var address = new ContactDataServices.address(options);
+
+			// Show the spinner while we're searching for the formatted address
+			address.events.on("formatting-search", function(){
+				document.querySelector(".loader").classList.remove("hidden");
+			});
+
+			// Hide the country and search input when a result is found
+			address.events.on("formatted-address", function(){
+				var searchInputs = document.querySelectorAll(".toggle");
+				for (var i = 0; i < searchInputs.length; ++i) {
+  					searchInputs[i].classList.add("hidden");
+				}
+
+				// Hide the spinner
+				document.querySelector(".loader").classList.add("hidden");
+			});
 		</script>
 	</body>
 </html>

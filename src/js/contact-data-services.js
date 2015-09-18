@@ -30,19 +30,70 @@
 		}
 	};
 
+	// Constructor method event listener (pub/sub type thing)
+	ContactDataServices.eventFactory = function(){
+		// Create the events object
+		var events = {};
+
+		// Create an object to hold the collection of events
+		events.collection = {};
+
+		// Subscribe a new event
+		events.on = function (event, action) {
+            // Create the property array on the collection object
+            events.collection[event] = events.collection[event] || [];
+            // Push a new action for this event onto the array
+            events.collection[event].push(action);
+        }
+
+        // Publish (trigger) an event
+		events.trigger = function (event, data) {
+            // If this event is in our collection (i.e. anyone's subscribed)
+            if (events.collection[event]) {
+                // Loop over all the actions for this event
+                for (var i = 0; i < events.collection[event].length; i++) {
+                    // Create array with default data as 1st item
+                    var args = [data];
+
+                    // Loop over additional args and add to array
+                    for (var a = 2; a < arguments.length; a++){
+                        args.push(arguments[a]);
+                    }
+
+                    // Call each action for this event type, passing the args
+                    events.collection[event][i].apply(events.collection, args);
+                }
+            }
+        }
+
+        // Return the new events object to be used by whoever invokes this factory
+        return events;
+	}
+
+	// Default settings
+	ContactDataServices.defaults = { 		
+		input: { placeholder: "Start typing an address" },
+		formattedAddress: { headingType: "h3", headingText: "Formatted address" }
+	};
+
 	// Integrate with address searching
 	ContactDataServices.address = function(options){
-		// Build our new instance from user defaults
+		// Build our new instance from user custom options
 		var instance = options || {};
 				
+		// Initialising some defaults
+		instance.enabled = true;		
 		instance.lastSearchTerm = "";
 		instance.currentSearchTerm = "";
 		instance.lastCountryCode = "";
 		instance.currentCountryCode = "";
 		instance.currentSearchUrl = "";
-		instance.currentFormatUrl = "";		
-		instance.enabled = true;
-		instance.placeholder = instance.placeholder || "Start typing an address";
+		instance.currentFormatUrl = "";	
+		instance.placeholder = instance.placeholder || ContactDataServices.defaults.input.placeholder;	
+		instance.formattedAddress = instance.formattedAddress || ContactDataServices.defaults.formattedAddress;
+		
+		// Create a new object to hold the events from the event factory
+		instance.events = new ContactDataServices.eventFactory();
 
 		// Initialise this instance
 		instance.init = function(){
@@ -115,6 +166,10 @@
 
 		// Get a final (Formatted) address
 		instance.format = function(url){
+			// Trigger an event
+			instance.events.trigger("formatting-search", url);
+
+			// Construct the format URL
 			instance.currentFormatUrl = ContactDataServices.urls.construct.address.format(url, instance);
 			
 			// Initiate a new Format request
@@ -227,6 +282,9 @@
 				instance.picklist.hide();
 				
 				if(data.address.length > 0){
+					// Fire an event to say we've got the formatted address
+					instance.events.trigger("formatted-address", data);
+
 					// Get formatted address container element
 					instance.result.formattedAddress = instance.elements.formattedAddress || instance.result.createFormattedAddressContainer();
 
@@ -263,6 +321,12 @@
 			createFormattedAddressContainer: function(){
 				var container = document.createElement("div");
 				container.classList.add("formatted-address");
+				// Create a heading for the formatted address
+				if(instance.formattedAddress.heading != false){
+					var heading = document.createElement(instance.formattedAddress.headingType);
+					heading.innerHTML = instance.formattedAddress.headingText;
+					container.appendChild(heading);
+				}
 				// Insert the container after the input
 				instance.input.parentNode.insertBefore(container, instance.input.nextSibling);
 				return container;
