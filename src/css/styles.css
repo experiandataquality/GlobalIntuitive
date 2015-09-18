@@ -106,6 +106,12 @@ form {
 	position: relative;
 }
 
+form.dual-form {
+	width: 45%;
+	float: left;
+	margin-right: 5%;
+}
+
 label {
 	display: block;
 	font-size: 14px;

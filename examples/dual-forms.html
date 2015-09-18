@@ -2,11 +2,20 @@
 <html>
 	<head>
 		<title>Contact Data Services - sample code</title>
+		<link rel="stylesheet" type="text/css" href="../src/css/styles.css">
 	</head>
 	<body>
-		<form class="example1">
-			<label for="country">Country</label>
-			<select name="country">
+		<div class="filter-primary overlay-dotted">
+			<h1>Contact Data Services</h1>
+		</div>
+
+		<form class="example1 dual-form">
+			<div class="loader loader-overlay hidden">
+            	<div class="spinner"></div>
+        	</div>
+
+			<label for="country" class="toggle">Country</label>
+			<select name="country" class="toggle">
 				<option value="">Please select</option>
 				<option value="aus">Australia</option>
 				<option value="fra">France</option>
@@ -15,13 +24,17 @@
 				<option value="usa">United States</option>
 			</select>
 
-			<label for="input">Address</label>
-			<input type="text" name="address-input">
+			<label for="input" class="toggle">Address</label>
+			<input type="text" name="address-input" class="toggle">
 		</form>
 
-		<form class="example2">
-			<label for="country">Country</label>
-			<select name="country">
+		<form class="example2 dual-form">
+			<div class="loader loader-overlay hidden">
+            	<div class="spinner"></div>
+        	</div>
+
+			<label for="country" class="toggle">Country</label>
+			<select name="country" class="toggle">
 				<option value="">Please select</option>
 				<option value="aus">Australia</option>
 				<option value="fra">France</option>
@@ -30,29 +43,64 @@
 				<option value="usa">United States</option>
 			</select>
 
-			<label for="input">Address</label>
-			<input type="text" name="address-input">
+			<label for="input" class="toggle">Address</label>
+			<input type="text" name="address-input" class="toggle">
 		</form>
 
 		<script src="../src/js/contact-data-services.js"></script>
 		<script>
+			// Address form 1
 			var options1 = {
 				token: "4f0214b7-b7ec-4096-a19e-502b8046278c",
 				elements: {
 					input: document.querySelector(".example1 input[name='address-input']"),
 					countryList: document.querySelector(".example1 select")
+				},
+				placeholder: "Start typing...",
+				formattedAddress: {
+					headingText: "Shipping address",
+					headingType: "h3"
 				}				
 			};
 			var address1 = new ContactDataServices.address(options1);
 
+			// Address form 2
 			var options2 = {
 				token: "4f0214b7-b7ec-4096-a19e-502b8046278c",				
 				elements: {
 					input: document.querySelector(".example2 input[name='address-input']"),
 					countryList: document.querySelector(".example2 select")
+				},
+				formattedAddress: {
+					headingText: "Billing address",
+					headingType: "h3"
 				}				
 			};
 			var address2 = new ContactDataServices.address(options2);
+			
+			// Set up the event listeners
+			var numberOfForms = 2;
+			for(var i = 1; i <= numberOfForms; i++){
+				// Show the spinner while we're searching for the formatted address
+				window["address" + i].events.on("formatting-search", (function(idx){
+					return function(){
+						document.querySelector(".example" + idx + " .loader").classList.remove("hidden");
+					}
+				})(i));
+
+				// Hide the country and search input when a result is found
+				window["address" + i].events.on("formatted-address", (function(idx){
+					return function(){
+						var searchInputs = document.querySelectorAll(".example" + idx + " .toggle");
+						for (var j = 0; j < searchInputs.length; ++j) {
+		  					searchInputs[j].classList.add("hidden");
+						}
+
+						// Hide the spinner
+						document.querySelector(".example" + idx + " .loader").classList.add("hidden");
+					}
+				})(i));
+			}
 		</script>
 	</body>
 </html>
