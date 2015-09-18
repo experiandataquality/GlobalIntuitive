@@ -73,7 +73,8 @@
 	// Default settings
 	ContactDataServices.defaults = { 		
 		input: { placeholder: "Start typing an address" },
-		formattedAddress: { headingType: "h3", headingText: "Formatted address" }
+		formattedAddress: { headingType: "h3", headingText: "Formatted address" },
+		editAddressText: "Edit address"
 	};
 
 	// Integrate with address searching
@@ -90,6 +91,7 @@
 		instance.currentSearchUrl = "";
 		instance.currentFormatUrl = "";	
 		instance.placeholder = instance.placeholder || ContactDataServices.defaults.input.placeholder;	
+		instance.editAddressText = instance.editAddressText || ContactDataServices.defaults.editAddressText; 
 		instance.formattedAddress = instance.formattedAddress || ContactDataServices.defaults.formattedAddress;
 		
 		// Create a new object to hold the events from the event factory
@@ -309,6 +311,9 @@
 
 					// Write the list of hidden address line inputs to the DOM in one go
 					instance.result.renderInputList(inputArray);
+
+					// Write the 'Edit address' link and insert into DOM
+					instance.result.createEditAddressLink();
 				}
 			},
 			hide: function(){
@@ -334,17 +339,59 @@
 			createAddressLine: {
 				// Create a hidden input to store the address line
 				input: function(key, value){
+					// Create a wrapper (and hide it)
+					var div  = document.createElement("div");
+					div.classList.add("hidden");
+					div.classList.add("address-line-input");
+
+					// Create the label
+					var label = document.createElement("label");
+					label.innerHTML = key;
+					div.appendChild(label);
+
+					// Create the input
 					var input = document.createElement("input");
-					input.setAttribute("type", "hidden");
+					input.setAttribute("type", "text");
 					input.setAttribute("name", key);
 					input.setAttribute("value", value);
-					return input;
+					div.appendChild(input);
+					return div;
 				},
 				// Create a DOM element to contain the address line
 				row: function(value){
 					var row = document.createElement("div");
+					row.classList.add("toggle");
 					row.innerHTML = value;
 					return row;
+				}
+			},
+			// Create the 'Edit address' link that allows manual editing of address
+			createEditAddressLink: function(){
+				var link = document.createElement("a");
+				link.setAttribute("href", "#");
+				link.classList.add("edit-address-link");
+				link.innerHTML = instance.editAddressText;
+				// Insert into the formatted address container
+				instance.result.formattedAddress.appendChild(link);
+				// Bind event listener
+				link.addEventListener("click", instance.result.editAddressManually);
+			},
+			editAddressManually: function(event){
+				event.preventDefault();
+				
+				// Remove 'edit address link'
+				instance.result.formattedAddress.querySelector(".edit-address-link").classList.add("hidden");
+
+				// Change the visible formatted address to hidden
+				var addressLines = instance.result.formattedAddress.querySelectorAll(".toggle");
+				for (var i = 0; i < addressLines.length; i++) {
+  					addressLines[i].classList.add("hidden");
+				}
+
+				// Change the hidden address line inputs to show to allow editing
+				var addressLineInputs = instance.result.formattedAddress.querySelectorAll(".address-line-input");
+				for (var i = 0; i < addressLineInputs.length; i++) {
+  					addressLineInputs[i].classList.remove("hidden");
 				}
 			},
 			// Write the list of hidden address line inputs to the DOM
