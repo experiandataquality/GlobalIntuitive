@@ -84,6 +84,9 @@
 		instance.enabled = true;
 		instance.placeholder = instance.placeholder || "Start typing an address";
 
+		// Create a new object to hold the events from the event factory
+		instance.events = new ContactDataServices.eventFactory();
+
 		// Initialise this instance
 		instance.init = function(){
 			if(!instance.token){
@@ -155,6 +158,10 @@
 
 		// Get a final (Formatted) address
 		instance.format = function(url){
+			// Trigger an event
+			instance.events.trigger("formatting-search", url);
+
+			// Construct the format URL
 			instance.currentFormatUrl = ContactDataServices.urls.construct.address.format(url, instance);
 			
 			// Initiate a new Format request
@@ -267,6 +274,9 @@
 				instance.picklist.hide();
 				
 				if(data.address.length > 0){
+					// Fire an event to say we've got the formatted address
+					instance.events.trigger("formatted-address", data);
+
 					// Get formatted address container element
 					instance.result.formattedAddress = instance.elements.formattedAddress || instance.result.createFormattedAddressContainer();
 
