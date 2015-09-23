@@ -132,6 +132,12 @@
 				// Hide any previous results
 				instance.result.hide();
 				
+				// Hide the inline search spinner
+				instance.searchSpinner.hide();
+
+				// Show an inline spinner whilst searching
+				instance.searchSpinner.show();
+
 				// Initiate new Search request
 				instance.request.get(url, instance.picklist.show);				
 			} else if(instance.lastSearchTerm !== instance.currentSearchTerm){
@@ -171,6 +177,9 @@
 			// Trigger an event
 			instance.events.trigger("formatting-search", url);
 
+			// Hide the searching spinner
+			instance.searchSpinner.hide();
+
 			// Construct the format URL
 			instance.currentFormatUrl = ContactDataServices.urls.construct.address.format(url, instance);
 			
@@ -196,6 +205,9 @@
 
 				// Ensure previous results are cleared
 				instance.picklist.container.innerHTML = "";
+
+				// Hide the inline search spinner
+				instance.searchSpinner.hide();
 
 				// Prepend an option for "use address entered"
 				instance.picklist.createUseAddressEntered();
@@ -281,6 +293,10 @@
 		instance.result = {
 			// Render a Formatted address
 			show: function(data){
+				// Hide the inline search spinner
+				instance.searchSpinner.hide();
+
+				// Hide the picklist
 				instance.picklist.hide();
 				
 				if(data.address.length > 0){
@@ -401,6 +417,30 @@
 						instance.result.formattedAddress.appendChild(inputArray[i]);
 					}
 				}
+			}
+		};
+
+		instance.searchSpinner = {
+			show: function(){
+				// Create the spinner container
+			    var spinnerContainer = document.createElement("div");
+			    spinnerContainer.classList.add("loader");
+			    spinnerContainer.classList.add("loader-inline");
+
+			    // Create the spinner
+				var spinner = document.createElement("div");
+				spinner.classList.add("spinner");
+				spinnerContainer.appendChild(spinner);
+
+				// Insert the spinner after the field
+				instance.input.parentNode.insertBefore(spinnerContainer, instance.input.nextSibling);
+			},
+
+			hide: function(){
+				var spinner = instance.input.parentNode.querySelector(".loader-inline");
+				if(spinner){
+					instance.input.parentNode.removeChild(spinner);
+				}	
 			}
 		};
 
