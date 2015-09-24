@@ -1,7 +1,7 @@
 (function (window, document, undefined) {
+    // Create ContactDataServices constructor and namespace on the window object (if not already present)
     var ContactDataServices = window.ContactDataServices = window.ContactDataServices || {};
-    window.ContactDataServices = ContactDataServices;
-
+    
     // Generate the URLs for the various requests
 	ContactDataServices.urls = {
 		endpoint: "http://int-test-01/capture/v2/address/search",
