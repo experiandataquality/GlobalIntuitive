@@ -4,7 +4,7 @@
     
     // Generate the URLs for the various requests
 	ContactDataServices.urls = {
-		endpoint: "http://int-test-01/capture/v2/address/search",
+		endpoint: "http://int-test-01/capture/address/v2/search",
 		construct: {
 			address: {
 				// Construct the Search URL by appending query, country & token
@@ -183,6 +183,11 @@
 			// Construct the format URL
 			instance.currentFormatUrl = ContactDataServices.urls.construct.address.format(url, instance);
 			
+			/* Temporary hack until Go Live*/
+			if(instance.currentFormatUrl.indexOf("https://api.edq.com") > -1){
+				instance.currentFormatUrl = instance.currentFormatUrl.replace("https://api.edq.com","http://int-test-01");
+			}
+
 			// Initiate a new Format request
 			instance.request.get(instance.currentFormatUrl, instance.result.show);
 		};	
@@ -460,7 +465,12 @@
 				    callback(data);
 				  } else {
 				    // We reached our target server, but it returned an error
+ 					instance.searchSpinner.hide();
 
+ 					// If the request is unauthorized we should probably disable future requests
+ 					if(instance.request.currentRequest.status === 401){
+						instance.enabled = false;
+ 					}
 				  }
 				};
 
