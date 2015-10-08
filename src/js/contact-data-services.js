@@ -465,7 +465,12 @@
 				    callback(data);
 				  } else {
 				    // We reached our target server, but it returned an error
+ 					instance.searchSpinner.hide();
 
+ 					// If the request is unauthorized we should probably disable future requests
+ 					if(instance.request.currentRequest.status === 401){
+						instance.enabled = false;
+ 					}
 				  }
 				};
 
