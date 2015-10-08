@@ -183,6 +183,11 @@
 			// Construct the format URL
 			instance.currentFormatUrl = ContactDataServices.urls.construct.address.format(url, instance);
 			
+			/* Temporary hack until Go Live*/
+			if(instance.currentFormatUrl.indexOf("https://api.edq.com") > -1){
+				instance.currentFormatUrl = instance.currentFormatUrl.replace("https://api.edq.com","http://int-test-01");
+			}
+
 			// Initiate a new Format request
 			instance.request.get(instance.currentFormatUrl, instance.result.show);
 		};	
