@@ -108,8 +108,12 @@
 			instance.setCountryList();
 			if(instance.elements.input){
 				instance.input = instance.elements.input;
+				// Bind an event listener on the input
 				instance.input.addEventListener("keyup", instance.search);
+				// Set a placeholder for the input
 				instance.input.setAttribute("placeholder", instance.placeholder);
+				// Disable autocomplete on the form
+				instance.input.parentNode.setAttribute("autocomplete", "off");
 			}
 		};
 		
