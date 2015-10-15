@@ -74,7 +74,8 @@
 	ContactDataServices.defaults = { 		
 		input: { placeholder: "Start typing an address" },
 		formattedAddress: { headingType: "h3", headingText: "Formatted address" },
-		editAddressText: "Edit address"
+		editAddressText: "Edit address",
+		useAddressEnteredText: "<em>Use address entered</em>"
 	};
 
 	// Integrate with address searching
@@ -239,7 +240,7 @@
 			// Create a "use address entered" option
 			createUseAddressEntered: function(){
 				var item = {
-					suggestion: "<em>Use address entered</em>",
+					suggestion: ContactDataServices.defaults.useAddressEnteredText,
 					format: ""
 				};
 				var listItem = instance.picklist.createListItem(item);
