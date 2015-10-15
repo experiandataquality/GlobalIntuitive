@@ -1,7 +1,7 @@
 (function (window, document, undefined) {
+    // Create ContactDataServices constructor and namespace on the window object (if not already present)
     var ContactDataServices = window.ContactDataServices = window.ContactDataServices || {};
-    window.ContactDataServices = ContactDataServices;
-
+    
     // Generate the URLs for the various requests
 	ContactDataServices.urls = {
 		endpoint: "http://int-test-01/capture/address/v2/search",
@@ -74,7 +74,8 @@
 	ContactDataServices.defaults = { 		
 		input: { placeholder: "Start typing an address" },
 		formattedAddress: { headingType: "h3", headingText: "Formatted address" },
-		editAddressText: "Edit address"
+		editAddressText: "Edit address",
+		useAddressEnteredText: "<em>Use address entered</em>"
 	};
 
 	// Integrate with address searching
@@ -107,8 +108,12 @@
 			instance.setCountryList();
 			if(instance.elements.input){
 				instance.input = instance.elements.input;
+				// Bind an event listener on the input
 				instance.input.addEventListener("keyup", instance.search);
+				// Set a placeholder for the input
 				instance.input.setAttribute("placeholder", instance.placeholder);
+				// Disable autocomplete on the form
+				instance.input.parentNode.setAttribute("autocomplete", "off");
 			}
 		};
 		
@@ -239,7 +244,7 @@
 			// Create a "use address entered" option
 			createUseAddressEntered: function(){
 				var item = {
-					suggestion: "<em>Use address entered</em>",
+					suggestion: ContactDataServices.defaults.useAddressEnteredText,
 					format: ""
 				};
 				var listItem = instance.picklist.createListItem(item);
