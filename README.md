@@ -1,10 +1,10 @@
 # Contact Data Services
 
-[![GitHub version](https://badge.fury.io/gh/AndyWhite87%2Fcontactdataservices.svg)](http://badge.fury.io/gh/AndyWhite87%2Fcontactdataservices)
-[![Dependency Status](https://david-dm.org/AndyWhite87/contactdataservices.svg)](https://david-dm.org/AndyWhite87/contactdataservices)
-[![Dependency Status](https://david-dm.org/AndyWhite87/contactdataservices/dev-status.svg)](https://david-dm.org/AndyWhite87/contactdataservices#info=devDependencies)
-[![Build Status](https://travis-ci.org/AndyWhite87/contactdataservices.svg?branch=master)](https://travis-ci.org/AndyWhite87/contactdataservices)
-[![Coverage Status](https://coveralls.io/repos/AndyWhite87/contactdataservices/badge.svg?branch=master&service=github)](https://coveralls.io/github/AndyWhite87/contactdataservices?branch=master)
+[![GitHub version](https://badge.fury.io/gh/TeamArachne%2Fcontactdataservices.svg)](http://badge.fury.io/gh/TeamArachne%2Fcontactdataservices)
+[![Dependency Status](https://david-dm.org/TeamArachne/contactdataservices.svg)](https://david-dm.org/TeamArachne/contactdataservices)
+[![Dependency Status](https://david-dm.org/TeamArachne/contactdataservices/dev-status.svg)](https://david-dm.org/TeamArachne/contactdataservices#info=devDependencies)
+[![Build Status](https://travis-ci.org/TeamArachne/contactdataservices.svg?branch=master)](https://travis-ci.org/TeamArachne/contactdataservices)
+[![Coverage Status](https://coveralls.io/repos/TeamArachne/contactdataservices/badge.svg?branch=master&service=github)](https://coveralls.io/github/TeamArachne/contactdataservices?branch=master)
 
 ## Development
 
