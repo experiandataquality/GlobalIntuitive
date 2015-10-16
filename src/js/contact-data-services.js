@@ -1,4 +1,4 @@
-(function (window, document, undefined) {
+
     // Create ContactDataServices constructor and namespace on the window object (if not already present)
     var ContactDataServices = window.ContactDataServices = window.ContactDataServices || {};
     
@@ -497,5 +497,3 @@
 		// Return the instance object to the invoker
 		return instance;
 	};	
-
-})(window, window.document);
