@@ -1,3 +1,10 @@
+/*! contact-data-services.0.3.0.js | https://github.com/TeamArachne/contactdataservices | Apache-2.0
+*   Team Arachne, Experian Data Quality | team.arachne@gmail.com
+*   Built on Fri, 16 Oct 2015 15:49:17 GMT */
+
+;(function(window, document, undefined) {
+
+    "use strict";
 
     // Create ContactDataServices constructor and namespace on the window object (if not already present)
     var ContactDataServices = window.ContactDataServices = window.ContactDataServices || {};
@@ -497,3 +504,5 @@
 		// Return the instance object to the invoker
 		return instance;
 	};	
+
+})(window, window.document);
