@@ -2,25 +2,22 @@ module.exports = function(grunt) {
 
   grunt.initConfig({
 
-    pkg: grunt.file.readJSON('package.json'),       // Read in package variable from package.json
+    pkg: grunt.file.readJSON('package.json'),             // Read in package variable from package.json
 
     filename: 'contact-data-services.<%= pkg.version %>', // Construct a filename from package vars
 
-    timestamp: new Date().toUTCString(),            // Get a timestamp for banner comments
+    timestamp: new Date().toUTCString(),                  // Get a timestamp for banner comments
 
     // Construct a banner containing package and build information
     banner: '/*! <%= filename %>.js | <%= pkg.url %> | <%= pkg.license %>\n' +
             '*   <%= pkg.author %> | <%= pkg.contact %>\n' +
             '*   Built on <%= timestamp %> */\n',
 
-    s: 'src/js/',     // The source JS directory
-    l: 'src/less/',   // The source Less directory
-    f: 'src/fonts/',  // The source fonts directory
-    i: 'src/images/', // The source images directory
-    d: 'dist/',       // The distributable directory, where built files will end up
-    t: 'test/',       // The test directory, for unit test files/specs
+    s: 'src/',   // The source directory
+    d: 'dist/',  // The distributable directory, where built files will end up
+    t: 'test/',  // The test directory, for unit test files/specs
 
-  /**
+    /**
      * Concatenation setup. Concatenated files are built to the path defined by the d variable
      * Includes closure banner and footer. Keep these in if you want to wrap concatenated code in closures
      */
@@ -31,12 +28,12 @@ module.exports = function(grunt) {
         footer: '\n})(window, window.document);\n'
       },
       dist: {
-        src: ['<%=s%>**/*.js'], // Define specific files in dependency order if required 
+        src: ['<%= s %>js/**/*.js'], // Define specific files in dependency order if required 
         dest: '<%= d %>js/<%= filename %>.js'
       }
     },
 
-  /**
+    /**
      * Uglification (minification) setup. Uglified files are built to the path defined by the d variable and get a .min suffix
      */
     uglify: {
@@ -50,13 +47,13 @@ module.exports = function(grunt) {
       }
     },
 
-  /**
+    /**
      * Jasmine unit test setup. Includes Istanbul code coverage setup with Coveralls-friendly output
      */
     jasmine: {
-      src: ['<%=s%>**/*.js'], // Define specific files in dependency order if required 
+      src: ['<%= s %>**/*.js'], // Define specific files in dependency order if required 
       options: {
-        specs: '<%=t%>**/*.js',
+        specs: '<%= t %>**/*.js',
         template: require('grunt-template-jasmine-istanbul'),
         templateOptions: {
           coverage: 'coverage/coverage.json',
@@ -76,11 +73,11 @@ module.exports = function(grunt) {
       }
     },
 
-  /**
+    /**
      * JSHint static analysis setup
      */
     jshint: {
-      files: ['gruntfile.js', '<%=s%>**/*.js', '<%=t%>**/*.js'], // Analyse this file and all source and test files for errors
+      files: ['gruntfile.js', '<%= s %>**/*.js', '<%= t %>**/*.js'], // Analyse this file and all source and test files for errors
       options: {
         browser: true, // Assume general browser globals
         globals: {
@@ -89,21 +86,21 @@ module.exports = function(grunt) {
       }
     },
 
-  /**
+    /**
      * Less setup
      */
     less: {
       dev: {
         options: {
-            paths: ['<%=l%>**/*.less'], // Process all Less files in Less folder
+            paths: ['<%= s %>less/**/*.less'], // Process all Less files in Less folder
         },
         files: {
-          "<%=d%>css/styles.css": "<%=l%>_styles.less" // Build styles.css based on _styles.less
+          "<%= d %>css/styles.css": "<%= s %>less/_styles.less" // Build styles.css based on _styles.less
         }
       } 
     },
 
-  /**
+    /**
      * Copy setup
      */
     copy: {
@@ -112,8 +109,8 @@ module.exports = function(grunt) {
           {
             expand: true,
             flatten: true,
-            src: ['<%=f%>*'], 
-            dest: '<%=d%>fonts',
+            src: ['<%= s %>fonts/**/*'], 
+            dest: '<%= d %>fonts',
             filter: 'isFile'
           }
         ]
@@ -123,15 +120,15 @@ module.exports = function(grunt) {
           {
             expand: true,
             flatten: true,
-            src: ['<%=i%>*', '!<%=i%>**/*.db'], 
-            dest: '<%=d%>images',
+            src: ['<%= s %>/images/**/*', '!<%= s %>images/**/*.db'], // Include all files in images folder, excluding .db
+            dest: '<%= d %>images',
             filter: 'isFile'
           }
         ]
       }
     },
 
-  /**
+    /**
      * Watch setup. The configured tasks will run when and of the files tested by JSHint are changed
      */
     watch: {
@@ -139,7 +136,7 @@ module.exports = function(grunt) {
       tasks: ['jshint', 'jasmine', 'less']
     },
 
-  /**
+    /**
      * Coveralls setup. Tells Coveralls where to find code coverage information
      */
     coveralls: {
