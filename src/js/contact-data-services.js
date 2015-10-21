@@ -3,10 +3,10 @@
     var ContactDataServices = window.ContactDataServices = window.ContactDataServices || {};
     
     // Generate the URLs for the various requests
-	ContactDataServices.urls = {
-		endpoint: "http://int-test-01/capture/address/v2/search",
-		construct: {
-			address: {
+    ContactDataServices.urls = {
+    	endpoint: "http://int-test-01/capture/address/v2/search",
+    	construct: {
+    		address: {
 				// Construct the Search URL by appending query, country & token
 				search: function(instance){
 					var url = ContactDataServices.urls.endpoint;
@@ -44,10 +44,10 @@
             events.collection[event] = events.collection[event] || [];
             // Push a new action for this event onto the array
             events.collection[event].push(action);
-        };
+          };
 
         // Publish (trigger) an event
-		events.trigger = function (event, data) {
+        events.trigger = function (event, data) {
             // If this event is in our collection (i.e. anyone's subscribed)
             if (events.collection[event]) {
                 // Loop over all the actions for this event
@@ -57,18 +57,18 @@
 
                     // Loop over additional args and add to array
                     for (var a = 2; a < arguments.length; a++){
-                        args.push(arguments[a]);
+                    	args.push(arguments[a]);
                     }
 
                     // Call each action for this event type, passing the args
                     events.collection[event][i].apply(events.collection, args);
+                  }
                 }
-            }
-        };
+              };
 
         // Return the new events object to be used by whoever invokes this factory
         return events;
-	};
+      };
 
 	// Default settings
 	ContactDataServices.defaults = { 		
@@ -82,7 +82,7 @@
 	ContactDataServices.address = function(options){
 		// Build our new instance from user custom options
 		var instance = options || {};
-				
+		
 		// Initialising some defaults
 		instance.enabled = true;		
 		instance.lastSearchTerm = "";
@@ -163,16 +163,16 @@
 		// Determine whether searching is currently permitted
 		instance.canSearch = function(){
 					// If searching on this instance is enabled, and
-			return (instance.enabled && 
+					return (instance.enabled && 
 					// If search term is not empty, and
 					instance.currentSearchTerm !== "" && 
 					// If search term is not the same as previous search term, and
 					instance.lastSearchTerm !== instance.currentSearchTerm &&
 					// If the country is not empty
 					instance.countryList.value !== "");
-		};
+				};
 
-		instance.createCountryDropdown = function(){
+				instance.createCountryDropdown = function(){
 			// What countries?
 			// Where to position it?
 		};
@@ -255,9 +255,9 @@
 			useAddressEntered: function(){
 				var inputData = {
 					address: [
-						{
-							content: instance.currentSearchTerm
-						}
+					{
+						content: instance.currentSearchTerm
+					}
 					]
 				};
 				instance.result.show(inputData);
@@ -281,14 +281,14 @@
 			// Add emphasis to the picklist items highlighting the match
 			addMatchingEmphasis: function(item){
 				var highlights = item.matched || [],
-                	label = item.suggestion;
+				label = item.suggestion;
 
-                for (var i = 0; i < highlights.length; i++) {
-                    var replacement = '<b>' + label.substring(highlights[i][0], highlights[i][1]) + '</b>';
-                    label = label.substring(0, highlights[i][0]) + replacement + label.substring(highlights[i][1]);
-                }
+				for (var i = 0; i < highlights.length; i++) {
+					var replacement = '<b>' + label.substring(highlights[i][0], highlights[i][1]) + '</b>';
+					label = label.substring(0, highlights[i][0]) + replacement + label.substring(highlights[i][1]);
+				}
 
-                return label;
+				return label;
 			},
 			// Listen to a picklist selection
 			listen: function(row){
@@ -411,13 +411,13 @@
 				// Change the visible formatted address to hidden
 				var addressLines = instance.result.formattedAddress.querySelectorAll(".toggle");
 				for (var i = 0; i < addressLines.length; i++) {
-  					addressLines[i].classList.add("hidden");
+					addressLines[i].classList.add("hidden");
 				}
 
 				// Change the hidden address line inputs to show to allow editing
 				var addressLineInputs = instance.result.formattedAddress.querySelectorAll(".address-line-input");
 				for (var j = 0; j < addressLineInputs.length; j++) {
-  					addressLineInputs[j].classList.remove("hidden");
+					addressLineInputs[j].classList.remove("hidden");
 				}
 			},
 			// Write the list of hidden address line inputs to the DOM
@@ -433,14 +433,14 @@
 		instance.searchSpinner = {
 			show: function(){
 				// Create the spinner container
-			    var spinnerContainer = document.createElement("div");
-			    spinnerContainer.classList.add("loader");
-			    spinnerContainer.classList.add("loader-inline");
+				var spinnerContainer = document.createElement("div");
+				spinnerContainer.classList.add("loader");
+				spinnerContainer.classList.add("loader-inline");
 
 			    // Create the spinner
-				var spinner = document.createElement("div");
-				spinner.classList.add("spinner");
-				spinnerContainer.appendChild(spinner);
+			    var spinner = document.createElement("div");
+			    spinner.classList.add("spinner");
+			    spinnerContainer.appendChild(spinner);
 
 				// Insert the spinner after the field
 				instance.input.parentNode.insertBefore(spinnerContainer, instance.input.nextSibling);
@@ -463,23 +463,23 @@
 				instance.request.currentRequest.timeout = 5000; // 5 seconds
 
 				instance.request.currentRequest.onload = function() {
-				  if (instance.request.currentRequest.status >= 200 && instance.request.currentRequest.status < 400) {
+					if (instance.request.currentRequest.status >= 200 && instance.request.currentRequest.status < 400) {
 				    // Success!
 				    var data = JSON.parse(instance.request.currentRequest.responseText);
 				    console.log(data);
 				    callback(data);
 				  } else {
 				    // We reached our target server, but it returned an error
- 					instance.searchSpinner.hide();
+				    instance.searchSpinner.hide();
 
  					// If the request is unauthorized we should probably disable future requests
  					if(instance.request.currentRequest.status === 401){
-						instance.enabled = false;
+ 						instance.enabled = false;
  					}
-				  }
-				};
+ 				}
+ 			};
 
-				instance.request.currentRequest.onerror = function() {
+ 			instance.request.currentRequest.onerror = function() {
 				  // There was a connection error of some sort
 				};
 
