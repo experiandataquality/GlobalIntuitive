@@ -44,7 +44,7 @@
             events.collection[event] = events.collection[event] || [];
             // Push a new action for this event onto the array
             events.collection[event].push(action);
-        }
+        };
 
         // Publish (trigger) an event
 		events.trigger = function (event, data) {
@@ -64,11 +64,11 @@
                     events.collection[event][i].apply(events.collection, args);
                 }
             }
-        }
+        };
 
         // Return the new events object to be used by whoever invokes this factory
         return events;
-	}
+	};
 
 	// Default settings
 	ContactDataServices.defaults = { 		
@@ -353,7 +353,7 @@
 				var container = document.createElement("div");
 				container.classList.add("formatted-address");
 				// Create a heading for the formatted address
-				if(instance.formattedAddress.heading != false){
+				if(instance.formattedAddress.heading !== false){
 					var heading = document.createElement(instance.formattedAddress.headingType);
 					heading.innerHTML = instance.formattedAddress.headingText;
 					container.appendChild(heading);
@@ -416,8 +416,8 @@
 
 				// Change the hidden address line inputs to show to allow editing
 				var addressLineInputs = instance.result.formattedAddress.querySelectorAll(".address-line-input");
-				for (var i = 0; i < addressLineInputs.length; i++) {
-  					addressLineInputs[i].classList.remove("hidden");
+				for (var j = 0; j < addressLineInputs.length; j++) {
+  					addressLineInputs[j].classList.remove("hidden");
 				}
 			},
 			// Write the list of hidden address line inputs to the DOM
