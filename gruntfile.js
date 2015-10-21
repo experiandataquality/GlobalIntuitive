@@ -13,9 +13,10 @@ module.exports = function(grunt) {
             '*   <%= pkg.author %> | <%= pkg.contact %>\n' +
             '*   Built on <%= timestamp %> */\n',
 
-    s: 'src/js', // The source directory
-    d: 'dist/',  // The distributable directory, where built files will end up
-    t: 'test/',  // The test directory, for unit test files/specs
+    s: 'src/js/',   // The source JS directory
+    l: 'src/less/', // The source Less directory
+    d: 'dist/',    // The distributable directory, where built files will end up
+    t: 'test/',    // The test directory, for unit test files/specs
 
   /**
      * Concatenation setup. Concatenated files are built to the path defined by the d variable
@@ -29,7 +30,7 @@ module.exports = function(grunt) {
       },
       dist: {
         src: ['<%=s%>**/*.js'], // Define specific files in dependency order if required 
-        dest: '<%= d %><%= filename %>.js'
+        dest: '<%= d %>js/<%= filename %>.js'
       }
     },
 
@@ -42,7 +43,7 @@ module.exports = function(grunt) {
       },
       dist: {
         files: {
-          '<%= d %><%= filename %>.min.js': ['<%= concat.dist.dest %>'] // Each concatenated file will get an uglified version
+          '<%= d %>js/<%= filename %>.min.js': ['<%= concat.dist.dest %>'] // Each concatenated file will get an uglified version
         }
       }
     },
@@ -87,6 +88,20 @@ module.exports = function(grunt) {
     },
 
   /**
+     * Less setup
+     */
+    less: {
+      dev: {
+        options: {
+            paths: ['<%=l%>**/*.less'], // Process all Less files in Less folder
+        },
+        files: {
+          "<%=d%>css/styles.css": "<%=l%>_styles.less" // Build styles.css based on _styles.less
+        }
+      } 
+    },
+
+  /**
      * Watch setup. The configured tasks will run when and of the files tested by JSHint are changed
      */
     watch: {
@@ -111,12 +126,13 @@ module.exports = function(grunt) {
   grunt.loadNpmTasks('grunt-contrib-uglify');
   grunt.loadNpmTasks('grunt-contrib-jasmine');
   grunt.loadNpmTasks('grunt-contrib-jshint');
+  grunt.loadNpmTasks('grunt-contrib-less');
   grunt.loadNpmTasks('grunt-contrib-watch');
   grunt.loadNpmTasks('grunt-coveralls');
 
   // Register test and build tasks.These can be run from the command line with "grunt test" or "grunt build"
   // "grunt watch" should be run while developing to notify you when things go wrong
   grunt.registerTask('test', ['jshint', 'jasmine', 'coveralls']);
-  grunt.registerTask('build', ['jshint', 'jasmine', 'concat', 'uglify']);
+  grunt.registerTask('build', ['jshint', 'jasmine', 'less', 'concat', 'uglify']);
 
 };
