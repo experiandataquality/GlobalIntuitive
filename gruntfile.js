@@ -13,10 +13,12 @@ module.exports = function(grunt) {
             '*   <%= pkg.author %> | <%= pkg.contact %>\n' +
             '*   Built on <%= timestamp %> */\n',
 
-    s: 'src/js/',   // The source JS directory
-    l: 'src/less/', // The source Less directory
-    d: 'dist/',    // The distributable directory, where built files will end up
-    t: 'test/',    // The test directory, for unit test files/specs
+    s: 'src/js/',     // The source JS directory
+    l: 'src/less/',   // The source Less directory
+    f: 'src/fonts/',  // The source fonts directory
+    i: 'src/images/', // The source images directory
+    d: 'dist/',       // The distributable directory, where built files will end up
+    t: 'test/',       // The test directory, for unit test files/specs
 
   /**
      * Concatenation setup. Concatenated files are built to the path defined by the d variable
@@ -102,11 +104,39 @@ module.exports = function(grunt) {
     },
 
   /**
+     * Copy setup
+     */
+    copy: {
+      fonts: {
+        files: [
+          {
+            expand: true,
+            flatten: true,
+            src: ['<%=f%>*'], 
+            dest: '<%=d%>fonts',
+            filter: 'isFile'
+          }
+        ]
+      },
+      images: {
+        files: [
+          {
+            expand: true,
+            flatten: true,
+            src: ['<%=i%>*', '!<%=i%>**/*.db'], 
+            dest: '<%=d%>images',
+            filter: 'isFile'
+          }
+        ]
+      }
+    },
+
+  /**
      * Watch setup. The configured tasks will run when and of the files tested by JSHint are changed
      */
     watch: {
       files: ['<%= jshint.files %>'],
-      tasks: ['jshint', 'jasmine']
+      tasks: ['jshint', 'jasmine', 'less']
     },
 
   /**
@@ -123,6 +153,7 @@ module.exports = function(grunt) {
 
   // Load tasks in this order
   grunt.loadNpmTasks('grunt-contrib-concat');
+  grunt.loadNpmTasks('grunt-contrib-copy');
   grunt.loadNpmTasks('grunt-contrib-uglify');
   grunt.loadNpmTasks('grunt-contrib-jasmine');
   grunt.loadNpmTasks('grunt-contrib-jshint');
@@ -133,6 +164,6 @@ module.exports = function(grunt) {
   // Register test and build tasks.These can be run from the command line with "grunt test" or "grunt build"
   // "grunt watch" should be run while developing to notify you when things go wrong
   grunt.registerTask('test', ['jshint', 'jasmine', 'coveralls']);
-  grunt.registerTask('build', ['jshint', 'jasmine', 'less', 'concat', 'uglify']);
+  grunt.registerTask('build', ['jshint', 'jasmine', 'concat', 'uglify', 'less', 'copy']);
 
 };
