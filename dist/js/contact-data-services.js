@@ -4,6 +4,9 @@
 ;(function(window, document, undefined) {
 
     "use strict";
+ 
+    // Create ContactDataServices constructor and namespace on the window object (if not already present)
+    var ContactDataServices = window.ContactDataServices = window.ContactDataServices || {};
 
 /**
  * @constructor - adds lat and lng props to provided object, runs callbacks, indicates success
@@ -71,9 +74,6 @@ var GeolocationActions = function(latLngObj, onWaiting, onSuccess, onBlocked, w)
 
 };
 
-
-    // Create ContactDataServices constructor and namespace on the window object (if not already present)
-    var ContactDataServices = window.ContactDataServices = window.ContactDataServices || {};
     
     // Generate the URLs for the various requests
     ContactDataServices.urls = {

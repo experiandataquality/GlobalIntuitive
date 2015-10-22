@@ -29,7 +29,7 @@ module.exports = function(grunt) {
         footer: '\n})(window, window.document);\n'
       },
       dist: {
-        src: ['<%= s %>js/**/*.js', '<%= s %>js/main.js'], // Define specific files in dependency order if required 
+        src: ['<%= s %>js/scaffolding.js', '<%= s %>js/**/*.js', '<%= s %>js/main.js'], // Define specific files in dependency order if required 
         dest: '<%= d %>js/<%= filename %>.js'
       }
     },
@@ -52,7 +52,7 @@ module.exports = function(grunt) {
      * Jasmine unit test setup. Includes Istanbul code coverage setup with Coveralls-friendly output
      */
     jasmine: {
-      src: ['<%= s %>**/*.js'], // Define specific files in dependency order if required 
+      src: ['<%= s %>js/scaffolding.js', '<%= s %>js/**/*.js', '<%= s %>js/main.js'], // Define specific files in dependency order if required 
       options: {
         specs: '<%= t %>**/*.js',
         template: require('grunt-template-jasmine-istanbul'),
@@ -82,7 +82,7 @@ module.exports = function(grunt) {
       options: {
         browser: true, // Assume general browser globals
         globals: {
-          predef: []   // Any global variables go here, if required 
+          predef: ['ContactDataServices']   // Any global variables go here, if required 
         }
       }
     },
