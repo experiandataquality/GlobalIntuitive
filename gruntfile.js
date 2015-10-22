@@ -29,7 +29,7 @@ module.exports = function(grunt) {
         footer: '\n})(window, window.document);\n'
       },
       dist: {
-        src: ['<%= s %>js/**/*.js'], // Define specific files in dependency order if required 
+        src: ['<%= s %>js/**/*.js', '<%= s %>js/main.js'], // Define specific files in dependency order if required 
         dest: '<%= d %>js/<%= filename %>.js'
       }
     },
