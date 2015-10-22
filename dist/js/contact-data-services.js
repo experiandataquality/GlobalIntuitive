@@ -98,6 +98,7 @@ var GeolocationMap = function(elementSelector) {
     keyboardShortcuts: false, // whether keyboard shortcuts are allowed
     draggable: false, // whether map can be dragged
         
+    backgroundColor: "none",
     zoom: 14, // zoom level - max is 21
     mapTypeId: google.maps.MapTypeId.ROADMAP
   };
