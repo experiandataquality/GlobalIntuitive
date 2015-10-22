@@ -11,8 +11,8 @@ module.exports = function(grunt) {
 
     // Construct a banner containing package and build information
     banner: '/*! <%= filename %>.js | <%= pkg.url %> | <%= pkg.license %>\n' +
-            '*   <%= pkg.author %> | <%= pkg.contact %>\n' +
-            '*   Built on <%= timestamp %> */\n',
+            '*   <%= pkg.author %> | <%= pkg.contact %> */\n',
+            //'*   Built on <%= timestamp %> */\n',
 
     s: 'src/',   // The source directory
     d: 'dist/',  // The distributable directory, where built files will end up

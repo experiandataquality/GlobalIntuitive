@@ -1,6 +1,5 @@
 /*! contact-data-services.js | https://github.com/TeamArachne/contactdataservices | Apache-2.0
-*   Team Arachne, Experian Data Quality | team.arachne@gmail.com
-*   Built on Thu, 22 Oct 2015 07:27:03 GMT */
+*   Team Arachne, Experian Data Quality | team.arachne@gmail.com */
 
 ;(function(window, document, undefined) {
 
@@ -71,6 +70,7 @@ var GeolocationActions = function(latLngObj, onWaiting, onSuccess, onBlocked, w)
   );
 
 };
+
 
     // Create ContactDataServices constructor and namespace on the window object (if not already present)
     var ContactDataServices = window.ContactDataServices = window.ContactDataServices || {};
