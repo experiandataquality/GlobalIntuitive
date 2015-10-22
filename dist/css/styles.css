@@ -212,8 +212,6 @@ select {
   background-image: url('../images/default-map.gif');
   background-repeat: no-repeat;
   background-position: center;
-  -webkit-filter: blur(1px) grayscale(60%) saturate(3);
-  filter: blur(1px) grayscale(60%) saturate(3);
   transition: background-size 600ms ease-in;
 }
 #contact-data-services-map.contact-data-services-map-loaded {
