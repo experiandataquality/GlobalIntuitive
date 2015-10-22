@@ -23,34 +23,20 @@ body {
   font-weight: normal;
   font-style: normal;
 }
-.filter-map {
+.cds-filter {
   position: absolute;
-  top: 0;
-  left: 0;
   width: 100%;
   background-color: #015cae;
   opacity: 0.333;
   padding-bottom: 30%;
 }
-.filter-primary {
-  color: #ffffff;
-  padding: 2.5em 10em;
-  text-align: center;
+.cds-filter.cds-filter-map {
+  top: 0;
+  left: 0;
 }
-@media (max-width: 480px) {
-  .filter-primary .filter-primary {
-    padding: 2.5em 5em;
-  }
-}
-.filter-primary h1 {
-  font-family: "OpenSansLight", Arial, sans-serif;
-  font-size: 3em;
-  font-weight: 300;
-}
-.overlay-dotted {
-  background-image: url(../images/dotted-background-small.png);
-  background-position: center top;
-  background-repeat: no-repeat;
+.cds-filter.cds-filter-controls {
+  padding-top: 5%;
+  padding-bottom: 30%;
 }
 .formatted-address {
   border: 1px solid #00be8b;
@@ -80,7 +66,6 @@ body {
   width: 30%;
 }
 form {
-  width: 50%;
   position: relative;
 }
 form.dual-form {
@@ -95,6 +80,7 @@ form.dual-form {
   }
 }
 label {
+  color: #ffffff;
   display: block;
   font-size: 14px;
   margin: 10px auto 5px;
@@ -221,6 +207,28 @@ select {
 }
 #contact-data-services-controls {
   position: absolute;
-  width: 100%;
+  width: 50%;
   top: 0;
+  left: 25%;
+  padding-top: 5em;
+}
+#contact-data-services-controls .controls-container {
+  padding: 2em;
+}
+#contact-data-services-controls .controls-container .header {
+  position: relative;
+  color: #ffffff;
+  text-align: center;
+}
+@media (max-width: 480px) {
+  #contact-data-services-controls .controls-container .header {
+    padding: 2.5em 5em;
+  }
+}
+#contact-data-services-controls .controls-container .header h1 {
+  font-family: "OpenSansLight", Arial, sans-serif;
+  font-size: 3em;
+  font-weight: 300;
+  margin: 0;
+  margin-bottom: 0.5em;
 }

@@ -9,33 +9,37 @@
 		<div id="contact-data-services-container">
 
 		<div id="contact-data-services-map"></div>		
-		<div class="filter-map"></div>
+		<div class="cds-filter cds-filter-map"></div>
 
 		<div id="contact-data-services-controls">
+			<div class="cds-filter cds-filter-controls"></div>
 
-			<div class="filter-primary">
-				<h1>Contact Data Services</h1>
+			<div class="controls-container">
+
+				<div class="header">
+					<h1>Contact Data Services</h1>
+				</div>
+
+				<form>
+					<div class="loader loader-overlay hidden">
+		            	<div class="spinner"></div>
+		        	</div>
+
+					<label for="country" class="toggle">Country</label>
+					<select name="country" class="toggle">
+						<option value="">Please select</option>
+						<option value="aus">Australia</option>
+						<option value="fra">France</option>
+						<option value="nzl">New Zealand</option>
+						<option value="gbr" selected>United Kingdom</option>
+						<option value="usa">United States</option>
+					</select>
+
+					<label for="address-input" class="toggle">Address</label>
+					<input type="text" name="address-input" class="toggle">
+				</form>
 			</div>
 
-			<form>
-				<div class="loader loader-overlay hidden">
-	            	<div class="spinner"></div>
-	        	</div>
-
-				<label for="country" class="toggle">Country</label>
-				<select name="country" class="toggle">
-					<option value="">Please select</option>
-					<option value="aus">Australia</option>
-					<option value="fra">France</option>
-					<option value="nzl">New Zealand</option>
-					<option value="gbr" selected>United Kingdom</option>
-					<option value="usa">United States</option>
-				</select>
-
-				<label for="address-input" class="toggle">Address</label>
-				<input type="text" name="address-input" class="toggle">
-			</form>
-			
 		</div>
 
 		</div>

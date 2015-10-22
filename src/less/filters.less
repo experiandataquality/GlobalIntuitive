@@ -1,36 +1,19 @@
 
-.filter-map {
+.cds-filter {
   position: absolute;
-  top: 0;
-  left: 0;
   width: 100%;
   background-color: @blue;
   opacity: 0.333;
   padding-bottom: @container-height;
-}
 
-.filter-primary {
-  //background-color: @blue;
-  color: @white; 
-  padding: 2.5em 10em;
-  text-align: center;
 
-  @media (max-width: @xs) {
-    
-    .filter-primary {
-      padding: 2.5em 5em;
-    }
+  &.cds-filter-map {
+    top: 0;
+    left: 0;
   }
-}
 
-.filter-primary h1 {  
-  font-family: "OpenSansLight",Arial,sans-serif;
-  font-size: 3em;
-  font-weight: 300;
-}
-
-.overlay-dotted {
-  background-image: url(../images/dotted-background-small.png);
-  background-position: center top;
-  background-repeat: no-repeat;
+  &.cds-filter-controls {
+    padding-top: 5%;
+    padding-bottom: @container-height;
+  }
 }
