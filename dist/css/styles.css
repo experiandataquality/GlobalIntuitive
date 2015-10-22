@@ -1,5 +1,7 @@
 body {
   font-family: "OpenSansRegular", Arial, sans-serif;
+  padding: 0;
+  margin: 0;
 }
 #contact-data-services-container:before,
 #contact-data-services-container:after {
