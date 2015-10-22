@@ -2,33 +2,49 @@
 <html>
 	<head>
 		<title>Contact Data Services - sample code</title>
-		<link rel="stylesheet" type="text/css" href="src/css/styles.css">
+		<link rel="stylesheet" type="text/css" href="dist/css/styles.css">
 	</head>
 	<body>
-		<div class="filter-primary overlay-dotted">
-			<h1>Contact Data Services</h1>
+
+		<div id="contact-data-services-container">
+
+		<div id="contact-data-services-map"></div>		
+		<div class="cds-filter cds-filter-map"></div>
+
+		<div id="contact-data-services-controls">
+			<div class="cds-filter cds-filter-controls"></div>
+
+			<div class="controls-container">
+
+				<div class="header">
+					<h1>Contact Data Services</h1>
+				</div>
+
+				<form>
+					<div class="loader loader-overlay hidden">
+		            	<div class="spinner"></div>
+		        	</div>
+
+					<label for="country" class="toggle">Country</label>
+					<select name="country" class="toggle">
+						<option value="">Please select</option>
+						<option value="aus">Australia</option>
+						<option value="fra">France</option>
+						<option value="nzl">New Zealand</option>
+						<option value="gbr" selected>United Kingdom</option>
+						<option value="usa">United States</option>
+					</select>
+
+					<label for="address-input" class="toggle">Address</label>
+					<input type="text" name="address-input" class="toggle">
+				</form>
+			</div>
+
 		</div>
 
-		<form>
-			<div class="loader loader-overlay hidden">
-            	<div class="spinner"></div>
-        	</div>
+		</div>
 
-			<label for="country" class="toggle">Country</label>
-			<select name="country" class="toggle">
-				<option value="">Please select</option>
-				<option value="aus">Australia</option>
-				<option value="fra">France</option>
-				<option value="nzl">New Zealand</option>
-				<option value="gbr" selected>United Kingdom</option>
-				<option value="usa">United States</option>
-			</select>
-
-			<label for="address-input" class="toggle">Address</label>
-			<input type="text" name="address-input" class="toggle">
-		</form>
-
-		<script src="src/js/contact-data-services.js"></script>
+		<script src="dist/js/contact-data-services.js"></script>
 		<script>
 			// Set the custom options
 			var options = {
