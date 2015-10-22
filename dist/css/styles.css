@@ -3,18 +3,12 @@ body {
   padding: 0;
   margin: 0;
 }
-#contact-data-services-container:before,
-#contact-data-services-container:after {
-  content: " ";
-  /* 1 */
-  display: table;
-  /* 2 */
-}
 .hidden {
   display: none;
 }
 /* Breakpoints */
 /* Colors */
+/* Dimensions etc */
 @font-face {
   font-family: 'OpenSansLight';
   src: url('../fonts/OpenSans-Light-webfont.eot');
@@ -29,8 +23,17 @@ body {
   font-weight: normal;
   font-style: normal;
 }
+.filter-map {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  background-color: #015cae;
+  opacity: 0.333;
+  padding-bottom: 30%;
+}
 .filter-primary {
-  color: #999999;
+  color: #ffffff;
   padding: 2.5em 10em;
   text-align: center;
 }
@@ -209,6 +212,14 @@ select {
   background-image: url('../images/default-map.gif');
   background-repeat: no-repeat;
   background-position: center;
+  -webkit-filter: blur(1px) grayscale(60%) saturate(3);
+  filter: blur(1px) grayscale(60%) saturate(3);
+  transition: background-size 300ms ease-in;
+}
+#contact-data-services-map.contact-data-services-map-loaded {
+  background-size: 1000%;
+  -webkit-filter: blur(0.5px) grayscale(60%) saturate(3);
+  filter: blur(0.5px) grayscale(60%) saturate(3);
 }
 #contact-data-services-controls {
   position: absolute;

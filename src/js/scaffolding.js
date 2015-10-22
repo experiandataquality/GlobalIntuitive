@@ -9,5 +9,9 @@
       controls: "#contact-data-services-controls"
     };
 
+    ContactDataServices.classes = {
+      mapLoaded: "contact-data-services-map-loaded"
+    };
+
     ContactDataServices.mapEndpoint = "http://maps.googleapis.com/maps/api/js?sensor=false&callback=ContactDataServices.loadMap";
     

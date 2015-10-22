@@ -26,5 +26,8 @@
     var mapSelector = ContactDataServices.selectors.map;
     ContactDataServices.map = new GeolocationMap(mapSelector);
 
+    var mapElement = document.querySelector(mapSelector);
+    mapElement.classList.add(ContactDataServices.classes.mapLoaded);
+
     ContactDataServices.map.pan(ContactDataServices.coords);
   };

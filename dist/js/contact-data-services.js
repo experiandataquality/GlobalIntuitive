@@ -15,6 +15,10 @@
       controls: "#contact-data-services-controls"
     };
 
+    ContactDataServices.classes = {
+      mapLoaded: "contact-data-services-map-loaded"
+    };
+
     ContactDataServices.mapEndpoint = "http://maps.googleapis.com/maps/api/js?sensor=false&callback=ContactDataServices.loadMap";
     
 
@@ -164,6 +168,9 @@ var GeolocationMap = function(elementSelector) {
   ContactDataServices.loadMap = function () {
     var mapSelector = ContactDataServices.selectors.map;
     ContactDataServices.map = new GeolocationMap(mapSelector);
+
+    var mapElement = document.querySelector(mapSelector);
+    mapElement.classList.add(ContactDataServices.classes.mapLoaded);
 
     ContactDataServices.map.pan(ContactDataServices.coords);
   };
