@@ -8,6 +8,16 @@
     // Create ContactDataServices constructor and namespace on the window object (if not already present)
     var ContactDataServices = window.ContactDataServices = window.ContactDataServices || {};
 
+    // Global settings
+    ContactDataServices.selectors = {
+      main: "#contact-data-services-container",
+      map: "#contact-data-services-map",
+      controls: "#contact-data-services-controls"
+    };
+
+    ContactDataServices.mapEndpoint = "http://maps.googleapis.com/maps/api/js?sensor=false&callback=ContactDataServices.loadMap";
+    
+
 /**
  * @constructor - adds lat and lng props to provided object, runs callbacks, indicates success
  *
@@ -73,6 +83,89 @@ var GeolocationActions = function(latLngObj, onWaiting, onSuccess, onBlocked, w)
   );
 
 };
+var GeolocationMap = function(elementSelector) {
+
+  // Private map options
+  // Pretty much all user interaction is disabled. Thinking about it,
+  // Perhaps we should use the image API instead. Less overhead?
+  var mapOptions = {
+    mapTypeControl: false, // map type control, eg map/satellite
+    streetViewControl: false, // yellow man
+    scaleControl: false, // scale control 
+    zoomControl: false, // zoom control
+    panControl: false, // whether user can pan the map
+    scrollwheel: false, // whether user can scroll to zoom
+    keyboardShortcuts: false, // whether keyboard shortcuts are allowed
+    draggable: false, // whether map can be dragged
+        
+    zoom: 14, // zoom level - max is 21
+    mapTypeId: google.maps.MapTypeId.ROADMAP
+  };
+  
+  var map = new google.maps.Map(
+    document.querySelector(elementSelector),
+    mapOptions  
+  );
+  
+  map.pan = function(coords) {
+    if (typeof coords.lat !== "number" ||
+        typeof coords.lng !== "number") {
+      return false;
+    }
+    var latLng = new google.maps.LatLng(coords.lat, coords.lng);
+    map.panTo(latLng);
+    return true;
+  };
+  
+  return map;
+
+};
+
+  ContactDataServices.getGeolocation = function(onWaiting, onSuccess, onBlocked) {
+
+    ContactDataServices.coords = {}; // will become eg { lat: -0.123, lng: 1.123 } on success
+
+    var getCoords = new GeolocationActions(ContactDataServices.coords, onWaiting, onSuccess, onBlocked);
+
+  };
+
+  // TODO move this into main.js or another more relevant place
+  // Get geolocation and draw map
+  ContactDataServices.getGeolocation(
+    function(){ console.log("waiting for geolocation permission..."); },            // OnWaiting
+    function(){ ContactDataServices.insertMap(ContactDataServices.mapEndpoint); },  // OnSuccess
+    function(){ console.log("geolocation was blocked or unavailable"); }            // OnBlocked
+  );
+  ContactDataServices.insertMap = function(mapEndpoint) {
+
+    if (typeof mapEndpoint !== "string") {
+      return false;
+    }
+
+    // Instantiate the map object
+    ContactDataServices.map = null;
+
+    // Get coords, if available
+    var coords = ContactDataServices.coords || {};
+
+    // Create script element
+    var script = document.createElement("script");
+    script.src = mapEndpoint;
+    script.async = true;
+
+    // Insert the script in the page
+    document.getElementsByTagName("head")[0].appendChild(script);
+
+    return true;
+
+  };
+
+  ContactDataServices.loadMap = function () {
+    var mapSelector = ContactDataServices.selectors.map;
+    ContactDataServices.map = new GeolocationMap(mapSelector);
+
+    ContactDataServices.map.pan(ContactDataServices.coords);
+  };
 // Generate the URLs for the various requests
 ContactDataServices.urls = {
 	endpoint: "http://int-test-01/capture/address/v2/search",

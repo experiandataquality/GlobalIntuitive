@@ -1,10 +1,18 @@
 body {
   font-family: "OpenSansRegular", Arial, sans-serif;
 }
+#contact-data-services-container:before,
+#contact-data-services-container:after {
+  content: " ";
+  /* 1 */
+  display: table;
+  /* 2 */
+}
 .hidden {
   display: none;
 }
 /* Breakpoints */
+/* Colors */
 @font-face {
   font-family: 'OpenSansLight';
   src: url('../fonts/OpenSans-Light-webfont.eot');
@@ -20,8 +28,7 @@ body {
   font-style: normal;
 }
 .filter-primary {
-  background-color: #015cae;
-  color: white;
+  color: #999999;
   padding: 2.5em 10em;
   text-align: center;
 }
@@ -192,4 +199,12 @@ select {
   border-bottom: 1px solid #015cae;
   border-top: 1px solid #015cae;
   padding: 4px 11px;
+}
+#contact-data-services-map {
+  padding-bottom: 30%;
+}
+#contact-data-services-controls {
+  position: absolute;
+  width: 100%;
+  top: 0;
 }
