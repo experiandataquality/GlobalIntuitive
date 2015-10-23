@@ -214,6 +214,17 @@ input[type="text"], select {
 	width: 30%;
 }
 
+.search-again-link {
+	display: block;
+    text-align: center;
+    text-decoration: none;
+    background-color: #d14;
+    color: white;
+    border-radius: 5px;
+    padding: 5px;
+    margin-top: 5px;
+}
+
 /* Media queries */
 @media (max-width: 480px) {
 	

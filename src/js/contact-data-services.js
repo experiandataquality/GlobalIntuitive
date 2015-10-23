@@ -75,6 +75,7 @@
 		input: { placeholder: "Start typing an address" },
 		formattedAddress: { headingType: "h3", headingText: "Formatted address" },
 		editAddressText: "Edit address",
+		searchAgainText: "Search again",
 		useAddressEnteredText: "<em>Use address entered</em>"
 	};
 
@@ -93,6 +94,7 @@
 		instance.currentFormatUrl = "";	
 		instance.placeholder = instance.placeholder || ContactDataServices.defaults.input.placeholder;	
 		instance.editAddressText = instance.editAddressText || ContactDataServices.defaults.editAddressText; 
+		instance.searchAgainText = instance.searchAgainText || ContactDataServices.defaults.searchAgainText; 
 		instance.formattedAddress = instance.formattedAddress || ContactDataServices.defaults.formattedAddress;
 		
 		// Create a new object to hold the events from the event factory
@@ -114,6 +116,8 @@
 				instance.input.setAttribute("placeholder", instance.placeholder);
 				// Disable autocomplete on the form
 				instance.input.parentNode.setAttribute("autocomplete", "off");
+				// Apply focus to input
+				instance.input.focus();
 			}
 		};
 		
@@ -308,6 +312,9 @@
 
 				// Hide the picklist
 				instance.picklist.hide();
+
+				// Clear search input
+				instance.input.value = "";
 				
 				if(data.address.length > 0){
 					// Fire an event to say we've got the formatted address
@@ -340,6 +347,9 @@
 
 					// Write the 'Edit address' link and insert into DOM
 					instance.result.createEditAddressLink();
+
+					// Write the 'Search again' link and insert into DOM
+					instance.result.createSearchAgainLink();
 				}
 			},
 			hide: function(){
@@ -402,6 +412,17 @@
 				// Bind event listener
 				link.addEventListener("click", instance.result.editAddressManually);
 			},
+			// Create the 'Search again' link that resets the search
+			createSearchAgainLink: function(){
+				var link = document.createElement("a");
+				link.setAttribute("href", "#");
+				link.classList.add("search-again-link");
+				link.innerHTML = instance.searchAgainText;
+				// Insert into the formatted address container
+				instance.result.formattedAddress.appendChild(link);
+				// Bind event listener
+				link.addEventListener("click", instance.reset);
+			},
 			editAddressManually: function(event){
 				event.preventDefault();
 				
@@ -409,10 +430,7 @@
 				instance.result.formattedAddress.querySelector(".edit-address-link").classList.add("hidden");
 
 				// Change the visible formatted address to hidden
-				var addressLines = instance.result.formattedAddress.querySelectorAll(".toggle");
-				for (var i = 0; i < addressLines.length; i++) {
-  					addressLines[i].classList.add("hidden");
-				}
+				instance.toggleVisibility(instance.result.formattedAddress);
 
 				// Change the hidden address line inputs to show to allow editing
 				var addressLineInputs = instance.result.formattedAddress.querySelectorAll(".address-line-input");
@@ -426,6 +444,19 @@
 					for(var i = 0; i < inputArray.length; i++){
 						instance.result.formattedAddress.appendChild(inputArray[i]);
 					}
+				}
+			}
+		};
+
+		// Toggle the visibility of elements
+		instance.toggleVisibility = function(scope){			
+			scope = scope || document;
+			var elements = scope.querySelectorAll(".toggle");
+			for (var i = 0; i < elements.length; i++) {
+				if(elements[i].classList.contains("hidden")){
+					elements[i].classList.remove("hidden");
+				} else {
+					elements[i].classList.add("hidden");
 				}
 			}
 		};
@@ -452,6 +483,17 @@
 					instance.input.parentNode.removeChild(spinner);
 				}	
 			}
+		};
+
+		// Reset the search
+		instance.reset = function(){
+			event.preventDefault();
+			// Hide formatted address
+			instance.result.hide();
+			// Show search input
+			instance.toggleVisibility();
+			// Apply focus to input
+			instance.input.focus();
 		};
 
 		// Use this to initiate and track XMLHttpRequests
