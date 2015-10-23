@@ -7,29 +7,20 @@
 		endpoint: "http://int-test-01/capture/address/v2/search",
 		construct: {
 			address: {
-				// Construct the Search URL by appending query, country & token
+				// Construct the Search URL by appending query, country & take
 				search: function(instance){
 					var url = ContactDataServices.urls.endpoint;
 					url += "?query=" + instance.currentSearchTerm;
 					url += "&country=" + instance.currentCountryCode;
 					url += "&take=" + (instance.maxSize || instance.picklist.maxSize);
 
-					url = ContactDataServices.urls.addToken(url, instance.token);
-					return url;
-				},
-				// Construct the Format URL by appending the token
-				format: function(url, instance){
-					url = ContactDataServices.urls.addToken(url, instance.token);
 					return url;
 				}
 			}
 		},
+		// Get token from query string and set on instance
 		getToken: function(instance){
 			instance.token = ContactDataServices.urls.getParameter("token");
-		},
-		// Append the token (this must be specified when initialising)
-		addToken: function(url, token){
-			return url + "&auth-token=" + token;
 		},
 		getParameter: function(name) {
 		    name = name.replace(/[\[]/, "\\[").replace(/[\]]/, "\\]");
@@ -211,7 +202,7 @@
 			instance.searchSpinner.hide();
 
 			// Construct the format URL
-			instance.currentFormatUrl = ContactDataServices.urls.construct.address.format(url, instance);
+			instance.currentFormatUrl = url;
 			
 			/* Temporary hack until Go Live*/
 			if(instance.currentFormatUrl.indexOf("https://api.edq.com") > -1){
@@ -623,6 +614,7 @@
 				instance.request.currentRequest = new XMLHttpRequest();
 				instance.request.currentRequest.open('GET', url, true);
 				instance.request.currentRequest.timeout = 5000; // 5 seconds
+				instance.request.currentRequest.setRequestHeader("Auth-Token", instance.token);
 
 				instance.request.currentRequest.onload = function() {
 				  if (instance.request.currentRequest.status >= 200 && instance.request.currentRequest.status < 400) {
