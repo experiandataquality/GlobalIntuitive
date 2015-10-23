@@ -593,7 +593,10 @@
 		};
 
 		// Reset the search
-		instance.reset = function(){
+		instance.reset = function(event){
+			if(event){
+				event.preventDefault();
+			}
 			// Hide formatted address
 			instance.result.hide();
 			// Show search input
