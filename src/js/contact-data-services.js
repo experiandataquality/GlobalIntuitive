@@ -116,13 +116,23 @@
 				instance.input.setAttribute("placeholder", instance.placeholder);
 				// Disable autocomplete on the form
 				instance.input.parentNode.setAttribute("autocomplete", "off");
+				// Disable form submission for demo purposes
+				instance.input.parentNode.addEventListener('submit', function(event){
+				    event.preventDefault();
+				});
 				// Apply focus to input
 				instance.input.focus();
 			}
 		};
-		
 		// Main function to search for an address from an input string
-		instance.search = function(){
+		instance.search = function(event){
+			// Handle keyboard navigation
+			var e = event || window.event;
+            e = e.which || e.keyCode;
+            if (e === 38/*Up*/ || e === 40/*Down*/ || e === 13/*Enter*/) {
+                instance.picklist.keyup(e);
+            }
+
 			instance.currentSearchTerm = instance.input.value;
 			instance.currentCountryCode = instance.countryList.value;
 
@@ -220,6 +230,9 @@
 				// Ensure previous results are cleared
 				instance.picklist.container.innerHTML = "";
 
+				// Reset the picklist tab count (used for keyboard navigation)
+				instance.picklist.resetTabCount();
+
 				// Hide the inline search spinner
 				instance.searchSpinner.hide();
 
@@ -240,6 +253,8 @@
 			},
 			// Remove the picklist
 			hide: function(){
+				// Clear the current picklist item
+				instance.picklist.currentItem = null;
 				// Remove the "use address entered" option too
 				instance.picklist.useAddressEntered.destroy();
 				// Remove the main picklist container
@@ -286,6 +301,8 @@
 				list.classList.add("address-picklist");
 				// Insert the picklist after the input
 				instance.input.parentNode.insertBefore(list, instance.input.nextSibling);
+
+				list.addEventListener("keydown", instance.picklist.enter);				
 				return list;
 			},
 			// Create a new picklist item/row
@@ -295,6 +312,77 @@
 				// Store the Format URL
 				row.setAttribute("format", item.format);
 				return row;
+			},
+			// Tab count used for keyboard navigation
+			tabCount: -1,
+			resetTabCount: function () {
+            	instance.picklist.tabCount = -1;
+        	},
+			// Keyboard navigation
+			keyup: function(e){
+				if(!instance.picklist.container){
+	            	return;
+	            }
+
+	            if (e === 13/*Enter*/) {
+	                instance.picklist.checkEnter();
+	                return;
+	            }
+
+	            // Get a list of all the addresses in the picklist
+	            var addresses = instance.picklist.container.querySelectorAll("div"),
+	            				firstAddress, lastAddress;
+
+	            // Set the tabCount based on previous and direction
+	            if (e === 38/*Up*/) {
+	                instance.picklist.tabCount--;
+	            }
+	            else {
+	                instance.picklist.tabCount++;
+	            }
+
+	            // Set top and bottom positions and enable wrap-around
+	            if (instance.picklist.tabCount < 0) {
+	                instance.picklist.tabCount = addresses.length - 1;
+	                lastAddress = true;
+	            }
+	            if (instance.picklist.tabCount > addresses.length - 1) {
+	                instance.picklist.tabCount = 0;
+	                firstAddress = true;
+	            }
+
+	            // Highlight the selected address
+            	var currentlyHighlighted = addresses[instance.picklist.tabCount];
+            	// Remove any previously highlighted ones
+            	var previouslyHighlighted = instance.picklist.container.querySelector(".selected");
+            	if(previouslyHighlighted){
+            		previouslyHighlighted.classList.remove("selected");
+            	}
+            	currentlyHighlighted.classList.add("selected");
+            	// Set the currentItem on the picklist to the currently highlighted address
+				instance.picklist.currentItem = currentlyHighlighted;
+
+            	// Scroll address into view, if required
+	            var addressListCoords = {
+	                top: instance.picklist.container.offsetTop,
+	                bottom: instance.picklist.container.offsetTop + instance.picklist.container.offsetHeight,
+	                scrollTop: instance.picklist.container.scrollTop,
+	                selectedTop: currentlyHighlighted.offsetTop,
+	                selectedBottom: currentlyHighlighted.offsetTop + currentlyHighlighted.offsetHeight,
+	                scrollAmount: currentlyHighlighted.offsetHeight
+	            };
+	            if (firstAddress) {
+	                instance.picklist.container.scrollTop = 0;
+	            }
+	            else if (lastAddress) {
+	                instance.picklist.container.scrollTop = 999;
+	            }
+	            else if (addressListCoords.selectedBottom + addressListCoords.scrollAmount > addressListCoords.bottom) {
+	                instance.picklist.container.scrollTop = addressListCoords.scrollTop + addressListCoords.scrollAmount;
+	            }
+	            else if (addressListCoords.selectedTop - addressListCoords.scrollAmount - addressListCoords.top < addressListCoords.scrollTop) {
+	                instance.picklist.container.scrollTop = addressListCoords.scrollTop - addressListCoords.scrollAmount;
+	            }
 			},
 			// Add emphasis to the picklist items highlighting the match
 			addMatchingEmphasis: function(item){
@@ -311,6 +399,11 @@
 			// Listen to a picklist selection
 			listen: function(row){
 				row.addEventListener("click", instance.picklist.pick.bind(null, row));
+			},
+			checkEnter: function(){
+				if(instance.picklist.currentItem){
+					instance.picklist.pick(instance.picklist.currentItem);
+				}
 			},
 			// How to handle a picklist selection				
 			pick: function(item){
@@ -501,7 +594,6 @@
 
 		// Reset the search
 		instance.reset = function(){
-			event.preventDefault();
 			// Hide formatted address
 			instance.result.hide();
 			// Show search input

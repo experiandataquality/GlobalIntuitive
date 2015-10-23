@@ -175,17 +175,17 @@ input[type="text"], select {
     background: #eee;
 }
 
-.address-picklist div:first-child:hover {
+.address-picklist div:first-child:hover, .address-picklist .selected:first-child {
 	border-top: 0;
 	padding-top: 5px;
 }
 
-.address-picklist div:last-child:hover {
+.address-picklist div:last-child:hover, .address-picklist .selected:last-child {
 	border-bottom: 0;
 	padding-bottom: 5px;
 }
 
-.address-picklist div:hover {
+.address-picklist div:hover, .address-picklist .selected {
 	background: #eee;
 	border-bottom: 1px solid #015cae;
 	border-top: 1px solid #015cae;
