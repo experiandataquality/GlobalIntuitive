@@ -224,7 +224,7 @@
 				instance.searchSpinner.hide();
 
 				// Prepend an option for "use address entered"
-				instance.picklist.createUseAddressEntered();
+				instance.picklist.useAddressEntered.element = instance.picklist.useAddressEntered.element || instance.picklist.useAddressEntered.create();
 				
 				if(instance.picklist.items.length > 0){	
 					// Iterate over and show results
@@ -240,31 +240,45 @@
 			},
 			// Remove the picklist
 			hide: function(){
+				// Remove the "use address entered" option too
+				instance.picklist.useAddressEntered.destroy();
+				// Remove the main picklist container
 				if(instance.picklist.container){
 					instance.input.parentNode.removeChild(instance.picklist.container);
 					instance.picklist.container = undefined;
 				}
 			},
-			// Create a "use address entered" option
-			createUseAddressEntered: function(){
-				var item = {
-					suggestion: ContactDataServices.defaults.useAddressEnteredText,
-					format: ""
-				};
-				var listItem = instance.picklist.createListItem(item);
-				instance.picklist.container.appendChild(listItem);
-				listItem.addEventListener("click", instance.picklist.useAddressEntered);
-			},
-			// Use the address entered as the Formatted address
-			useAddressEntered: function(){
-				var inputData = {
-					address: [
-						{
-							content: instance.currentSearchTerm
-						}
-					]
-				};
-				instance.result.show(inputData);
+			useAddressEntered: {
+				// Create a "use address entered" option
+				create: function(){
+					var item = {
+						suggestion: ContactDataServices.defaults.useAddressEnteredText,
+						format: ""
+					};
+					var listItem = instance.picklist.createListItem(item);
+					listItem.classList.add("use-address-entered");				
+					instance.picklist.container.parentNode.insertBefore(listItem, instance.picklist.container.nextSibling);
+					listItem.addEventListener("click", instance.picklist.useAddressEntered.click);
+					return listItem;
+				},
+				// Destroy the "use address entered" option
+				destroy: function(){
+					if(instance.picklist.useAddressEntered.element){
+						instance.picklist.container.parentNode.removeChild(instance.picklist.useAddressEntered.element);
+						instance.picklist.useAddressEntered.element = undefined;
+					}
+				},
+				// Use the address entered as the Formatted address
+				click: function(){
+					var inputData = {
+						address: [
+							{
+								content: instance.currentSearchTerm
+							}
+						]
+					};
+					instance.result.show(inputData);
+				}
 			},
 			// Create the picklist container and inject after the input
 			createList: function(){
