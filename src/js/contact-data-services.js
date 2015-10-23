@@ -24,9 +24,18 @@
 				}
 			}
 		},
+		getToken: function(instance){
+			instance.token = ContactDataServices.urls.getParameter("token");
+		},
 		// Append the token (this must be specified when initialising)
 		addToken: function(url, token){
 			return url + "&auth-token=" + token;
+		},
+		getParameter: function(name) {
+		    name = name.replace(/[\[]/, "\\[").replace(/[\]]/, "\\]");
+		    var regex = new RegExp("[\\?&]" + name + "=([^&#]*)"),
+		        results = regex.exec(location.search);
+		    return results === null ? "" : decodeURIComponent(results[1].replace(/\+/g, " "));
 		}
 	};
 
@@ -102,6 +111,8 @@
 
 		// Initialise this instance
 		instance.init = function(){
+			// Get token from the query string
+			ContactDataServices.urls.getToken(instance);
 			if(!instance.token){
 				console.log("Please provide a token for ContactDataServices.");
 				// Disable searching on this instance
