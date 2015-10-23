@@ -157,11 +157,22 @@ input[type="text"], select {
 	width: 100%;	
 }
 
-.address-picklist div {
+.address-picklist div, .use-address-entered {
 	color: #333;
 	font-size: 14px;
 	line-height: 1.4;
     padding: 5px 11px;    
+}
+
+.use-address-entered {
+    background-color: white;
+    border: 2px solid #015cae;
+    border-top: 0;
+    margin-top: -1px;
+}
+
+.use-address-entered:hover {
+    background: #eee;
 }
 
 .address-picklist div:first-child:hover {
@@ -212,6 +223,17 @@ input[type="text"], select {
 .formatted-address label {
 	display: inline-block;
 	width: 30%;
+}
+
+.search-again-link {
+	display: block;
+    text-align: center;
+    text-decoration: none;
+    background-color: #d14;
+    color: white;
+    border-radius: 5px;
+    padding: 5px;
+    margin-top: 5px;
 }
 
 /* Media queries */

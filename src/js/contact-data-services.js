@@ -44,7 +44,7 @@
             events.collection[event] = events.collection[event] || [];
             // Push a new action for this event onto the array
             events.collection[event].push(action);
-        }
+        };
 
         // Publish (trigger) an event
 		events.trigger = function (event, data) {
@@ -64,17 +64,18 @@
                     events.collection[event][i].apply(events.collection, args);
                 }
             }
-        }
+        };
 
         // Return the new events object to be used by whoever invokes this factory
         return events;
-	}
+	};
 
 	// Default settings
 	ContactDataServices.defaults = { 		
 		input: { placeholder: "Start typing an address" },
 		formattedAddress: { headingType: "h3", headingText: "Formatted address" },
 		editAddressText: "Edit address",
+		searchAgainText: "Search again",
 		useAddressEnteredText: "<em>Use address entered</em>"
 	};
 
@@ -93,6 +94,7 @@
 		instance.currentFormatUrl = "";	
 		instance.placeholder = instance.placeholder || ContactDataServices.defaults.input.placeholder;	
 		instance.editAddressText = instance.editAddressText || ContactDataServices.defaults.editAddressText; 
+		instance.searchAgainText = instance.searchAgainText || ContactDataServices.defaults.searchAgainText; 
 		instance.formattedAddress = instance.formattedAddress || ContactDataServices.defaults.formattedAddress;
 		
 		// Create a new object to hold the events from the event factory
@@ -114,6 +116,8 @@
 				instance.input.setAttribute("placeholder", instance.placeholder);
 				// Disable autocomplete on the form
 				instance.input.parentNode.setAttribute("autocomplete", "off");
+				// Apply focus to input
+				instance.input.focus();
 			}
 		};
 		
@@ -220,7 +224,7 @@
 				instance.searchSpinner.hide();
 
 				// Prepend an option for "use address entered"
-				instance.picklist.createUseAddressEntered();
+				instance.picklist.useAddressEntered.element = instance.picklist.useAddressEntered.element || instance.picklist.useAddressEntered.create();
 				
 				if(instance.picklist.items.length > 0){	
 					// Iterate over and show results
@@ -236,31 +240,45 @@
 			},
 			// Remove the picklist
 			hide: function(){
+				// Remove the "use address entered" option too
+				instance.picklist.useAddressEntered.destroy();
+				// Remove the main picklist container
 				if(instance.picklist.container){
 					instance.input.parentNode.removeChild(instance.picklist.container);
 					instance.picklist.container = undefined;
 				}
 			},
-			// Create a "use address entered" option
-			createUseAddressEntered: function(){
-				var item = {
-					suggestion: ContactDataServices.defaults.useAddressEnteredText,
-					format: ""
-				};
-				var listItem = instance.picklist.createListItem(item);
-				instance.picklist.container.appendChild(listItem);
-				listItem.addEventListener("click", instance.picklist.useAddressEntered);
-			},
-			// Use the address entered as the Formatted address
-			useAddressEntered: function(){
-				var inputData = {
-					address: [
-						{
-							content: instance.currentSearchTerm
-						}
-					]
-				};
-				instance.result.show(inputData);
+			useAddressEntered: {
+				// Create a "use address entered" option
+				create: function(){
+					var item = {
+						suggestion: ContactDataServices.defaults.useAddressEnteredText,
+						format: ""
+					};
+					var listItem = instance.picklist.createListItem(item);
+					listItem.classList.add("use-address-entered");				
+					instance.picklist.container.parentNode.insertBefore(listItem, instance.picklist.container.nextSibling);
+					listItem.addEventListener("click", instance.picklist.useAddressEntered.click);
+					return listItem;
+				},
+				// Destroy the "use address entered" option
+				destroy: function(){
+					if(instance.picklist.useAddressEntered.element){
+						instance.picklist.container.parentNode.removeChild(instance.picklist.useAddressEntered.element);
+						instance.picklist.useAddressEntered.element = undefined;
+					}
+				},
+				// Use the address entered as the Formatted address
+				click: function(){
+					var inputData = {
+						address: [
+							{
+								content: instance.currentSearchTerm
+							}
+						]
+					};
+					instance.result.show(inputData);
+				}
 			},
 			// Create the picklist container and inject after the input
 			createList: function(){
@@ -308,6 +326,9 @@
 
 				// Hide the picklist
 				instance.picklist.hide();
+
+				// Clear search input
+				instance.input.value = "";
 				
 				if(data.address.length > 0){
 					// Fire an event to say we've got the formatted address
@@ -340,6 +361,9 @@
 
 					// Write the 'Edit address' link and insert into DOM
 					instance.result.createEditAddressLink();
+
+					// Write the 'Search again' link and insert into DOM
+					instance.result.createSearchAgainLink();
 				}
 			},
 			hide: function(){
@@ -353,7 +377,7 @@
 				var container = document.createElement("div");
 				container.classList.add("formatted-address");
 				// Create a heading for the formatted address
-				if(instance.formattedAddress.heading != false){
+				if(instance.formattedAddress.heading !== false){
 					var heading = document.createElement(instance.formattedAddress.headingType);
 					heading.innerHTML = instance.formattedAddress.headingText;
 					container.appendChild(heading);
@@ -402,6 +426,17 @@
 				// Bind event listener
 				link.addEventListener("click", instance.result.editAddressManually);
 			},
+			// Create the 'Search again' link that resets the search
+			createSearchAgainLink: function(){
+				var link = document.createElement("a");
+				link.setAttribute("href", "#");
+				link.classList.add("search-again-link");
+				link.innerHTML = instance.searchAgainText;
+				// Insert into the formatted address container
+				instance.result.formattedAddress.appendChild(link);
+				// Bind event listener
+				link.addEventListener("click", instance.reset);
+			},
 			editAddressManually: function(event){
 				event.preventDefault();
 				
@@ -409,15 +444,12 @@
 				instance.result.formattedAddress.querySelector(".edit-address-link").classList.add("hidden");
 
 				// Change the visible formatted address to hidden
-				var addressLines = instance.result.formattedAddress.querySelectorAll(".toggle");
-				for (var i = 0; i < addressLines.length; i++) {
-  					addressLines[i].classList.add("hidden");
-				}
+				instance.toggleVisibility(instance.result.formattedAddress);
 
 				// Change the hidden address line inputs to show to allow editing
 				var addressLineInputs = instance.result.formattedAddress.querySelectorAll(".address-line-input");
-				for (var i = 0; i < addressLineInputs.length; i++) {
-  					addressLineInputs[i].classList.remove("hidden");
+				for (var j = 0; j < addressLineInputs.length; j++) {
+  					addressLineInputs[j].classList.remove("hidden");
 				}
 			},
 			// Write the list of hidden address line inputs to the DOM
@@ -426,6 +458,19 @@
 					for(var i = 0; i < inputArray.length; i++){
 						instance.result.formattedAddress.appendChild(inputArray[i]);
 					}
+				}
+			}
+		};
+
+		// Toggle the visibility of elements
+		instance.toggleVisibility = function(scope){			
+			scope = scope || document;
+			var elements = scope.querySelectorAll(".toggle");
+			for (var i = 0; i < elements.length; i++) {
+				if(elements[i].classList.contains("hidden")){
+					elements[i].classList.remove("hidden");
+				} else {
+					elements[i].classList.add("hidden");
 				}
 			}
 		};
@@ -452,6 +497,17 @@
 					instance.input.parentNode.removeChild(spinner);
 				}	
 			}
+		};
+
+		// Reset the search
+		instance.reset = function(){
+			event.preventDefault();
+			// Hide formatted address
+			instance.result.hide();
+			// Show search input
+			instance.toggleVisibility();
+			// Apply focus to input
+			instance.input.focus();
 		};
 
 		// Use this to initiate and track XMLHttpRequests
