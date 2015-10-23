@@ -600,7 +600,7 @@
 			// Hide formatted address
 			instance.result.hide();
 			// Show search input
-			instance.toggleVisibility();
+			instance.toggleVisibility(instance.input.parentNode);
 			// Apply focus to input
 			instance.input.focus();
 		};
