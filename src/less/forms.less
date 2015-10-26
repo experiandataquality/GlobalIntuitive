@@ -17,7 +17,7 @@ label {
 }
 
 input[type="text"], select {
-	border: 1px solid #aaa;
+	border: 1px solid @gray;
 	border-radius: 4px;
 	box-shadow: inset 0 1px 1px rgba(0,0,0,.075);
     box-sizing: border-box;
@@ -29,7 +29,7 @@ input[type="text"], select {
 
 .address-picklist {
 	background-color: white;
-	border: 2px solid #015cae;
+	border: 2px solid @blue;
 	box-shadow: 0 6px 12px rgba(0,0,0,.175);
 	box-sizing: border-box;
 	max-height: 206px;
@@ -40,7 +40,7 @@ input[type="text"], select {
 }
 
 .address-picklist div, .use-address-entered {
-	color: #333;
+	color: @gray-dark;
 	font-size: 14px;
 	line-height: 1.4;
     padding: 5px 11px;    
@@ -48,13 +48,13 @@ input[type="text"], select {
 
 .use-address-entered {
     background-color: white;
-    border: 2px solid #015cae;
+    border: 2px solid @blue;
     border-top: 0;
     margin-top: -1px;
 }
 
 .use-address-entered:hover {
-    background: #eee;
+    background: @gray-light;
 }
 
 .address-picklist div:first-child:hover, .address-picklist .selected:first-child {
@@ -68,14 +68,14 @@ input[type="text"], select {
 }
 
 .address-picklist div:hover, .address-picklist .selected {
-	background: #eee;
-	border-bottom: 1px solid #015cae;
-	border-top: 1px solid #015cae;
+	background: @gray-light;
+	border-bottom: 1px solid @blue;
+	border-top: 1px solid @blue;
     padding: 4px 11px;    
 }
 
 .formatted-address {
-	border: 1px solid #00be8b;
+	border: 1px solid @green;
 	border-radius: 4px;
 	line-height: 24px;
     margin: 10px auto;
@@ -91,9 +91,9 @@ input[type="text"], select {
 }
 
 .formatted-address h3 {
-	color: #00be8b;	
+	color: @green;	
 	font-size: 2em;
-	font-family: "OpenSansLight",Helvetica,Arial,sans-serif;	
+	font-family: @font-family-light;	
     line-height: 1.1;
     margin: 0 auto 10px;
 }
@@ -111,7 +111,7 @@ input[type="text"], select {
 	display: block;
     text-align: center;
     text-decoration: none;
-    background-color: #d14;
+    background-color: @red;
     color: white;
     border-radius: 5px;
     padding: 5px;
