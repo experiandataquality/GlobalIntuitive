@@ -1,9 +1,16 @@
+/*! contact-data-services.js | https://github.com/ExperianDataQuality/contactdataservices | Apache-2.0
+*   Experian Data Quality | https://github.com/experiandataquality */
+
+;(function(window, document, undefined) {
+
+    "use strict";
+
 // Create ContactDataServices constructor and namespace on the window object (if not already present)
 var ContactDataServices = window.ContactDataServices = window.ContactDataServices || {};
 
 // Generate the URLs for the various requests
 ContactDataServices.urls = {
-	endpoint: "http://int-test-01/capture/address/v2/search",
+	endpoint: "http://int-dev-01/capture/address/v2/search",
 	construct: {
 		address: {
 			// Construct the Search URL by appending query, country & take
@@ -205,7 +212,7 @@ ContactDataServices.address = function(options){
 		
 		/* Temporary hack until Go Live*/
 		if(instance.currentFormatUrl.indexOf("https://api.edq.com") > -1){
-			instance.currentFormatUrl = instance.currentFormatUrl.replace("https://api.edq.com","http://int-test-01");
+			instance.currentFormatUrl = instance.currentFormatUrl.replace("https://api.edq.com","http://int-dev-01");
 		}
 
 		// Initiate a new Format request
@@ -650,3 +657,4 @@ ContactDataServices.address = function(options){
 	// Return the instance object to the invoker
 	return instance;
 };	
+})(window, window.document);
