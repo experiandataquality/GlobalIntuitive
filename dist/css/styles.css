@@ -90,6 +90,11 @@ body {
   -webkit-animation: load8 .8s infinite linear;
   animation: load8 .8s infinite linear;
 }
+.loader.loader-inline {
+  height: 0;
+  overflow: visible;
+  text-align: right;
+}
 .loader.loader-inline .spinner {
   border-width: 1.5em;
   display: inline-block;
@@ -97,11 +102,6 @@ body {
   margin: 0 5em;
   top: -27px;
   z-index: 9;
-}
-.loader.loader-inline {
-  height: 0;
-  overflow: visible;
-  text-align: right;
 }
 /* Form controls */
 form {

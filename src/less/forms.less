@@ -2,12 +2,12 @@
 form {
 	width: 50%;
 	position: relative;
-}
 
-form.dual-form {
-	width: 45%;
-	float: left;
-	margin-right: 5%;
+	&.dual-form {
+		width: 45%;
+		float: left;
+		margin-right: 5%;
+	}
 }
 
 label {
@@ -51,10 +51,10 @@ input[type="text"], select {
     border: 2px solid @blue;
     border-top: 0;
     margin-top: -1px;
-}
-
-.use-address-entered:hover {
-    background: @gray-light;
+	
+	&:hover {
+    	background: @gray-light;
+    }
 }
 
 .address-picklist div:first-child:hover, .address-picklist .selected:first-child {
@@ -80,31 +80,31 @@ input[type="text"], select {
 	line-height: 24px;
     margin: 10px auto;
     padding: 10px;
-}
 
-.formatted-address div {
-	font-weight: bold;
-}
+	div {
+		font-weight: bold;
+	}
 
-.formatted-address a {
-	font-size: 12px;
-}
+	a {
+		font-size: 12px;
+	}
 
-.formatted-address h3 {
-	color: @green;	
-	font-size: 2em;
-	font-family: @font-family-light;	
-    line-height: 1.1;
-    margin: 0 auto 10px;
-}
+	h3 {
+		color: @green;	
+		font-size: 2em;
+		font-family: @font-family-light;	
+	    line-height: 1.1;
+	    margin: 0 auto 10px;
+	}
 
-.formatted-address input {
-	width: 70%;
-}
+	input {
+		width: 70%;
+	}
 
-.formatted-address label {
-	display: inline-block;
-	width: 30%;
+	label {
+		display: inline-block;
+		width: 30%;
+	}
 }
 
 .search-again-link {
