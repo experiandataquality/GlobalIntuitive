@@ -4,10 +4,10 @@
   "license": "Apache-2.0",
   "author": "Experian Data Quality",
   "contact": "https://github.com/experiandataquality",
-  "url": "https://github.com/ExperianDataQuality/contactdataservices",
+  "url": "https://github.com/experiandataquality/contactdataservices",
   "repository": {
     "type": "git",
-    "url": "git://github.com/ExperianDataQuality/contactdataservices.git"
+    "url": "git://github.com/experiandataquality/contactdataservices.git"
   },
   "devDependencies": {
     "grunt": "^0.4.5",

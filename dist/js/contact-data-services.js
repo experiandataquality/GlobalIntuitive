@@ -1,4 +1,4 @@
-/*! contact-data-services.js | https://github.com/ExperianDataQuality/contactdataservices | Apache-2.0
+/*! contact-data-services.js | https://github.com/experiandataquality/contactdataservices | Apache-2.0
 *   Experian Data Quality | https://github.com/experiandataquality */
 
 ;(function(window, document, undefined) {
