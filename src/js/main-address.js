@@ -63,6 +63,10 @@ ContactDataServices.address = function(options){
 			if(instance.request.currentRequest){
 				instance.request.currentRequest.abort();
 			}
+
+			// Fire an event before a search takes place
+			instance.events.trigger("pre-search", instance.currentSearchTerm);
+
 			// Construct the new Search URL
 			var url = ContactDataServices.urls.construct.address.search(instance);
 
@@ -161,6 +165,9 @@ ContactDataServices.address = function(options){
 			instance.picklist.useAddressEntered.element = instance.picklist.useAddressEntered.element || instance.picklist.useAddressEntered.create();
 			
 			if(instance.picklist.items.length > 0){	
+				// Fire an event before picklist is created
+				instance.events.trigger("pre-picklist-create", instance.picklist.items);
+
 				// Iterate over and show results
 				instance.picklist.items.forEach(function(item){
 					// Create a new item/row in the picklist
@@ -170,6 +177,9 @@ ContactDataServices.address = function(options){
 					// Listen for selection on this item
 					instance.picklist.listen(listItem);
 				});
+
+				// Fire an event after picklist is created
+				instance.events.trigger("post-picklist-create");
 			}
 		},
 		// Remove the picklist
@@ -328,6 +338,10 @@ ContactDataServices.address = function(options){
 		},
 		// How to handle a picklist selection				
 		pick: function(item){
+			// Fire an event when an address is picked
+			instance.events.trigger("post-picklist-selection", item);
+			
+			// Get a final address using picklist item
 			instance.format(item.getAttribute("format"));
 		}
 	};
@@ -524,6 +538,9 @@ ContactDataServices.address = function(options){
 		instance.toggleVisibility(instance.input.parentNode);
 		// Apply focus to input
 		instance.input.focus();
+
+		// Fire an event after a reset
+		instance.events.trigger("post-reset");
 	};
 
 	// Use this to initiate and track XMLHttpRequests
