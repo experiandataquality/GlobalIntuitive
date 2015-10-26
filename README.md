@@ -48,8 +48,13 @@ After using instantiating a new instance the constructor returns an object that 
 
 | Event name | Description | Example usage |
 |------------|-------------|---------------|
-| `pre-formatting-search` | Just before the formatting search takes place | ```address.events.on("pre-formatting-search", function(){ // ... some code });```|
-| `post-formatting-search` | After the formatting search has returned a result | ```address.events.on("post-formatting-search", function(){ // ... some code });```|
+| `pre-search` | Before a typedown search takes place | ```address.events.on("pre-search", function(term){ // ...  });```|
+| `pre-picklist-create` | Before a picklist is created | ```address.events.on("pre-picklist-create", function(items){ // ...  });```|
+| `post-picklist-create` | After a picklist has been created | ```address.events.on("post-picklist-create", function(){ // ... });```|
+| `post-picklist-selection` | After a picklist item has been selected | ```address.events.on("post-picklist-selection", function(item){ // ... });```|
+| `pre-formatting-search` | Just before the formatting search takes place | ```address.events.on("pre-formatting-search", function(url){ // ... });```|
+| `post-formatting-search` | After the formatting search has returned a result | ```address.events.on("post-formatting-search", function(data){ // ... });```|
+| `post-reset` | After the demo has been reset | ```address.events.on("post-reset", function(){ // ... });```|
 
 
 ## Development
