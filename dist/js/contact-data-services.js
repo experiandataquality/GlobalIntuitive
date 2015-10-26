@@ -626,7 +626,6 @@ ContactDataServices.address = function(options){
 			  if (instance.request.currentRequest.status >= 200 && instance.request.currentRequest.status < 400) {
 			    // Success!
 			    var data = JSON.parse(instance.request.currentRequest.responseText);
-			    console.log(data);
 			    callback(data);
 			  } else {
 			    // We reached our target server, but it returned an error
