@@ -71,7 +71,7 @@ ContactDataServices.eventFactory = function(){
 
 // Default settings
 ContactDataServices.defaults = { 		
-	input: { placeholder: "Start typing an address" },
+	input: { placeholderText: "Start typing an address" },
 	formattedAddress: { headingType: "h3", headingText: "Formatted address" },
 	editAddressText: "Edit address",
 	searchAgainText: "Search again",
@@ -91,7 +91,7 @@ ContactDataServices.address = function(options){
 	instance.currentCountryCode = "";
 	instance.currentSearchUrl = "";
 	instance.currentFormatUrl = "";	
-	instance.placeholder = instance.placeholder || ContactDataServices.defaults.input.placeholder;	
+	instance.placeholderText = instance.placeholderText || ContactDataServices.defaults.input.placeholderText;	
 	instance.editAddressText = instance.editAddressText || ContactDataServices.defaults.editAddressText; 
 	instance.searchAgainText = instance.searchAgainText || ContactDataServices.defaults.searchAgainText; 
 	instance.formattedAddress = instance.formattedAddress || ContactDataServices.defaults.formattedAddress;
@@ -114,7 +114,7 @@ ContactDataServices.address = function(options){
 			// Bind an event listener on the input
 			instance.input.addEventListener("keyup", instance.search);
 			// Set a placeholder for the input
-			instance.input.setAttribute("placeholder", instance.placeholder);
+			instance.input.setAttribute("placeholder", instance.placeholderText);
 			// Disable autocomplete on the form
 			instance.input.parentNode.setAttribute("autocomplete", "off");
 			// Disable form submission for demo purposes
