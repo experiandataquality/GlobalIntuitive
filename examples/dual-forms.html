@@ -81,14 +81,14 @@
 			var numberOfForms = 2;
 			for(var i = 1; i <= numberOfForms; i++){
 				// Show the spinner while we're searching for the formatted address
-				window["address" + i].events.on("formatting-search", (function(idx){
+				window["address" + i].events.on("pre-formatting-search", (function(idx){
 					return function(){
 						document.querySelector(".example" + idx + " .loader").classList.remove("hidden");
 					}
 				})(i));
 
 				// Hide the country and search input when a result is found
-				window["address" + i].events.on("formatted-address", (function(idx){
+				window["address" + i].events.on("post-formatting-search", (function(idx){
 					return function(){
 						var searchInputs = document.querySelectorAll(".example" + idx + " .toggle");
 						for (var j = 0; j < searchInputs.length; ++j) {

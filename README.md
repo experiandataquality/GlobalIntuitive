@@ -48,8 +48,8 @@ After using instantiating a new instance the constructor returns an object that 
 
 | Event name | Description | Example usage |
 |------------|-------------|---------------|
-| `formatting-search` | Just before the formatting search takes place | ```address.events.on("formatting-search", function(){ // ... some code });```|
-| `formatted-address` | After the formatting search has returned a result | ```address.events.on("formatted-address", function(){ // ... some code });```|
+| `pre-formatting-search` | Just before the formatting search takes place | ```address.events.on("pre-formatting-search", function(){ // ... some code });```|
+| `post-formatting-search` | After the formatting search has returned a result | ```address.events.on("post-formatting-search", function(){ // ... some code });```|
 
 
 ## Development

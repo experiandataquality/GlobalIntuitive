@@ -43,12 +43,12 @@
 			var address = new ContactDataServices.address(options);
 
 			// Show the spinner while we're searching for the formatted address
-			address.events.on("formatting-search", function(){
+			address.events.on("pre-formatting-search", function(){
 				document.querySelector(".loader").classList.remove("hidden");
 			});
 
 			// Hide the country and search input when a result is found
-			address.events.on("formatted-address", function(){
+			address.events.on("post-formatting-search", function(){
 				var searchInputs = document.querySelectorAll(".toggle");
 				for (var i = 0; i < searchInputs.length; ++i) {
   					searchInputs[i].classList.add("hidden");

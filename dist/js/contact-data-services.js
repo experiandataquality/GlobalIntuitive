@@ -202,7 +202,7 @@ ContactDataServices.address = function(options){
 	// Get a final (Formatted) address
 	instance.format = function(url){
 		// Trigger an event
-		instance.events.trigger("formatting-search", url);
+		instance.events.trigger("pre-formatting-search", url);
 
 		// Hide the searching spinner
 		instance.searchSpinner.hide();
@@ -433,7 +433,7 @@ ContactDataServices.address = function(options){
 			
 			if(data.address.length > 0){
 				// Fire an event to say we've got the formatted address
-				instance.events.trigger("formatted-address", data);
+				instance.events.trigger("post-formatting-search", data);
 
 				// Get formatted address container element
 				instance.result.formattedAddress = instance.elements.formattedAddress || instance.result.createFormattedAddressContainer();
