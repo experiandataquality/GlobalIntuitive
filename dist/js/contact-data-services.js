@@ -8,32 +8,13 @@
 // Create ContactDataServices constructor and namespace on the window object (if not already present)
 var ContactDataServices = window.ContactDataServices = window.ContactDataServices || {};
 
-// Generate the URLs for the various requests
-ContactDataServices.urls = {
-	endpoint: "http://int-test-01/capture/address/v2/search",
-	construct: {
-		address: {
-			// Construct the Search URL by appending query, country & take
-			search: function(instance){
-				var url = ContactDataServices.urls.endpoint;
-				url += "?query=" + instance.currentSearchTerm;
-				url += "&country=" + instance.currentCountryCode;
-				url += "&take=" + (instance.maxSize || instance.picklist.maxSize);
-
-				return url;
-			}
-		}
-	},
-	// Get token from query string and set on instance
-	getToken: function(instance){
-		instance.token = ContactDataServices.urls.getParameter("token");
-	},
-	getParameter: function(name) {
-	    name = name.replace(/[\[]/, "\\[").replace(/[\]]/, "\\]");
-	    var regex = new RegExp("[\\?&]" + name + "=([^&#]*)"),
-	        results = regex.exec(location.search);
-	    return results === null ? "" : decodeURIComponent(results[1].replace(/\+/g, " "));
-	}
+// Default settings
+ContactDataServices.defaults = { 		
+	input: { placeholderText: "Start typing an address" },
+	formattedAddress: { headingType: "h3", headingText: "Formatted address" },
+	editAddressText: "Edit address",
+	searchAgainText: "Search again",
+	useAddressEnteredText: "<em>Use address entered</em>"
 };
 
 // Constructor method event listener (pub/sub type thing)
@@ -76,13 +57,32 @@ ContactDataServices.eventFactory = function(){
     return events;
 };
 
-// Default settings
-ContactDataServices.defaults = { 		
-	input: { placeholderText: "Start typing an address" },
-	formattedAddress: { headingType: "h3", headingText: "Formatted address" },
-	editAddressText: "Edit address",
-	searchAgainText: "Search again",
-	useAddressEnteredText: "<em>Use address entered</em>"
+// Generate the URLs for the various requests
+ContactDataServices.urls = {
+	endpoint: "http://int-test-01/capture/address/v2/search",
+	construct: {
+		address: {
+			// Construct the Search URL by appending query, country & take
+			search: function(instance){
+				var url = ContactDataServices.urls.endpoint;
+				url += "?query=" + instance.currentSearchTerm;
+				url += "&country=" + instance.currentCountryCode;
+				url += "&take=" + (instance.maxSize || instance.picklist.maxSize);
+
+				return url;
+			}
+		}
+	},
+	// Get token from query string and set on instance
+	getToken: function(instance){
+		instance.token = ContactDataServices.urls.getParameter("token");
+	},
+	getParameter: function(name) {
+	    name = name.replace(/[\[]/, "\\[").replace(/[\]]/, "\\]");
+	    var regex = new RegExp("[\\?&]" + name + "=([^&#]*)"),
+	        results = regex.exec(location.search);
+	    return results === null ? "" : decodeURIComponent(results[1].replace(/\+/g, " "));
+	}
 };
 
 // Integrate with address searching
