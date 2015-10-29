@@ -91,3 +91,7 @@ Travis is an online CI environment that will build your project each time you pu
 To set it up for your own fork, go to https://travis-ci.org and sign in with your GitHub account. Then follow the steps to enable Travis for your repo.
 
 Now each time you push to GitHub, Travis will build the project and run any Jasmine tests. Pretty sweet.
+
+## Support
+
+At the time of writing, this sample code is currently supported in Chrome, Firefox and Safari latest, as well as IE 10.
