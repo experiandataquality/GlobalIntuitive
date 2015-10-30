@@ -629,6 +629,8 @@ ContactDataServices.address = function(options){
 		if(event){
 			event.preventDefault();
 		}
+		// Enable searching
+		instance.enabled = true;
 		// Hide formatted address
 		instance.result.hide();
 		// Show search input
@@ -638,6 +640,22 @@ ContactDataServices.address = function(options){
 
 		// Fire an event after a reset
 		instance.events.trigger("post-reset");
+	};
+
+	// How to handle unauthorised (invalid token?) requests
+	instance.unauthorised = function(){
+		instance.enabled = false;
+
+		// As searching is disabled, show button to render final address instead
+		var button = document.createElement("button");
+		button.innerText = "Submit";
+		instance.input.parentNode.insertBefore(button, instance.input.nextSibling);
+		button.addEventListener("click", function(){
+			// Simulate a manual "use address entered" entry
+			instance.picklist.useAddressEntered.click();
+			// Remove the button
+			instance.input.parentNode.removeChild(button);
+		});
 	};
 
 	// Use this to initiate and track XMLHttpRequests
@@ -658,9 +676,9 @@ ContactDataServices.address = function(options){
 			    // We reached our target server, but it returned an error
 				instance.searchSpinner.hide();
 
-				// If the request is unauthorized we should probably disable future requests
+				// If the request is unauthorized (invalid token) we should probably disable future requests
 				if(instance.request.currentRequest.status === 401){
-					instance.enabled = false;
+					instance.unauthorised();
 				}
 			  }
 			};
