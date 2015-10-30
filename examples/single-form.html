@@ -2,6 +2,8 @@
 <html>
 	<head>
 		<title>Contact Data Services - sample code</title>
+		<meta name="viewport" content="width=device-width, initial-scale=1.0, minimum-scale=1, maximum-scale=1" />
+		<link rel="shortcut icon" href="../dist/images/favicon.ico">
 	</head>
 	<body>
 		<form>
@@ -19,10 +21,9 @@
 			<input type="text" name="address-input">
 		</form>
 
-		<script src="../src/js/contact-data-services.js"></script>
+		<script src="../dist/js/contact-data-services.min.js"></script>
 		<script>
 			var options = {
-				token: "3002b80a-fc8f-475d-88e0-26f2ad8c36de",
 				elements: {
 					input: document.querySelector("input[name='address-input']"),
 					countryList: document.querySelector("select")					

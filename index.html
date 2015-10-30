@@ -2,7 +2,9 @@
 <html>
 	<head>
 		<title>Contact Data Services - sample code</title>
-		<link rel="stylesheet" type="text/css" href="src/css/styles.css">
+		<meta name="viewport" content="width=device-width, initial-scale=1.0, minimum-scale=1, maximum-scale=1" />
+		<link rel="stylesheet" type="text/css" href="dist/css/styles.min.css">
+		<link rel="shortcut icon" href="/dist/images/favicon.ico">
 	</head>
 	<body>
 		<div class="filter-primary overlay-dotted">
@@ -28,11 +30,10 @@
 			<input type="text" name="address-input" class="toggle">
 		</form>
 
-		<script src="src/js/contact-data-services.js"></script>
+		<script src="dist/js/contact-data-services.min.js"></script>
 		<script>
 			// Set the custom options
 			var options = {
-				token: "3002b80a-fc8f-475d-88e0-26f2ad8c36de",
 				elements: {
 					input: document.querySelector("input[name='address-input']"),
 					countryList: document.querySelector("select")					
@@ -43,12 +44,12 @@
 			var address = new ContactDataServices.address(options);
 
 			// Show the spinner while we're searching for the formatted address
-			address.events.on("formatting-search", function(){
+			address.events.on("pre-formatting-search", function(){
 				document.querySelector(".loader").classList.remove("hidden");
 			});
 
 			// Hide the country and search input when a result is found
-			address.events.on("formatted-address", function(){
+			address.events.on("post-formatting-search", function(){
 				var searchInputs = document.querySelectorAll(".toggle");
 				for (var i = 0; i < searchInputs.length; ++i) {
   					searchInputs[i].classList.add("hidden");
