@@ -217,12 +217,22 @@ ContactDataServices.address = function(options){
 			// Use the address entered as the Formatted address
 			click: function(){
 				var inputData = {
-					address: [
-						{
-							content: instance.currentSearchTerm
-						}
-					]
+					address: []
 				};
+
+				if(instance.currentSearchTerm){
+					// Try and split into lines by using comma delimiter
+					var lines = instance.currentSearchTerm.split(",");
+					if(lines.length > 0){
+						for(var i = 0; i < lines.length; i++){
+							var key = "addressLine" + (i + 1);
+							var lineObject = {};
+							lineObject[key] = lines[i];
+							inputData.address.push(lineObject);
+						}
+					}
+				}
+				
 				instance.result.show(inputData);
 			}
 		},
@@ -559,12 +569,12 @@ ContactDataServices.address = function(options){
 			    callback(data);
 			  } else {
 			    // We reached our target server, but it returned an error
-					instance.searchSpinner.hide();
+				instance.searchSpinner.hide();
 
-					// If the request is unauthorized we should probably disable future requests
-					if(instance.request.currentRequest.status === 401){
+				// If the request is unauthorized we should probably disable future requests
+				if(instance.request.currentRequest.status === 401){
 					instance.enabled = false;
-					}
+				}
 			  }
 			};
 
