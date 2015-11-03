@@ -16,7 +16,11 @@ This repo contains sample code for integrating with Experian Data Quality's Cont
 
 #### Integration
 
+##### Tokens
+
 > For the purpose of this sample code, the tokens for the live endpoint aren't hardcoded in source control and must be appended to the URL query string. For example: **http://localhost/?token=xyz**
+
+##### Options
 
 Some customisable settings can be passed through to the API using an options object. By default you should at least pass through an `elements` object with the address field input and country list selectors.
 
