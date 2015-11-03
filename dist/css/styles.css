@@ -209,6 +209,12 @@ select {
   padding: 5px;
   margin-top: 5px;
 }
+.ua-banner {
+  background: #fcf8e3;
+  border-bottom: 1px solid #ffb321;
+  padding: 1em 0;
+  text-align: center;
+}
 /* Media queries */
 @media (max-width: 480px) {
   /* Reduce horizontal padding */

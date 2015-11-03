@@ -57,6 +57,33 @@ ContactDataServices.eventFactory = function(){
     return events;
 };
 
+// Method to handle showing of UA (User Assistance) content
+ContactDataServices.ua = {
+	banner: {
+        show: function(html){
+            // Retrieve the existing banner
+            var banner = document.querySelector(".ua-banner");
+            
+            // Create a new banner if necessary
+            if(!banner){
+                var firstChildElement = document.querySelector("body").firstChild;
+                banner = document.createElement("div");
+                banner.classList.add("ua-banner");            
+                firstChildElement.parentNode.insertBefore(banner, firstChildElement.nextSibling);
+            }
+
+            // Apply the HTML content
+            banner.innerHTML = html;
+        },
+        hide: function(){
+            var banner = document.querySelector(".ua-banner");
+            if(banner) {
+                banner.parentNode.removeChild(banner);
+            }
+        }
+    }
+};
+
 // Generate the URLs for the various requests
 ContactDataServices.urls = {
 	endpoint: "http://int-test-01/capture/address/v2/search",
@@ -111,9 +138,10 @@ ContactDataServices.address = function(options){
 		// Get token from the query string
 		ContactDataServices.urls.getToken(instance);
 		if(!instance.token){
-			console.log("Please provide a token for ContactDataServices.");
 			// Disable searching on this instance
 			instance.enabled = false;
+			// Display a banner informing the user that they need a token
+			ContactDataServices.ua.banner.show("<a href='https://github.com/experiandataquality/contactdataservices#tokens'>Please provide a token for ContactDataServices.</a>");
 			return;
 		}
 
@@ -682,6 +710,8 @@ ContactDataServices.address = function(options){
 				// If the request is unauthorized (invalid token) we should probably disable future requests
 				if(instance.request.currentRequest.status === 401){
 					instance.unauthorised();
+					// Display a banner informing the user that they need a valid token
+					ContactDataServices.ua.banner.show("<a href='https://github.com/experiandataquality/contactdataservices#tokens'>Please provide a valid token for ContactDataServices.</a>");
 				}
 			  }
 			};

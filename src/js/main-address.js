@@ -24,9 +24,10 @@ ContactDataServices.address = function(options){
 		// Get token from the query string
 		ContactDataServices.urls.getToken(instance);
 		if(!instance.token){
-			console.log("Please provide a token for ContactDataServices.");
 			// Disable searching on this instance
 			instance.enabled = false;
+			// Display a banner informing the user that they need a token
+			ContactDataServices.ua.banner.show("<a href='https://github.com/experiandataquality/contactdataservices#tokens'>Please provide a token for ContactDataServices.</a>");
 			return;
 		}
 
@@ -595,6 +596,8 @@ ContactDataServices.address = function(options){
 				// If the request is unauthorized (invalid token) we should probably disable future requests
 				if(instance.request.currentRequest.status === 401){
 					instance.unauthorised();
+					// Display a banner informing the user that they need a valid token
+					ContactDataServices.ua.banner.show("<a href='https://github.com/experiandataquality/contactdataservices#tokens'>Please provide a valid token for ContactDataServices.</a>");
 				}
 			  }
 			};
