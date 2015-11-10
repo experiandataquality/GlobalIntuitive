@@ -4,5 +4,5 @@ ContactDataServices.defaults = {
 	formattedAddress: { headingType: "h3", headingText: "Formatted address" },
 	editAddressText: "Edit address",
 	searchAgainText: "Search again",
-	useAddressEnteredText: "<em>Use address entered</em>"
+	useAddressEnteredText: "<em>Enter address manually</em>"
 };
