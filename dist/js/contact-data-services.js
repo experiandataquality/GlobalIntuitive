@@ -735,10 +735,14 @@ ContactDataServices.address = function(options){
 
 			instance.request.currentRequest.onerror = function() {
 			  // There was a connection error of some sort
+			  // Hide the inline search spinner
+				instance.searchSpinner.hide();
 			};
 
 			instance.request.currentRequest.ontimeout = function() {
-			  // There was a connection timeout			  
+			  // There was a connection timeout	
+			  // Hide the inline search spinner
+				instance.searchSpinner.hide();		  
 			};
 
 			instance.request.currentRequest.send();
