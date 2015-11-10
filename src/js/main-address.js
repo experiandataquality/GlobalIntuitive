@@ -56,6 +56,7 @@ ContactDataServices.address = function(options){
         e = e.which || e.keyCode;
         if (e === 38/*Up*/ || e === 40/*Down*/ || e === 13/*Enter*/) {
             instance.picklist.keyup(e);
+            return;
         }
 
 		instance.currentSearchTerm = instance.input.value;
@@ -235,9 +236,23 @@ ContactDataServices.address = function(options){
 							inputData.address.push(lineObject);
 						}
 					}
+
+					// Pad with additional blank fields if needed
+					var maxLines = 7;
+					var additionalLinesNeeded = maxLines - lines.length;
+					if(additionalLinesNeeded > 0){
+						var counterStart = maxLines - additionalLinesNeeded;
+						for(var j = counterStart; j < maxLines; j++){
+							var key1 = "addressLine" + (j + 1);
+							var lineObject1 = {};
+							lineObject1[key1] = "";
+							inputData.address.push(lineObject1);
+						}
+					}
 				}
 				
 				instance.result.show(inputData);
+				instance.result.editAddressManually();
 			}
 		},
 		// Create the picklist container and inject after the input
@@ -480,8 +495,10 @@ ContactDataServices.address = function(options){
 			link.addEventListener("click", instance.reset);
 		},
 		editAddressManually: function(event){
-			event.preventDefault();
-			
+			if(event){
+				event.preventDefault();
+			}
+
 			// Remove 'edit address link'
 			instance.result.formattedAddress.querySelector(".edit-address-link").classList.add("hidden");
 
