@@ -131,11 +131,6 @@ ContactDataServices.address = function(options){
 
 		// Construct the format URL
 		instance.currentFormatUrl = url;
-		
-		/* Temporary hack until Go Live*/
-		if(instance.currentFormatUrl.indexOf("https://api.edq.com") > -1){
-			instance.currentFormatUrl = instance.currentFormatUrl.replace("https://api.edq.com","http://int-test-01");
-		}
 
 		// Initiate a new Format request
 		instance.request.get(instance.currentFormatUrl, instance.result.show);
@@ -621,10 +616,14 @@ ContactDataServices.address = function(options){
 
 			instance.request.currentRequest.onerror = function() {
 			  // There was a connection error of some sort
+			  // Hide the inline search spinner
+				instance.searchSpinner.hide();
 			};
 
 			instance.request.currentRequest.ontimeout = function() {
-			  // There was a connection timeout			  
+			  // There was a connection timeout	
+			  // Hide the inline search spinner
+				instance.searchSpinner.hide();		  
 			};
 
 			instance.request.currentRequest.send();
