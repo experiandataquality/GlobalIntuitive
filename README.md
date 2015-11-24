@@ -24,7 +24,7 @@ This repo contains sample code for integrating with Experian Data Quality's Cont
 
 Some customisable settings can be passed through to the API using an options object. By default you should at least pass through an `elements` object with the address field input and country list selectors.
 
-```
+```javascript
 var options = {
 	elements: {
 		input: document.querySelector("input[name='address-input']"),
