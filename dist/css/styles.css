@@ -226,4 +226,11 @@ select {
   form.dual-form {
     width: 100%;
   }
+  /* Vertically align the labels, above the inputs */
+  .formatted-address input {
+    width: 100%;
+  }
+  .formatted-address label {
+    width: 100%;
+  }
 }
