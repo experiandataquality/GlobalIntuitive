@@ -1,13 +1,13 @@
 {
-  "name": "contactdataservices",
-  "version": "0.4.0",
+  "name": "RealTimeAddress",
+  "version": "1.0.0",
   "license": "Apache-2.0",
   "author": "Experian Data Quality",
   "contact": "https://github.com/experiandataquality",
-  "url": "https://github.com/experiandataquality/contactdataservices",
+  "url": "https://github.com/experiandataquality/RealTimeAddress",
   "repository": {
     "type": "git",
-    "url": "git://github.com/experiandataquality/contactdataservices.git"
+    "url": "git://github.com/experiandataquality/RealTimeAddress.git"
   },
   "devDependencies": {
     "grunt": "^0.4.5",
