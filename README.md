@@ -1,17 +1,17 @@
-# Contact Data Services
+# Our Real Time Address API
 
 [![GitHub version](https://badge.fury.io/gh/ExperianDataQuality%2Fcontactdataservices.svg)](http://badge.fury.io/gh/ExperianDataQuality%2Fcontactdataservices)
 [![Dependency Status](https://david-dm.org/ExperianDataQuality/contactdataservices.svg)](https://david-dm.org/ExperianDataQuality/contactdataservices)
 [![Dependency Status](https://david-dm.org/ExperianDataQuality/contactdataservices/dev-status.svg)](https://david-dm.org/ExperianDataQuality/contactdataservices#info=devDependencies)
 [![Build Status](https://travis-ci.org/experiandataquality/contactdataservices.svg?branch=master)](https://travis-ci.org/experiandataquality/contactdataservices)
 
-This repo contains sample code for integrating with Experian Data Quality's Contact Data Services. Currently set up for typedown address searching for GBR, USA, AUS, NZL and FRA.
+This repo contains sample code for integrating with Experian Data Quality's Address API. Currently available for GBR, USA, AUS, NZL and FRA.
 
 ## Usage
 
 #### Prerequisites
 
-- Include the Contact Data Services [JavaScript file](https://github.com/experiandataquality/contactdataservices/blob/master/dist/js/contact-data-services.min.js) in your form page.
+- Include the Real Time Address API [JavaScript file](https://github.com/experiandataquality/contactdataservices/blob/master/dist/js/contact-data-services.min.js) in your form page.
 - Have a token to hand (You would have received this from your Experian Data Quality account manager).
 
 #### Integration
@@ -19,6 +19,8 @@ This repo contains sample code for integrating with Experian Data Quality's Cont
 ##### Tokens
 
 > For the purpose of this sample code, the tokens for the live endpoint aren't hardcoded in source control and must be appended to the URL query string. For example: **http://localhost/?token=xyz**
+
+To get a free trial, contact us via [edq.com](http://www.edq.com)
 
 ##### Options
 
