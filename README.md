@@ -1,9 +1,9 @@
 # Our Real Time Address API
 
-[![GitHub version](https://badge.fury.io/gh/ExperianDataQuality%2Fcontactdataservices.svg)](http://badge.fury.io/gh/ExperianDataQuality%2Fcontactdataservices)
-[![Dependency Status](https://david-dm.org/ExperianDataQuality/contactdataservices.svg)](https://david-dm.org/ExperianDataQuality/contactdataservices)
-[![Dependency Status](https://david-dm.org/ExperianDataQuality/contactdataservices/dev-status.svg)](https://david-dm.org/ExperianDataQuality/contactdataservices#info=devDependencies)
-[![Build Status](https://travis-ci.org/experiandataquality/contactdataservices.svg?branch=master)](https://travis-ci.org/experiandataquality/contactdataservices)
+[![GitHub version](https://badge.fury.io/gh/ExperianDataQuality%2FRealTimeAddress.svg)](http://badge.fury.io/gh/ExperianDataQuality%2FRealTimeAddress)
+[![Dependency Status](https://david-dm.org/ExperianDataQuality/RealTimeAddress.svg)](https://david-dm.org/ExperianDataQuality/RealTimeAddress)
+[![Dependency Status](https://david-dm.org/ExperianDataQuality/RealTimeAddress/dev-status.svg)](https://david-dm.org/ExperianDataQuality/RealTimeAddress#info=devDependencies)
+[![Build Status](https://travis-ci.org/experiandataquality/RealTimeAddress.svg?branch=master)](https://travis-ci.org/experiandataquality/RealTimeAddress)
 
 This repo contains sample code for integrating with Experian Data Quality's Address API. Currently available for GBR, USA, AUS, NZL and FRA.
 
@@ -11,7 +11,7 @@ This repo contains sample code for integrating with Experian Data Quality's Addr
 
 #### Prerequisites
 
-- Include the Real Time Address API [JavaScript file](https://github.com/experiandataquality/contactdataservices/blob/master/dist/js/contact-data-services.min.js) in your form page.
+- Include the Real Time Address API [JavaScript file](https://github.com/experiandataquality/RealTimeAddress/blob/master/dist/js/contact-data-services.min.js) in your form page.
 - Have a token to hand (You would have received this from your Experian Data Quality account manager).
 
 #### Integration
