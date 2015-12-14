@@ -1,4 +1,4 @@
-/*! contact-data-services.js | https://github.com/experiandataquality/contactdataservices | Apache-2.0
+/*! contact-data-services.js | https://github.com/experiandataquality/RealTimeAddress | Apache-2.0
 *   Experian Data Quality | https://github.com/experiandataquality */
 
 ;(function(window, document, undefined) {
@@ -14,7 +14,8 @@ ContactDataServices.defaults = {
 	formattedAddress: { headingType: "h3", headingText: "Formatted address" },
 	editAddressText: "Edit address",
 	searchAgainText: "Search again",
-	useAddressEnteredText: "<em>Enter address manually</em>"
+	useAddressEnteredText: "<em>Enter address manually</em>",
+	useSpinner: false
 };
 
 // Constructor method event listener (pub/sub type thing)
@@ -122,7 +123,8 @@ ContactDataServices.address = function(options){
 	var instance = options || {};
 			
 	// Initialising some defaults
-	instance.enabled = true;		
+	instance.enabled = true;
+	instance.useSpinner = instance.useSpinner || ContactDataServices.defaults.useSpinner;		
 	instance.lastSearchTerm = "";
 	instance.currentSearchTerm = "";
 	instance.lastCountryCode = "";
@@ -649,6 +651,10 @@ ContactDataServices.address = function(options){
 
 	instance.searchSpinner = {
 		show: function(){
+			// Return if we're not displaying a spinner
+			if(!instance.useSpinner){
+				return;
+			}
 			// Create the spinner container
 		    var spinnerContainer = document.createElement("div");
 		    spinnerContainer.classList.add("loader");
@@ -664,6 +670,10 @@ ContactDataServices.address = function(options){
 		},
 
 		hide: function(){
+			// Return if we're not displaying a spinner
+			if(!instance.useSpinner){
+				return;
+			}
 			var spinner = instance.input.parentNode.querySelector(".loader-inline");
 			if(spinner){
 				instance.input.parentNode.removeChild(spinner);
