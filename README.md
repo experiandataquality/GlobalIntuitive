@@ -41,6 +41,7 @@ Additional options that can be passed through include:
 | `placeholderText` | The placeholder text for the input | "Start typing an address"|
 | `editAddressText` | The text for the 'edit address' link | "Edit address"|
 | `searchAgainText` | The text for the 'search again' link | "Search again"|
+| `useSpinner` | Whether to display a spinner while searching | false|
 
 ##### Invocation
 

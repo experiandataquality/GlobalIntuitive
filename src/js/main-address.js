@@ -4,7 +4,8 @@ ContactDataServices.address = function(options){
 	var instance = options || {};
 			
 	// Initialising some defaults
-	instance.enabled = true;		
+	instance.enabled = true;
+	instance.useSpinner = instance.useSpinner || ContactDataServices.defaults.useSpinner;		
 	instance.lastSearchTerm = "";
 	instance.currentSearchTerm = "";
 	instance.lastCountryCode = "";
@@ -531,6 +532,10 @@ ContactDataServices.address = function(options){
 
 	instance.searchSpinner = {
 		show: function(){
+			// Return if we're not displaying a spinner
+			if(!instance.useSpinner){
+				return;
+			}
 			// Create the spinner container
 		    var spinnerContainer = document.createElement("div");
 		    spinnerContainer.classList.add("loader");
@@ -546,6 +551,10 @@ ContactDataServices.address = function(options){
 		},
 
 		hide: function(){
+			// Return if we're not displaying a spinner
+			if(!instance.useSpinner){
+				return;
+			}
 			var spinner = instance.input.parentNode.querySelector(".loader-inline");
 			if(spinner){
 				instance.input.parentNode.removeChild(spinner);
