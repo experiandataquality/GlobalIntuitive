@@ -129,8 +129,8 @@ ContactDataServices.address = function(options){
 		// Hide the searching spinner
 		instance.searchSpinner.hide();
 
-		// Construct the format URL
-		instance.currentFormatUrl = url;
+		// Construct the format URL (append the token)
+		instance.currentFormatUrl = ContactDataServices.urls.construct.address.format(url, instance);
 
 		// Initiate a new Format request
 		instance.request.get(instance.currentFormatUrl, instance.result.show);
@@ -594,8 +594,7 @@ ContactDataServices.address = function(options){
 			instance.request.currentRequest = new XMLHttpRequest();
 			instance.request.currentRequest.open('GET', url, true);
 			instance.request.currentRequest.timeout = 5000; // 5 seconds
-			instance.request.currentRequest.setRequestHeader("Auth-Token", instance.token);
-
+			
 			instance.request.currentRequest.onload = function() {
 			  if (instance.request.currentRequest.status >= 200 && instance.request.currentRequest.status < 400) {
 			    // Success!
