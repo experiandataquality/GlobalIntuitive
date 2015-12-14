@@ -9,8 +9,12 @@ ContactDataServices.urls = {
 				url += "?query=" + instance.currentSearchTerm;
 				url += "&country=" + instance.currentCountryCode;
 				url += "&take=" + (instance.maxSize || instance.picklist.maxSize);
-
+				url += "&auth-token=" + instance.token;
 				return url;
+			},
+			// Append the token to the Format URL
+			format: function(url, instance){
+				return url + "&auth-token=" + instance.token;
 			}
 		}
 	},
