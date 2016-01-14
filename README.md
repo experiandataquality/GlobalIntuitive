@@ -22,6 +22,18 @@ This repo contains sample code for integrating with Experian Data Quality's Addr
 
 To get a free trial, contact us via [edq.com](http://www.edq.com)
 
+*Header vs. query string*
+
+To use a token and authenticate with the API you have two integration options. 
+
+1. Pass the `auth-token` through as a custom HTTP header.
+
+2. Append the `auth-token` as a parameter in the query string when making the GET request.
+
+If you are concerned about speed and want to reduce the latency as much as possible we recommend using the 2nd option and append the token to the query string.
+
+If you were to pass it through to the API as a custom HTTP header then the browser would make an additional [pre-flight](https://developer.mozilla.org/en-US/docs/Web/HTTP/Access_control_CORS#Preflighted_requests) OPTIONS HTTP request before each search. Whilst ensuring your token isn't visible in any URLs it would slow it down slightly.
+
 ##### Options
 
 Some customisable settings can be passed through to the API using an options object. By default you should at least pass through an `elements` object with the address field input and country list selectors.
