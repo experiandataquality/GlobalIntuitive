@@ -11,7 +11,7 @@ This repo contains sample code for integrating with Experian Data Quality's Addr
 
 #### Prerequisites
 
-- Include the Real Time Address API [JavaScript file](https://github.com/experiandataquality/RealTimeAddress/blob/master/dist/js/contact-data-services.min.js) in your form page.
+- Include the Real Time Address API [JavaScript file](/dist/js/contact-data-services.min.js) in your form page.
 - Have a token to hand (You would have received this from your Experian Data Quality account manager).
 
 #### Integration
@@ -78,6 +78,8 @@ After using instantiating a new instance the constructor returns an object that 
 
 ## Development
 
+While you're free to take the JavaScript from the [`dist`](/dist/js/contact-data-servicesjs) folder and use this in your website, should you want to contribute to this repo you'll need to compile the new version from the [`src`](/src/js/). 
+
 Make sure Node and the Grunt CLI are both installed.
 
 - **Node** - https://nodejs.org/
@@ -85,7 +87,7 @@ Make sure Node and the Grunt CLI are both installed.
 
 Then:
 
-0. Fork this repo (`https://github.com/ExperianDataQuality/contactdataservices`).
+0. Fork this repo (`https://github.com/ExperianDataQuality/RealTimeAddress`).
 0. Run `npm install` to get the configured Grunt packages.
 0. Check the Grunt tasks to ensure your changes are built.
 0. Push your changes and, when ready, make a pull request for them to be added to master.
