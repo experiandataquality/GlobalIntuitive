@@ -80,10 +80,10 @@ After using instantiating a new instance the constructor returns an object that 
 
 While you're free to take the JavaScript from the [`dist`](/dist/js/contact-data-servicesjs) folder and use this in your website, should you want to contribute to this repo you'll need to compile the new version from the [`src`](/src/js/). 
 
-Make sure Node and the Grunt CLI are both installed.
+Make sure Node, Grunt and the Grunt CLI are installed.
 
 - **Node** - https://nodejs.org/
-- **Grunt CLI** - with Node installed, `cd` into your local repository and run `npm install -g grunt-cli`
+- **Grunt and Grunt CLI** - With Node installed, open the Node.js Command Prompt as admin and `cd` into your local repository. Run `npm install -g grunt` to install Grunt followed by `npm install -g grunt-cli` to install the Grunt CLI.
 
 Then:
 
