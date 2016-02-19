@@ -7,6 +7,8 @@
 
 This repo contains sample code for integrating with Experian Data Quality's Address API. Currently available for GBR, USA, AUS, NZL and FRA.
 
+Check out the [demo](https://www.edq.com/uk/products/address-validation/#interactive-demo) on our website.
+
 ## Usage
 
 #### Prerequisites
@@ -20,7 +22,7 @@ This repo contains sample code for integrating with Experian Data Quality's Addr
 
 > For the purpose of this sample code, the tokens for the live endpoint aren't hardcoded in source control and must be appended to the URL query string. For example: **http://localhost/?token=xyz**
 
-To get a free trial, contact us via [edq.com](http://www.edq.com)
+To get a free trial, contact us via [edq.com](https://www.edq.com/uk/contact-us/)
 
 *Header vs. query string*
 

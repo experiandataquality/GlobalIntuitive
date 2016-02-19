@@ -219,7 +219,10 @@ select {
 @media (max-width: 480px) {
   /* Reduce horizontal padding */
   .filter-primary {
-    padding: 2.5em 5em;
+    padding: 1em;
+  }
+  .filter-primary h1 {
+    font-size: 1.5em;
   }
   /* Increase form width */
   form,
