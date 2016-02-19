@@ -16,6 +16,7 @@ ContactDataServices.address = function(options){
 	instance.editAddressText = instance.editAddressText || ContactDataServices.defaults.editAddressText; 
 	instance.searchAgainText = instance.searchAgainText || ContactDataServices.defaults.searchAgainText; 
 	instance.formattedAddress = instance.formattedAddress || ContactDataServices.defaults.formattedAddress;
+	instance.elements = instance.elements || {};
 	
 	// Create a new object to hold the events from the event factory
 	instance.events = new ContactDataServices.eventFactory();

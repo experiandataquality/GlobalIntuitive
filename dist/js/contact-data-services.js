@@ -107,7 +107,9 @@ ContactDataServices.urls = {
 	},
 	// Get token from query string and set on instance
 	getToken: function(instance){
-		instance.token = ContactDataServices.urls.getParameter("token");
+		if(!instance.token) {
+			instance.token = ContactDataServices.urls.getParameter("token");
+		}
 	},
 	getParameter: function(name) {
 	    name = name.replace(/[\[]/, "\\[").replace(/[\]]/, "\\]");
@@ -135,6 +137,7 @@ ContactDataServices.address = function(options){
 	instance.editAddressText = instance.editAddressText || ContactDataServices.defaults.editAddressText; 
 	instance.searchAgainText = instance.searchAgainText || ContactDataServices.defaults.searchAgainText; 
 	instance.formattedAddress = instance.formattedAddress || ContactDataServices.defaults.formattedAddress;
+	instance.elements = instance.elements || {};
 	
 	// Create a new object to hold the events from the event factory
 	instance.events = new ContactDataServices.eventFactory();
