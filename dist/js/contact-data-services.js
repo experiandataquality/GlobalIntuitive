@@ -107,7 +107,9 @@ ContactDataServices.urls = {
 	},
 	// Get token from query string and set on instance
 	getToken: function(instance){
-		instance.token = ContactDataServices.urls.getParameter("token");
+		if(!instance.token) {
+			instance.token = ContactDataServices.urls.getParameter("token");
+		}
 	},
 	getParameter: function(name) {
 	    name = name.replace(/[\[]/, "\\[").replace(/[\]]/, "\\]");
