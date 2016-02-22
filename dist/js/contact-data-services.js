@@ -236,12 +236,13 @@ ContactDataServices.address = function(options){
 				// If search term is not the same as previous search term, and
 				instance.lastSearchTerm !== instance.currentSearchTerm &&
 				// If the country is not empty
-				instance.countryList.value !== "");
+				instance.countryList.value !== undefined && instance.countryList.value !== "");
 	};
 
 	instance.createCountryDropdown = function(){
 		// What countries?
 		// Where to position it?
+		instance.countryList = {};
 	};
 
 	// Get a final (Formatted) address
