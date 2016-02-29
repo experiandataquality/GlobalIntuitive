@@ -572,7 +572,9 @@ ContactDataServices.address = function(options){
 
 				// Create the label
 				var label = document.createElement("label");
-				label.innerHTML = key;
+				 label.innerHTML = key.replace(/([A-Z])/g, ' $1') //Add space before capital Letters
+                                      .replace(/([0-9])/g, ' $1') //Add space before numbers
+                                      .replace(/^./, function (str) { return str.toUpperCase(); }); //Make first letter of word a capital letter
 				div.appendChild(label);
 
 				// Create the input
