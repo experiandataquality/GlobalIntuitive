@@ -7,11 +7,13 @@
 
 This repo contains sample code for integrating with Experian Data Quality's Address API. Currently available for GBR, USA, AUS, NZL and FRA.
 
+Check out the [demo](https://www.edq.com/uk/products/address-validation/#interactive-demo) on our website.
+
 ## Usage
 
 #### Prerequisites
 
-- Include the Real Time Address API [JavaScript file](https://github.com/experiandataquality/RealTimeAddress/blob/master/dist/js/contact-data-services.min.js) in your form page.
+- Include the Real Time Address API [JavaScript file](/dist/js/contact-data-services.min.js) in your form page.
 - Have a token to hand (You would have received this from your Experian Data Quality account manager).
 
 #### Integration
@@ -20,7 +22,19 @@ This repo contains sample code for integrating with Experian Data Quality's Addr
 
 > For the purpose of this sample code, the tokens for the live endpoint aren't hardcoded in source control and must be appended to the URL query string. For example: **http://localhost/?token=xyz**
 
-To get a free trial, contact us via [edq.com](http://www.edq.com)
+To get a free trial, contact us via [edq.com](https://www.edq.com/uk/contact-us/)
+
+*Header vs. query string*
+
+To use a token and authenticate with the API you have two integration options. 
+
+1. Pass the `auth-token` through as a custom HTTP header.
+
+2. Append the `auth-token` as a parameter in the query string when making the GET request.
+
+If you are concerned about speed and want to reduce the latency as much as possible we recommend using the 2nd option and append the token to the query string.
+
+If you were to pass it through to the API as a custom HTTP header then the browser would make an additional [pre-flight](https://developer.mozilla.org/en-US/docs/Web/HTTP/Access_control_CORS#Preflighted_requests) OPTIONS HTTP request before each search. Whilst ensuring your token isn't visible in any URLs it would slow it down slightly.
 
 ##### Options
 
@@ -66,14 +80,16 @@ After using instantiating a new instance the constructor returns an object that 
 
 ## Development
 
-Make sure Node and the Grunt CLI are both installed.
+While you're free to take the JavaScript from the [`dist`](/dist/js/contact-data-servicesjs) folder and use this in your website, should you want to contribute to this repo you'll need to compile the new version from the [`src`](/src/js/). 
+
+Make sure Node, Grunt and the Grunt CLI are installed.
 
 - **Node** - https://nodejs.org/
-- **Grunt CLI** - with Node installed, `cd` into your local repository and run `npm install -g grunt-cli`
+- **Grunt and Grunt CLI** - With Node installed, open the Node.js Command Prompt as admin and `cd` into your local repository. Run `npm install -g grunt` to install Grunt followed by `npm install -g grunt-cli` to install the Grunt CLI.
 
 Then:
 
-0. Fork this repo (`https://github.com/ExperianDataQuality/contactdataservices`).
+0. Fork this repo (`https://github.com/ExperianDataQuality/RealTimeAddress`).
 0. Run `npm install` to get the configured Grunt packages.
 0. Check the Grunt tasks to ensure your changes are built.
 0. Push your changes and, when ready, make a pull request for them to be added to master.
