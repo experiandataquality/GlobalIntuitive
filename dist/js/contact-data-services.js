@@ -11,7 +11,7 @@ var ContactDataServices = window.ContactDataServices = window.ContactDataService
 // Default settings
 ContactDataServices.defaults = { 		
 	input: { placeholderText: "Start typing an address" },
-	formattedAddress: { headingType: "h3", headingText: "Formatted address" },
+	formattedAddress: { headingType: "h3", headingText: "Validated address" },
 	editAddressText: "Edit address",
 	searchAgainText: "Search again",
 	useAddressEnteredText: "<em>Enter address manually</em>",
@@ -236,12 +236,13 @@ ContactDataServices.address = function(options){
 				// If search term is not the same as previous search term, and
 				instance.lastSearchTerm !== instance.currentSearchTerm &&
 				// If the country is not empty
-				instance.countryList.value !== "");
+				instance.countryList.value !== undefined && instance.countryList.value !== "");
 	};
 
 	instance.createCountryDropdown = function(){
 		// What countries?
 		// Where to position it?
+		instance.countryList = {};
 	};
 
 	// Get a final (Formatted) address
@@ -571,7 +572,9 @@ ContactDataServices.address = function(options){
 
 				// Create the label
 				var label = document.createElement("label");
-				label.innerHTML = key;
+				 label.innerHTML = key.replace(/([A-Z])/g, ' $1') //Add space before capital Letters
+                                      .replace(/([0-9])/g, ' $1') //Add space before numbers
+                                      .replace(/^./, function (str) { return str.toUpperCase(); }); //Make first letter of word a capital letter
 				div.appendChild(label);
 
 				// Create the input
