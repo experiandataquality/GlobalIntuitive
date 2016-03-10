@@ -11,7 +11,7 @@ var ContactDataServices = window.ContactDataServices = window.ContactDataService
 // Default settings
 ContactDataServices.defaults = { 		
 	input: { placeholderText: "Start typing an address" },
-	formattedAddress: { headingType: "h3", headingText: "Formatted address" },
+	formattedAddress: { headingType: "h3", headingText: "Validated address" },
 	editAddressText: "Edit address",
 	searchAgainText: "Search again",
 	useAddressEnteredText: "<em>Enter address manually</em>",
@@ -572,7 +572,9 @@ ContactDataServices.address = function(options){
 
 				// Create the label
 				var label = document.createElement("label");
-				label.innerHTML = key;
+				 label.innerHTML = key.replace(/([A-Z])/g, ' $1') //Add space before capital Letters
+                                      .replace(/([0-9])/g, ' $1') //Add space before numbers
+                                      .replace(/^./, function (str) { return str.toUpperCase(); }); //Make first letter of word a capital letter
 				div.appendChild(label);
 
 				// Create the input
