@@ -123,22 +123,22 @@ ContactDataServices.urls = {
 ContactDataServices.address = function(options){
 	// Build our new instance from user custom options
 	var instance = options || {};
-			
+
 	// Initialising some defaults
 	instance.enabled = true;
-	instance.useSpinner = instance.useSpinner || ContactDataServices.defaults.useSpinner;		
+	instance.useSpinner = instance.useSpinner || ContactDataServices.defaults.useSpinner;
 	instance.lastSearchTerm = "";
 	instance.currentSearchTerm = "";
 	instance.lastCountryCode = "";
 	instance.currentCountryCode = "";
 	instance.currentSearchUrl = "";
-	instance.currentFormatUrl = "";	
-	instance.placeholderText = instance.placeholderText || ContactDataServices.defaults.input.placeholderText;	
-	instance.editAddressText = instance.editAddressText || ContactDataServices.defaults.editAddressText; 
-	instance.searchAgainText = instance.searchAgainText || ContactDataServices.defaults.searchAgainText; 
+	instance.currentFormatUrl = "";
+	instance.placeholderText = instance.placeholderText || ContactDataServices.defaults.input.placeholderText;
+	instance.editAddressText = instance.editAddressText || ContactDataServices.defaults.editAddressText;
+	instance.searchAgainText = instance.searchAgainText || ContactDataServices.defaults.searchAgainText;
 	instance.formattedAddress = instance.formattedAddress || ContactDataServices.defaults.formattedAddress;
 	instance.elements = instance.elements || {};
-	
+
 	// Create a new object to hold the events from the event factory
 	instance.events = new ContactDataServices.eventFactory();
 
@@ -199,11 +199,11 @@ ContactDataServices.address = function(options){
 			var url = ContactDataServices.urls.construct.address.search(instance);
 
 			// Store the last search term
-			instance.lastSearchTerm = instance.currentSearchTerm;	
+			instance.lastSearchTerm = instance.currentSearchTerm;
 
 			// Hide any previous results
 			instance.result.hide();
-			
+
 			// Hide the inline search spinner
 			instance.searchSpinner.hide();
 
@@ -211,7 +211,7 @@ ContactDataServices.address = function(options){
 			instance.searchSpinner.show();
 
 			// Initiate new Search request
-			instance.request.get(url, instance.picklist.show);				
+			instance.request.get(url, instance.picklist.show);
 		} else if(instance.lastSearchTerm !== instance.currentSearchTerm){
 			// Clear the picklist if the search term is cleared/empty
 			instance.picklist.hide();
@@ -220,19 +220,19 @@ ContactDataServices.address = function(options){
 
 	instance.setCountryList = function(){
 		instance.countryList = instance.elements.countryList;
-		
+
 		// If the user hasn't passed us a country list, then create new list?
 		if(!instance.countryList){
 			instance.createCountryDropdown();
 		}
 	};
-	
+
 	// Determine whether searching is currently permitted
 	instance.canSearch = function(){
 				// If searching on this instance is enabled, and
-		return (instance.enabled && 
+		return (instance.enabled &&
 				// If search term is not empty, and
-				instance.currentSearchTerm !== "" && 
+				instance.currentSearchTerm !== "" &&
 				// If search term is not the same as previous search term, and
 				instance.lastSearchTerm !== instance.currentSearchTerm &&
 				// If the country is not empty
@@ -258,7 +258,7 @@ ContactDataServices.address = function(options){
 
 		// Initiate a new Format request
 		instance.request.get(instance.currentFormatUrl, instance.result.show);
-	};	
+	};
 
 	instance.picklist = {
 		// Set initial size
@@ -287,8 +287,8 @@ ContactDataServices.address = function(options){
 
 			// Prepend an option for "use address entered"
 			instance.picklist.useAddressEntered.element = instance.picklist.useAddressEntered.element || instance.picklist.useAddressEntered.create();
-			
-			if(instance.picklist.items.length > 0){	
+
+			if(instance.picklist.size > 0){
 				// Fire an event before picklist is created
 				instance.events.trigger("pre-picklist-create", instance.picklist.items);
 
@@ -326,7 +326,7 @@ ContactDataServices.address = function(options){
 					format: ""
 				};
 				var listItem = instance.picklist.createListItem(item);
-				listItem.classList.add("use-address-entered");				
+				listItem.classList.add("use-address-entered");
 				instance.picklist.container.parentNode.insertBefore(listItem, instance.picklist.container.nextSibling);
 				listItem.addEventListener("click", instance.picklist.useAddressEntered.click);
 				return listItem;
@@ -369,7 +369,7 @@ ContactDataServices.address = function(options){
 						}
 					}
 				}
-				
+
 				instance.result.show(inputData);
 				instance.result.editAddressManually();
 			}
@@ -381,7 +381,7 @@ ContactDataServices.address = function(options){
 			// Insert the picklist after the input
 			instance.input.parentNode.insertBefore(list, instance.input.nextSibling);
 
-			list.addEventListener("keydown", instance.picklist.enter);				
+			list.addEventListener("keydown", instance.picklist.enter);
 			return list;
 		},
 		// Create a new picklist item/row
@@ -480,15 +480,23 @@ ContactDataServices.address = function(options){
 			row.addEventListener("click", instance.picklist.pick.bind(null, row));
 		},
 		checkEnter: function(){
-			if(instance.picklist.currentItem){
-				instance.picklist.pick(instance.picklist.currentItem);
+			var picklistItem;
+			// If picklist contains 1 address then use this one to format
+			if(instance.picklist.size === 1){
+				picklistItem = instance.picklist.container.querySelectorAll("div")[0];
+			} // Else use the currently highlighted one when navigation using keyboard
+			else if(instance.picklist.currentItem){
+				picklistItem = instance.picklist.currentItem;
+			}
+			if(picklistItem){
+				instance.picklist.pick(picklistItem);
 			}
 		},
-		// How to handle a picklist selection				
+		// How to handle a picklist selection
 		pick: function(item){
 			// Fire an event when an address is picked
 			instance.events.trigger("post-picklist-selection", item);
-			
+
 			// Get a final address using picklist item
 			instance.format(item.getAttribute("format"));
 		}
@@ -505,7 +513,7 @@ ContactDataServices.address = function(options){
 
 			// Clear search input
 			instance.input.value = "";
-			
+
 			if(data.address.length > 0){
 				// Fire an event to say we've got the formatted address
 				instance.events.trigger("post-formatting-search", data);
@@ -546,7 +554,7 @@ ContactDataServices.address = function(options){
 			if(instance.result.formattedAddress){
 				instance.input.parentNode.removeChild(instance.result.formattedAddress);
 				instance.result.formattedAddress = undefined;
-			}				
+			}
 		},
 		// Create the formatted address container and inject after the input
 		createFormattedAddressContainer: function(){
@@ -643,7 +651,7 @@ ContactDataServices.address = function(options){
 	};
 
 	// Toggle the visibility of elements
-	instance.toggleVisibility = function(scope){			
+	instance.toggleVisibility = function(scope){
 		scope = scope || document;
 		var elements = scope.querySelectorAll(".toggle");
 		for (var i = 0; i < elements.length; i++) {
@@ -683,7 +691,7 @@ ContactDataServices.address = function(options){
 			var spinner = instance.input.parentNode.querySelector(".loader-inline");
 			if(spinner){
 				instance.input.parentNode.removeChild(spinner);
-			}	
+			}
 		}
 	};
 
@@ -728,7 +736,7 @@ ContactDataServices.address = function(options){
 			instance.request.currentRequest = new XMLHttpRequest();
 			instance.request.currentRequest.open('GET', url, true);
 			instance.request.currentRequest.timeout = 5000; // 5 seconds
-			
+
 			instance.request.currentRequest.onload = function() {
 			  if (instance.request.currentRequest.status >= 200 && instance.request.currentRequest.status < 400) {
 			    // Success!
@@ -754,19 +762,20 @@ ContactDataServices.address = function(options){
 			};
 
 			instance.request.currentRequest.ontimeout = function() {
-			  // There was a connection timeout	
+			  // There was a connection timeout
 			  // Hide the inline search spinner
-				instance.searchSpinner.hide();		  
+				instance.searchSpinner.hide();
 			};
 
 			instance.request.currentRequest.send();
-		}		
-	};	
+		}
+	};
 
 	// Initialise this instance of ContactDataServices
 	instance.init();
 
 	// Return the instance object to the invoker
 	return instance;
-};	
+};
+
 })(window, window.document);
