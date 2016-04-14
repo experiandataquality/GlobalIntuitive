@@ -53,7 +53,7 @@ body {
 .overlay-dotted {
   background-image: url(../images/dotted-background-small.png);
   background-position: center top;
-  background-repeat: no-repeat;
+  background-repeat: repeat-x;
 }
 .hidden {
   display: none;
