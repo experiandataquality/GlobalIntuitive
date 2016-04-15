@@ -20,7 +20,7 @@ Check out the [demo](https://www.edq.com/uk/products/address-validation/#interac
 
 ##### Tokens
 
-> For the purpose of this sample code, the tokens for the live endpoint aren't hardcoded in source control and must be appended to the URL query string. For example: **http://localhost/?token=xyz**
+> For the purpose of this sample code, the tokens for the live endpoint aren't hardcoded in source control and must be appended to the URL query string. For example: **http://experiandataquality.github.io/RealTimeAddress/?token=xyz**
 
 To get a free trial, contact us via [edq.com](https://www.edq.com/uk/contact-us/)
 
