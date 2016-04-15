@@ -270,6 +270,9 @@ ContactDataServices.address = function(options){
 			// Store the picklist items
 			instance.picklist.items = items.results;
 
+			// Reset any previously selected current item
+			instance.picklist.currentItem = null;
+
 			// Update picklist size
 			instance.picklist.size = instance.picklist.items.length;
 
