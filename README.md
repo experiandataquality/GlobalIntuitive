@@ -26,7 +26,7 @@ To get a free trial, contact us via [edq.com](https://www.edq.com/uk/contact-us/
 
 *Header vs. query string*
 
-To use a token and authenticate with the API you have two integration options. 
+To use a token and authenticate with the API you have two integration options.
 
 1. Pass the `auth-token` through as a custom HTTP header.
 
@@ -52,6 +52,7 @@ Additional options that can be passed through include:
 
 | Property name | Description | Default |
 |------------|-------------|---------------|
+| `language` | The ISO 2 digit language code | "en"|
 | `placeholderText` | The placeholder text for the input | "Start typing an address"|
 | `editAddressText` | The text for the 'edit address' link | "Edit address"|
 | `searchAgainText` | The text for the 'search again' link | "Search again"|
@@ -80,7 +81,7 @@ After using instantiating a new instance the constructor returns an object that 
 
 ## Development
 
-While you're free to take the JavaScript from the [`dist`](/dist/js/contact-data-servicesjs) folder and use this in your website, should you want to contribute to this repo you'll need to compile the new version from the [`src`](/src/js/). 
+While you're free to take the JavaScript from the [`dist`](/dist/js/contact-data-servicesjs) folder and use this in your website, should you want to contribute to this repo you'll need to compile the new version from the [`src`](/src/js/).
 
 Make sure Node, Grunt and the Grunt CLI are installed.
 
