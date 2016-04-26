@@ -5,6 +5,7 @@ ContactDataServices.address = function(options){
 
 	// Initialising some defaults
 	instance.enabled = true;
+	instance.language = instance.language || ContactDataServices.defaults.language;
 	instance.useSpinner = instance.useSpinner || ContactDataServices.defaults.useSpinner;
 	instance.lastSearchTerm = "";
 	instance.currentSearchTerm = "";
@@ -417,7 +418,8 @@ ContactDataServices.address = function(options){
 							instance.result.formattedAddress.appendChild(row);
 
 							// Create a hidden input to store the address line as well
-							inputArray.push(instance.result.createAddressLine.input(key, line[key]));
+							var label = instance.result.createAddressLine.label(key);
+							inputArray.push(instance.result.createAddressLine.input(label, line[key]));
 						}
 					}
 				}
@@ -481,6 +483,24 @@ ContactDataServices.address = function(options){
 				row.classList.add("toggle");
 				row.innerHTML = value;
 				return row;
+			},
+			// Create the address line label based on the country and language
+			label: function(key){
+				var label = key;
+				var language = instance.language;
+				var country = instance.currentCountryCode;				
+				var translations = ContactDataServices.translations;
+				if(translations){
+					try {
+						var translatedLabel = translations[language][country][key];
+						if(translatedLabel){
+							label = translatedLabel;
+						}
+					} catch(e) {
+						// Translation doesn't exist for key
+					}
+				}
+				return label;
 			}
 		},
 		// Create the 'Edit address' link that allows manual editing of address
