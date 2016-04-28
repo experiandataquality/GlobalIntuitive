@@ -59,6 +59,11 @@
 				// Hide the spinner
 				document.querySelector(".loader").classList.add("hidden");
 			});
+
+			// Show a message if the request is unauthorised (token is invalid)
+			address.events.on("request-error-401", function(){
+				ContactDataServices.ua.banner.show("<a href='https://github.com/experiandataquality/RealTimeAddress#tokens'>Please provide a valid token for RealTimeAddress.</a>");
+			});
 		</script>
 	</body>
 </html>
