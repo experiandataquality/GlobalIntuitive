@@ -170,7 +170,7 @@ ContactDataServices.address = function(options){
 			// Disable searching on this instance
 			instance.enabled = false;
 			// Display a banner informing the user that they need a token
-			ContactDataServices.ua.banner.show("<a href='https://github.com/experiandataquality/contactdataservices#tokens'>Please provide a token for ContactDataServices.</a>");
+			ContactDataServices.ua.banner.show("<a href='https://github.com/experiandataquality/RealTimeAddress#tokens'>Please provide a token for RealTimeAddress.</a>");
 			return;
 		}
 
@@ -192,6 +192,7 @@ ContactDataServices.address = function(options){
 			instance.input.focus();
 		}
 	};
+
 	// Main function to search for an address from an input string
 	instance.search = function(event){
 		// Handle keyboard navigation
@@ -628,7 +629,7 @@ ContactDataServices.address = function(options){
 			label: function(key){
 				var label = key;
 				var language = instance.language;
-				var country = instance.currentCountryCode;				
+				var country = instance.currentCountryCode;
 				var translations = ContactDataServices.translations;
 				if(translations){
 					try {
@@ -755,20 +756,64 @@ ContactDataServices.address = function(options){
 		instance.events.trigger("post-reset");
 	};
 
-	// How to handle unauthorised (invalid token?) requests
-	instance.unauthorised = function(){
-		instance.enabled = false;
+	// How to handle request errors
+	instance.handleError = {
+		// How to handle 400 Bad Request
+		badRequest: function(xhr){
+			instance.enabled = false;
+
+			// As searching is disabled, show button to render final address instead
+			instance.handleError.showSubmitButton();
+
+			// Fire an event to notify users of the error
+			instance.events.trigger("request-error-400", xhr);
+		},
+
+		// How to handle 401 Unauthorized (invalid token?) requests
+		unauthorized: function(xhr){
+			instance.enabled = false;
+
+			// As searching is disabled, show button to render final address instead
+			instance.handleError.showSubmitButton();
+
+			// Fire an event to notify users of the error
+			instance.events.trigger("request-error-401", xhr);
+		},
+
+		// How to handle 403 Forbidden requests
+		forbidden: function(xhr){
+			instance.enabled = false;
+
+			// As searching is disabled, show button to render final address instead
+			instance.handleError.showSubmitButton();
+
+			// Fire an event to notify users of the error
+			instance.events.trigger("request-error-403", xhr);
+		},
+
+		// How to handle 404 Not Found requests
+		notFound: function(xhr){
+			instance.enabled = false;
+
+			// As searching is disabled, show button to render final address instead
+			instance.handleError.showSubmitButton();
+
+			// Fire an event to notify users of the error
+			instance.events.trigger("request-error-404", xhr);
+		},
 
 		// As searching is disabled, show button to render final address instead
-		var button = document.createElement("button");
-		button.innerText = "Submit";
-		instance.input.parentNode.insertBefore(button, instance.input.nextSibling);
-		button.addEventListener("click", function(){
-			// Simulate a manual "use address entered" entry
-			instance.picklist.useAddressEntered.click();
-			// Remove the button
-			instance.input.parentNode.removeChild(button);
-		});
+		showSubmitButton: function(){
+			var button = document.createElement("button");
+			button.innerText = "Submit";
+			instance.input.parentNode.insertBefore(button, instance.input.nextSibling);
+			button.addEventListener("click", function(){
+				// Simulate a manual "use address entered" entry
+				instance.picklist.useAddressEntered.click();
+				// Remove the button
+				instance.input.parentNode.removeChild(button);
+			});
+		}
 	};
 
 	// Use this to initiate and track XMLHttpRequests
@@ -779,34 +824,53 @@ ContactDataServices.address = function(options){
 			instance.request.currentRequest.open('GET', url, true);
 			instance.request.currentRequest.timeout = 5000; // 5 seconds
 
-			instance.request.currentRequest.onload = function() {
+			instance.request.currentRequest.onload = function(xhr) {
 			  if (instance.request.currentRequest.status >= 200 && instance.request.currentRequest.status < 400) {
 			    // Success!
 			    var data = JSON.parse(instance.request.currentRequest.responseText);
 			    callback(data);
 			  } else {
 			    // We reached our target server, but it returned an error
-				instance.searchSpinner.hide();
+					instance.searchSpinner.hide();
 
-				// If the request is unauthorized (invalid token) we should probably disable future requests
-				if(instance.request.currentRequest.status === 401){
-					instance.unauthorised();
-					// Display a banner informing the user that they need a valid token
-					ContactDataServices.ua.banner.show("<a href='https://github.com/experiandataquality/contactdataservices#tokens'>Please provide a valid token for ContactDataServices.</a>");
-				}
+					// Fire an event to notify users of an error
+					instance.events.trigger("request-error", xhr);
+
+					// If the request is 400 Bad Request
+					if (instance.request.currentRequest.status === 400){
+						instance.handleError.badRequest(xhr);
+					}
+					// If the request is 401 Unauthorized (invalid token) we should probably disable future requests
+					else if (instance.request.currentRequest.status === 401){
+						instance.handleError.unauthorized(xhr);
+					}
+					// If the request is 403 Forbidden
+					else if (instance.request.currentRequest.status === 403){
+						instance.handleError.forbidden(xhr);
+					}
+					// If the request is 404 Not Found
+					else if (instance.request.currentRequest.status === 404){
+						instance.handleError.notFound(xhr);
+					}
 			  }
 			};
 
-			instance.request.currentRequest.onerror = function() {
+			instance.request.currentRequest.onerror = function(xhr) {
 			  // There was a connection error of some sort
 			  // Hide the inline search spinner
 				instance.searchSpinner.hide();
+
+				// Fire an event to notify users of an error
+				instance.events.trigger("request-error", xhr);
 			};
 
-			instance.request.currentRequest.ontimeout = function() {
+			instance.request.currentRequest.ontimeout = function(xhr) {
 			  // There was a connection timeout
 			  // Hide the inline search spinner
 				instance.searchSpinner.hide();
+
+				// Fire an event to notify users of the timeout
+				instance.events.trigger("request-timeout", xhr);
 			};
 
 			instance.request.currentRequest.send();

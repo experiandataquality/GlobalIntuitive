@@ -77,6 +77,12 @@ After using instantiating a new instance the constructor returns an object that 
 | `pre-formatting-search` | Just before the formatting search takes place | ```address.events.on("pre-formatting-search", function(url){ // ... });```|
 | `post-formatting-search` | After the formatting search has returned a result | ```address.events.on("post-formatting-search", function(data){ // ... });```|
 | `post-reset` | After the demo has been reset | ```address.events.on("post-reset", function(){ // ... });```|
+| `request-timeout` | A timeout occurred during the XMLHttpRequest | ```address.events.on("request-timeout", function(xhr){ // ... });```|
+| `request-error` | A generic error occurred initiating the XMLHttpRequest | ```address.events.on("request-error", function(xhr){ // ... });```|
+| `request-error-400` | A 400 Bad Request error occurred | ```address.events.on("request-error-400", function(xhr){ // ... });```|
+| `request-error-401` | A 401 Unauthorized error occurred (invalid token) | ```address.events.on("request-error-401", function(xhr){ // ... });```|
+| `request-error-403` | A 403 Forbidden error occurred | ```address.events.on("request-error-403", function(xhr){ // ... });```|
+| `request-error-404` | A 404 Not Found error occurred | ```address.events.on("request-error-404", function(xhr){ // ... });```|
 
 
 ## Development
