@@ -855,7 +855,7 @@ ContactDataServices.address = function(options){
 			  }
 			};
 
-			instance.request.currentRequest.onerror = function() {
+			instance.request.currentRequest.onerror = function(xhr) {
 			  // There was a connection error of some sort
 			  // Hide the inline search spinner
 				instance.searchSpinner.hide();
