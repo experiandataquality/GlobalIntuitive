@@ -7,6 +7,7 @@ ContactDataServices.defaults = {
 	useAddressEnteredText: "<em>Enter address manually</em>",
 	useSpinner: false,
 	language: "en",
+	addressLineLabels: [
 		"addressLine1",
 		"addressLine2",
 		"addressLine3",

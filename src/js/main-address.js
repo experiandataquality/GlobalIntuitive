@@ -253,6 +253,7 @@ ContactDataServices.address = function(options){
 			},
 			// Create and return an address line object with the key as the label
 			formatManualAddressLine: function(lines, i){
+				var key = ContactDataServices.defaults.addressLineLabels[i];
 				var lineObject = {};
 				lineObject[key] = lines[i] || "";
 				return lineObject;
