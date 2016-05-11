@@ -16,7 +16,15 @@ ContactDataServices.defaults = {
 	searchAgainText: "Search again",
 	useAddressEnteredText: "<em>Enter address manually</em>",
 	useSpinner: false,
-	language: "en"
+	language: "en",
+		"addressLine1",
+		"addressLine2",
+		"addressLine3",
+		"locality",
+		"province",
+		"postalCode",
+		"country"
+	]
 };
 
 // Constructor method event listener (pub/sub type thing)
@@ -373,10 +381,7 @@ ContactDataServices.address = function(options){
 					var lines = instance.currentSearchTerm.split(",");
 					if(lines.length > 0){
 						for(var i = 0; i < lines.length; i++){
-							var key = "addressLine" + (i + 1);
-							var lineObject = {};
-							lineObject[key] = lines[i];
-							inputData.address.push(lineObject);
+							inputData.address.push(instance.picklist.useAddressEntered.formatManualAddressLine(lines, i));
 						}
 					}
 
@@ -386,16 +391,19 @@ ContactDataServices.address = function(options){
 					if(additionalLinesNeeded > 0){
 						var counterStart = maxLines - additionalLinesNeeded;
 						for(var j = counterStart; j < maxLines; j++){
-							var key1 = "addressLine" + (j + 1);
-							var lineObject1 = {};
-							lineObject1[key1] = "";
-							inputData.address.push(lineObject1);
+							inputData.address.push(instance.picklist.useAddressEntered.formatManualAddressLine([], j));
 						}
 					}
 				}
 
 				instance.result.show(inputData);
 				instance.result.editAddressManually();
+			},
+			// Create and return an address line object with the key as the label
+			formatManualAddressLine: function(lines, i){
+				var lineObject = {};
+				lineObject[key] = lines[i] || "";
+				return lineObject;
 			}
 		},
 		// Create the picklist container and inject after the input

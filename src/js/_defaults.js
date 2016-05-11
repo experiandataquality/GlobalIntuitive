@@ -6,5 +6,13 @@ ContactDataServices.defaults = {
 	searchAgainText: "Search again",
 	useAddressEnteredText: "<em>Enter address manually</em>",
 	useSpinner: false,
-	language: "en"
+	language: "en",
+		"addressLine1",
+		"addressLine2",
+		"addressLine3",
+		"locality",
+		"province",
+		"postalCode",
+		"country"
+	]
 };
