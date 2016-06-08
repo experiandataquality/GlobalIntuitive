@@ -93,6 +93,25 @@ After using instantiating a new instance the constructor returns an object that 
 | `request-error-403` | A 403 Forbidden error occurred | ```address.events.on("request-error-403", function(xhr){ // ... });```|
 | `request-error-404` | A 404 Not Found error occurred | ```address.events.on("request-error-404", function(xhr){ // ... });```|
 
+#### Customising labels
+
+By default the API returns the formatted address using a global 7-line layout. This means that the field labels for every country are all the same. In your integration you might wish to change "locality" to "city" or "postalCode" to "post code", for example.
+
+1. Access the [_translations.js file](/src/js/_translations.js)
+
+2. Add the localised labels to the existing object, following the `language:country:property` pattern. For example:
+
+```JavaScript
+en: {
+    gbr: {
+      locality: "Town/City",
+      province: "County",
+      postalCode: "Post code"
+    }
+}
+```
+
+NB. You can change the language by passing this setting through, as described in [Options](/#options).
 
 ## Development
 
