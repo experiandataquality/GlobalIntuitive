@@ -115,6 +115,16 @@ Any property you don't override will continue to use the default label.
 
 NB. You can change the language by passing this setting through, as described in [Options](/#options).
 
+#### Customising address formats
+
+To give the users of your application the best possible user experience, you may decide to format addresses differently depending on the country selected. 
+
+1. Access the [_address-templates.js file](/src/js/_ address-templates.js)
+
+2. Add localised formats you wish to use, add country-format key-value pair.  
+
+Any country you don't include in this file will continue to use the default format.
+
 ## Development
 
 While you're free to take the JavaScript from the [`dist`](/dist/js/contact-data-servicesjs) folder and use this in your website, should you want to contribute to this repo you'll need to compile the new version from the [`src`](/src/js/).
