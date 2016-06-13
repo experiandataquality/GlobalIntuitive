@@ -409,23 +409,29 @@ ContactDataServices.address = function(options){
 				// Create an array to hold the hidden input fields
 				var inputArray = [];
 
-				// Loop over each formatted address line
+				// Get html address template for this country if it exists, else use the default template
+				var templateKey = ContactDataServices.addressTemplates.hasOwnProperty(instance.currentCountryCode) ? instance.currentCountryCode : 'default';
+				var addressHtml = ContactDataServices.addressTemplates[templateKey];
+				
+				// Loop over each formatted address component
 				for(var i = 0; i < data.address.length; i++){
-					var line = data.address[i];
-					// The line object will only have one property, but we don't know the key
-					for(var key in line){
-						if(line.hasOwnProperty(key)) {
-							// Create the address line row and add to the DOM
-							var row = instance.result.createAddressLine.row(line[key]);
-							instance.result.formattedAddress.appendChild(row);
-
+				    var addressComponent = data.address[i];				    
+				    // The addressComponent object will only have one property, but we don't know the key
+				    for (var key in addressComponent) {
+				        if (addressComponent.hasOwnProperty(key)) {
+                            // Replace the address component placeholder with the actual value 
+						    addressHtml = addressHtml.replace("{" + key + "}", addressComponent[key]);
 							// Create a hidden input to store the address line as well
 							var label = instance.result.createAddressLine.label(key);
-							inputArray.push(instance.result.createAddressLine.input(label, line[key]));
+							inputArray.push(instance.result.createAddressLine.input(label, addressComponent[key]));
 						}
-					}
+					}					
 				}
 
+				// Remove any remaining address component placeholders and insert into DOM
+				addressHtml = addressHtml.replace(/{.*}/, "");
+				instance.result.formattedAddress.innerHTML += addressHtml;
+				
 				// Write the list of hidden address line inputs to the DOM in one go
 				instance.result.renderInputList(inputArray);
 
