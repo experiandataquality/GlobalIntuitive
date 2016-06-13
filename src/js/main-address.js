@@ -425,7 +425,7 @@ ContactDataServices.address = function(options){
 							var label = instance.result.createAddressLine.label(key);
 							inputArray.push(instance.result.createAddressLine.input(label, addressComponent[key]));
 						}
-					}					
+					}
 				}
 
 				// Remove any remaining address component placeholders and insert into DOM
