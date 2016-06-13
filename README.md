@@ -119,7 +119,7 @@ NB. You can change the language by passing this setting through, as described in
 
 To give the users of your application the best possible user experience, you may decide to format addresses differently depending on the country selected. 
 
-1. Access the [_address-templates.js file](/src/js/_ address-templates.js)
+1. Access the [_address-templates.js file](/src/js/_address-templates.js)
 
 2. Add localised formats you wish to use, add country-format key-value pair.  
 
