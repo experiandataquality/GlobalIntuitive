@@ -6,7 +6,7 @@ ContactDataServices.urls = {
 			// Construct the Search URL by appending query, country & take
 			search: function(instance){
 				var url = ContactDataServices.urls.endpoint;
-				url += "?query=" + instance.currentSearchTerm;
+				url += "?query=" + encodeURIComponent(instance.currentSearchTerm);
 				url += "&country=" + instance.currentCountryCode;
 				url += "&take=" + (instance.maxSize || instance.picklist.maxSize);
 				url += "&auth-token=" + instance.token;
