@@ -2,6 +2,7 @@
 <html>
 	<head>
 		<title>Real Time Address - sample code</title>
+		<meta charset="UTF-8">
 		<meta name="viewport" content="width=device-width, initial-scale=1.0, minimum-scale=1, maximum-scale=1" />
 		<link rel="stylesheet" type="text/css" href="../dist/css/styles.min.css">
 		<link rel="shortcut icon" href="../dist/images/favicon.ico">
@@ -61,7 +62,7 @@
 				formattedAddress: {
 					headingText: "Shipping address",
 					headingType: "h3"
-				}				
+				}
 			};
 			var address1 = new ContactDataServices.address(options1);
 
@@ -74,10 +75,10 @@
 				formattedAddress: {
 					headingText: "Billing address",
 					headingType: "h3"
-				}				
+				}
 			};
 			var address2 = new ContactDataServices.address(options2);
-			
+
 			// Set up the event listeners
 			var numberOfForms = 2;
 			for(var i = 1; i <= numberOfForms; i++){

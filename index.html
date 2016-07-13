@@ -2,6 +2,7 @@
 <html>
 	<head>
 		<title>Real Time Address - sample code</title>
+		<meta charset="UTF-8">
 		<meta name="viewport" content="width=device-width, initial-scale=1.0, minimum-scale=1, maximum-scale=1" />
 		<link rel="stylesheet" type="text/css" href="dist/css/styles.min.css">
 		<link rel="shortcut icon" href="/dist/images/favicon.ico">
@@ -36,10 +37,10 @@
 			var options = {
 				elements: {
 					input: document.querySelector("input[name='address-input']"),
-					countryList: document.querySelector("select")					
+					countryList: document.querySelector("select")
 				}
 			};
-			
+
 			// Initialise this instance
 			var address = new ContactDataServices.address(options);
 
@@ -57,6 +58,11 @@
 
 				// Hide the spinner
 				document.querySelector(".loader").classList.add("hidden");
+			});
+
+			// Show a message if the request is unauthorised (token is invalid)
+			address.events.on("request-error-401", function(){
+				ContactDataServices.ua.banner.show("<a href='https://github.com/experiandataquality/RealTimeAddress#tokens'>Please provide a valid token for RealTimeAddress.</a>");
 			});
 		</script>
 	</body>

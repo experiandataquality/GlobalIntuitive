@@ -13,32 +13,18 @@ Check out the [demo](https://www.edq.com/uk/products/address-validation/#interac
 
 #### Prerequisites
 
+If you want to use the code for your integration *as-is*, without modifying it, then you only need the items below.
+
+If you need to *edit* the code, then jump to the [Development](#development) section.
+
 - Include the Real Time Address API [JavaScript file](/dist/js/contact-data-services.min.js) in your form page.
 - Have a token to hand (You would have received this from your Experian Data Quality account manager).
 
 #### Integration
 
-##### Tokens
-
-> For the purpose of this sample code, the tokens for the live endpoint aren't hardcoded in source control and must be appended to the URL query string. For example: **http://localhost/?token=xyz**
-
-To get a free trial, contact us via [edq.com](https://www.edq.com/uk/contact-us/)
-
-*Header vs. query string*
-
-To use a token and authenticate with the API you have two integration options. 
-
-1. Pass the `auth-token` through as a custom HTTP header.
-
-2. Append the `auth-token` as a parameter in the query string when making the GET request.
-
-If you are concerned about speed and want to reduce the latency as much as possible we recommend using the 2nd option and append the token to the query string.
-
-If you were to pass it through to the API as a custom HTTP header then the browser would make an additional [pre-flight](https://developer.mozilla.org/en-US/docs/Web/HTTP/Access_control_CORS#Preflighted_requests) OPTIONS HTTP request before each search. Whilst ensuring your token isn't visible in any URLs it would slow it down slightly.
-
 ##### Options
 
-Some customisable settings can be passed through to the API using an options object. By default you should at least pass through an `elements` object with the address field input and country list selectors.
+After embedding the script tag in your webpage you can customise it by passing settings through to the API using an options object. By default you should at least pass through an `elements` object with the address field input and country list selectors.
 
 ```javascript
 var options = {
@@ -52,10 +38,34 @@ Additional options that can be passed through include:
 
 | Property name | Description | Default |
 |------------|-------------|---------------|
+| `token` | Your authentication token. Recommended. | |
+| `language` | The ISO 2 digit language code | "en"|
 | `placeholderText` | The placeholder text for the input | "Start typing an address"|
 | `editAddressText` | The text for the 'edit address' link | "Edit address"|
 | `searchAgainText` | The text for the 'search again' link | "Search again"|
 | `useSpinner` | Whether to display a spinner while searching | false|
+
+##### Tokens
+
+> For the purpose of this sample code, the tokens for the live endpoint aren't hardcoded in source control and must be appended to the URL query string. For example: **http://experiandataquality.github.io/RealTimeAddress/?token=xyz**
+
+To get your token and a free trial, contact us via [edq.com](https://www.edq.com/uk/contact-us/)
+
+As mentioned above in [Options](/#options) you should pass your token through as a setting. The sample page in this repo appends it to the query string to avoid hardcoding a token in source control.
+
+**Development remark:** *Header vs. query string*
+
+When integrating this sample code directly against the API, a decision had to be made regarding how we authenticated ourselves.
+
+To use a token and authenticate with the API you have two integration options:
+
+1. Pass the `auth-token` through as a custom HTTP header.
+
+2. Append the `auth-token` as a parameter in the query string when making the GET request.
+
+If you are concerned about speed and want to reduce the latency as much as possible we recommend using the 2nd option and append the token to the query string.
+
+If you were to pass it through to the API as a custom HTTP header then the browser would make an additional [pre-flight](https://developer.mozilla.org/en-US/docs/Web/HTTP/Access_control_CORS#Preflighted_requests) OPTIONS HTTP request before each search. Whilst ensuring your token isn't visible in any URLs it would slow it down slightly.
 
 ##### Invocation
 
@@ -76,11 +86,48 @@ After using instantiating a new instance the constructor returns an object that 
 | `pre-formatting-search` | Just before the formatting search takes place | ```address.events.on("pre-formatting-search", function(url){ // ... });```|
 | `post-formatting-search` | After the formatting search has returned a result | ```address.events.on("post-formatting-search", function(data){ // ... });```|
 | `post-reset` | After the demo has been reset | ```address.events.on("post-reset", function(){ // ... });```|
+| `request-timeout` | A timeout occurred during the XMLHttpRequest | ```address.events.on("request-timeout", function(xhr){ // ... });```|
+| `request-error` | A generic error occurred initiating the XMLHttpRequest | ```address.events.on("request-error", function(xhr){ // ... });```|
+| `request-error-400` | A 400 Bad Request error occurred | ```address.events.on("request-error-400", function(xhr){ // ... });```|
+| `request-error-401` | A 401 Unauthorized error occurred (invalid token) | ```address.events.on("request-error-401", function(xhr){ // ... });```|
+| `request-error-403` | A 403 Forbidden error occurred | ```address.events.on("request-error-403", function(xhr){ // ... });```|
+| `request-error-404` | A 404 Not Found error occurred | ```address.events.on("request-error-404", function(xhr){ // ... });```|
 
+#### Customising labels
+
+By default the API returns the formatted address using a global 7-line layout. This means that the field labels for every country are all the same. In your integration you might wish to change "locality" to "city" or "postalCode" to "post code", for example.
+
+1. Access the [_translations.js file](/src/js/_translations.js)
+
+2. Add the localised labels to the existing object, following the `language:country:property` pattern. For example:
+
+```JavaScript
+en: {
+    gbr: {
+      locality: "Town/City",
+      province: "County",
+      postalCode: "Post code"
+    }
+}
+```
+
+Any property you don't override will continue to use the default label.
+
+NB. You can change the language by passing this setting through, as described in [Options](/#options).
+
+#### Customising address formats
+
+To give the users of your application the best possible user experience, you may decide to format addresses differently depending on the country selected. 
+
+1. Access the [_address-templates.js file](/src/js/_address-templates.js)
+
+2. Add localised formats you wish to use, add country-format key-value pair.  
+
+Any country you don't include in this file will continue to use the default format.
 
 ## Development
 
-While you're free to take the JavaScript from the [`dist`](/dist/js/contact-data-servicesjs) folder and use this in your website, should you want to contribute to this repo you'll need to compile the new version from the [`src`](/src/js/). 
+While you're free to take the JavaScript from the [`dist`](/dist/js/contact-data-servicesjs) folder and use this in your website, should you want to contribute to this repo you'll need to compile the new version from the [`src`](/src/js/).
 
 Make sure Node, Grunt and the Grunt CLI are installed.
 
