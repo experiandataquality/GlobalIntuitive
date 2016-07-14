@@ -412,14 +412,14 @@ ContactDataServices.address = function(options){
 				// Get html address template for this country if it exists, else use the default template
 				var templateKey = ContactDataServices.addressTemplates.hasOwnProperty(instance.currentCountryCode) ? instance.currentCountryCode : 'default';
 				var addressHtml = ContactDataServices.addressTemplates[templateKey];
-				
+
 				// Loop over each formatted address component
 				for(var i = 0; i < data.address.length; i++){
-				    var addressComponent = data.address[i];				    
+				    var addressComponent = data.address[i];
 				    // The addressComponent object will only have one property, but we don't know the key
 				    for (var key in addressComponent) {
 				        if (addressComponent.hasOwnProperty(key)) {
-                            // Replace the address component placeholder with the actual value 
+                            // Replace the address component placeholder with the actual value
 						    addressHtml = addressHtml.replace("{" + key + "}", addressComponent[key]);
 							// Create a hidden input to store the address line as well
 							var label = instance.result.createAddressLine.label(key);
@@ -431,7 +431,7 @@ ContactDataServices.address = function(options){
 				// Remove any remaining address component placeholders and insert into DOM
 				addressHtml = addressHtml.replace(/{.*}/, "");
 				instance.result.formattedAddress.innerHTML += addressHtml;
-				
+
 				// Write the list of hidden address line inputs to the DOM in one go
 				instance.result.renderInputList(inputArray);
 
@@ -455,7 +455,7 @@ ContactDataServices.address = function(options){
 			// Create a heading for the formatted address
 			if(instance.formattedAddress.heading !== false){
 				var heading = document.createElement(instance.formattedAddress.headingType);
-				heading.innerHTML = instance.formattedAddress.headingText;
+				heading.innerHTML = instance.formattedAddress.validatedHeadingText;
 				container.appendChild(heading);
 			}
 			// Insert the container after the input
@@ -538,11 +538,16 @@ ContactDataServices.address = function(options){
 				event.preventDefault();
 			}
 
+			//Change the heading text to "Manual address entered"
+			var heading = instance.result.formattedAddress.querySelector("h3");
+			heading.innerHTML = instance.formattedAddress.manualHeadingText;
+
 			// Remove 'edit address link'
 			instance.result.formattedAddress.querySelector(".edit-address-link").classList.add("hidden");
 
 			// Change the visible formatted address to hidden
 			instance.toggleVisibility(instance.result.formattedAddress);
+
 
 			// Change the hidden address line inputs to show to allow editing
 			var addressLineInputs = instance.result.formattedAddress.querySelectorAll(".address-line-input");
