@@ -697,9 +697,9 @@ ContactDataServices.address = function(options){
 				event.preventDefault();
 			}
 
-			//Change the header text to "Manual address entered"
-			var header = instance.result.formattedAddress.querySelector("h3");
-			header.innerHTML = instance.formattedAddress.manualHeadingText;
+			//Change the heading text to "Manual address entered"
+			var heading = instance.result.formattedAddress.querySelector("h3");
+			heading.innerHTML = instance.formattedAddress.manualHeadingText;
 
 			// Remove 'edit address link'
 			instance.result.formattedAddress.querySelector(".edit-address-link").classList.add("hidden");
@@ -782,9 +782,6 @@ ContactDataServices.address = function(options){
 		instance.toggleVisibility(instance.input.parentNode);
 		// Apply focus to input
 		instance.input.focus();
-		//Reset formatted address text
-		var header = instance.result.formattedAddress.querySelector("h3");
-		header.innerHTML = instance.formattedAddress.validatedHeadingText;
 
 		// Fire an event after a reset
 		instance.events.trigger("post-reset");
