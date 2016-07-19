@@ -1,7 +1,7 @@
 // Default settings
 ContactDataServices.defaults = {
 	input: { placeholderText: "Start typing an address" },
-	formattedAddress: { headingType: "h3", headingText: "Validated address" },
+	formattedAddress: { showHeading: true, headingType: "h3", validatedHeadingText: "Validated address", manualHeadingText: "Manual address entered"  },
 	editAddressText: "Edit address",
 	searchAgainText: "Search again",
 	useAddressEnteredText: "<em>Enter address manually</em>",
