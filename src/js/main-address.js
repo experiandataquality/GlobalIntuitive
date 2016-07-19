@@ -453,7 +453,7 @@ ContactDataServices.address = function(options){
 			var container = document.createElement("div");
 			container.classList.add("formatted-address");
 			// Create a heading for the formatted address
-			if(instance.formattedAddress.heading !== false){
+			if(instance.formattedAddress.showHeading){
 				var heading = document.createElement(instance.formattedAddress.headingType);
 				heading.innerHTML = instance.formattedAddress.validatedHeadingText;
 				container.appendChild(heading);
@@ -539,8 +539,10 @@ ContactDataServices.address = function(options){
 			}
 
 			//Change the heading text to "Manual address entered"
-			var heading = instance.result.formattedAddress.querySelector("h3");
-			heading.innerHTML = instance.formattedAddress.manualHeadingText;
+			if(instance.formattedAddress.showHeading){
+				var heading = instance.result.formattedAddress.querySelector(instance.formattedAddress.headingType);
+				heading.innerHTML = instance.formattedAddress.manualHeadingText;
+			}
 
 			// Remove 'edit address link'
 			instance.result.formattedAddress.querySelector(".edit-address-link").classList.add("hidden");
