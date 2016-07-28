@@ -466,6 +466,11 @@ ContactDataServices.address = function(options){
             var addresses = instance.picklist.container.querySelectorAll("div"),
             				firstAddress, lastAddress;
 
+						// If the picklist is empty, just return
+						if(addresses.length === 0){
+								return;
+						}
+
             // Set the tabCount based on previous and direction
             if (e === 38/*Up*/) {
                 instance.picklist.tabCount--;
