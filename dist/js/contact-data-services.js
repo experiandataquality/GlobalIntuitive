@@ -199,6 +199,7 @@ ContactDataServices.address = function(options){
 			instance.input = instance.elements.input;
 			// Bind an event listener on the input
 			instance.input.addEventListener("keyup", instance.search);
+			instance.input.addEventListener("keydown", instance.checkTab);
 			// Set a placeholder for the input
 			instance.input.setAttribute("placeholder", instance.placeholderText);
 			// Disable autocomplete on the form
@@ -211,7 +212,6 @@ ContactDataServices.address = function(options){
 			instance.input.focus();
 		}
 	};
-
 	// Main function to search for an address from an input string
 	instance.search = function(event){
 		// Handle keyboard navigation
@@ -277,6 +277,16 @@ ContactDataServices.address = function(options){
 				instance.lastSearchTerm !== instance.currentSearchTerm &&
 				// If the country is not empty
 				instance.countryList.value !== undefined && instance.countryList.value !== "");
+	};
+
+	//Determine whether tab key was pressed
+	instance.checkTab = function(event) {
+		var e = event || window.event;
+				e = e.which || e.keyCode;
+				if (e === 9 /*Tab*/) {
+						instance.picklist.keyup(e);
+						return;
+				}
 	};
 
 	instance.createCountryDropdown = function(){
@@ -447,7 +457,7 @@ ContactDataServices.address = function(options){
             	return;
             }
 
-            if (e === 13/*Enter*/) {
+            if (e === 13/*Enter*/ || e === 9 /*Tab*/) {
                 instance.picklist.checkEnter();
                 return;
             }
