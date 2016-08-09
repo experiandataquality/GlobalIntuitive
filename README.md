@@ -49,7 +49,7 @@ Additional options that can be passed through include:
 | `formattedAddressContainer.validatedHeadingText` | Heading text for validated addresses | "Validated address"|
 | `formattedAddressContainer.manualHeadingText` | Heading text if address entered manually | "Manual address entered"|
 | `useSpinner` | Whether to display a spinner while searching | false|
-| `addressLineLabels` | An array of 7 labels for the form fields | ["addressLine1","addressLine2","addressLine3","locality","province","postalCode","country"] |
+| `addressLineLabels` | An array of 7 labels for the form fields | ["addressLine1", "addressLine2", "addressLine3", "locality", "province", "postalCode", "country"] |
 
 ##### Tokens
 
