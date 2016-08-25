@@ -8,22 +8,11 @@
 // Create ContactDataServices constructor and namespace on the window object (if not already present)
 var ContactDataServices = window.ContactDataServices = window.ContactDataServices || {};
 
-// Formatted address templates
-ContactDataServices.addressTemplates = {
-	default: '<div class="toggle">{addressLine1}</div><div class="toggle">{addressLine2}</div><div class="toggle">{addressLine3}</div><div class="toggle">{locality}</div><div class="toggle">{province}</div><div class="toggle">{postalCode}</div><div class="toggle">{country}</div>',
-	aus: '<div class="toggle">{addressLine1}</div><div class="toggle">{addressLine2}</div><div class="toggle">{addressLine3}</div><div class="toggle">{locality} {provinceCode} {postalCode}</div><div class="toggle">{country}</div>',
-	fra: '<div class="toggle">{addressLine1}</div><div class="toggle">{addressLine2}</div><div class="toggle">{addressLine3}</div><div class="toggle">{postalCode} {locality}</div><div class="toggle">{country}</div>',
-	gbr: '<div class="toggle">{addressLine1}</div><div class="toggle">{addressLine2}</div><div class="toggle">{addressLine3}</div><div class="toggle">{locality}</div><div class="toggle">{province}</div><div class="toggle">{postalCode}</div><div class="toggle">{country}</div>',
-	nzl: '<div class="toggle">{addressLine1}</div><div class="toggle">{addressLine2}</div><div class="toggle">{addressLine3}</div><div class="toggle">{locality} {postalCode}</div><div class="toggle">{country}</div>',
-	usa: '<div class="toggle">{addressLine1}</div><div class="toggle">{addressLine2}</div><div class="toggle">{addressLine3}</div><div class="toggle">{locality} {province} {postalCode}</div><div class="toggle">{country}</div>'    
-	// Add other address templates below
-};
 // Default settings
 ContactDataServices.defaults = {
-	input: { placeholderText: "Start typing an address" },
-	formattedAddress: { showHeading: true, headingType: "h3", validatedHeadingText: "Validated address", manualHeadingText: "Manual address entered"  },
-	editAddressText: "Edit address",
-	searchAgainText: "Search again",
+	input: { placeholderText: "Start typing an address...", applyFocus: true },
+	formattedAddressContainer: { showHeading: false, headingType: "h3", validatedHeadingText: "Validated address", manualHeadingText: "Manual address entered"  },
+	searchAgain: { visible: true, text: "Search again"},
 	useAddressEnteredText: "<em>Enter address manually</em>",
 	useSpinner: false,
 	language: "en",
@@ -36,6 +25,34 @@ ContactDataServices.defaults = {
 		"postalCode",
 		"country"
 	]
+};
+
+// Create configuration by merging custom and default options
+ContactDataServices.mergeDefaultOptions = function(customOptions){
+	var instance = customOptions || {};
+
+	instance.enabled = true;
+	instance.language = instance.language || ContactDataServices.defaults.language;
+	instance.useSpinner = instance.useSpinner || ContactDataServices.defaults.useSpinner;
+	instance.lastSearchTerm = "";
+	instance.currentSearchTerm = "";
+	instance.lastCountryCode = "";
+	instance.currentCountryCode = "";
+	instance.currentSearchUrl = "";
+	instance.currentFormatUrl = "";
+	instance.applyFocus = (typeof instance.applyFocus !== "undefined") ? instance.applyFocus : ContactDataServices.defaults.input.applyFocus;
+	instance.placeholderText = instance.placeholderText || ContactDataServices.defaults.input.placeholderText;
+	instance.searchAgain = instance.searchAgain || {};
+	instance.searchAgain.visible = (typeof instance.searchAgain.visible !== "undefined") ? instance.searchAgain.visible : ContactDataServices.defaults.searchAgain.visible;
+	instance.searchAgain.text = instance.searchAgain.text || ContactDataServices.defaults.searchAgain.text;
+	instance.formattedAddressContainer = instance.formattedAddressContainer || ContactDataServices.defaults.formattedAddressContainer;
+	instance.formattedAddressContainer.showHeading = (typeof instance.formattedAddressContainer.showHeading !== "undefined") ? instance.formattedAddressContainer.showHeading : ContactDataServices.defaults.formattedAddressContainer.showHeading;
+	instance.formattedAddressContainer.headingType = instance.formattedAddressContainer.headingType || ContactDataServices.defaults.formattedAddressContainer.headingType;
+	instance.formattedAddressContainer.validatedHeadingText = instance.formattedAddressContainer.validatedHeadingText || ContactDataServices.defaults.formattedAddressContainer.validatedHeadingText;
+	instance.formattedAddressContainer.manualHeadingText = instance.formattedAddressContainer.manualHeadingText || ContactDataServices.defaults.formattedAddressContainer.manualHeadingText;
+	instance.elements = instance.elements || {};
+
+	return instance;
 };
 
 // Constructor method event listener (pub/sub type thing)
@@ -158,25 +175,9 @@ ContactDataServices.urls = {
 };
 
 // Integrate with address searching
-ContactDataServices.address = function(options){
-	// Build our new instance from user custom options
-	var instance = options || {};
-
-	// Initialising some defaults
-	instance.enabled = true;
-	instance.language = instance.language || ContactDataServices.defaults.language;
-	instance.useSpinner = instance.useSpinner || ContactDataServices.defaults.useSpinner;
-	instance.lastSearchTerm = "";
-	instance.currentSearchTerm = "";
-	instance.lastCountryCode = "";
-	instance.currentCountryCode = "";
-	instance.currentSearchUrl = "";
-	instance.currentFormatUrl = "";
-	instance.placeholderText = instance.placeholderText || ContactDataServices.defaults.input.placeholderText;
-	instance.editAddressText = instance.editAddressText || ContactDataServices.defaults.editAddressText;
-	instance.searchAgainText = instance.searchAgainText || ContactDataServices.defaults.searchAgainText;
-	instance.formattedAddress = instance.formattedAddress || ContactDataServices.defaults.formattedAddress;
-	instance.elements = instance.elements || {};
+ContactDataServices.address = function(customOptions){
+	// Build our new instance by merging custom and default options
+	var instance = ContactDataServices.mergeDefaultOptions(customOptions);
 
 	// Create a new object to hold the events from the event factory
 	instance.events = new ContactDataServices.eventFactory();
@@ -209,7 +210,9 @@ ContactDataServices.address = function(options){
 			    event.preventDefault();
 			});
 			// Apply focus to input
-			instance.input.focus();
+			if(instance.applyFocus){
+					instance.input.focus();
+			}
 		}
 	};
 	// Main function to search for an address from an input string
@@ -327,10 +330,10 @@ ContactDataServices.address = function(options){
 			instance.picklist.size = instance.picklist.items.length;
 
 			// Get/Create picklist container element
-			instance.picklist.container = instance.picklist.container || instance.picklist.createList();
+			instance.picklist.list = instance.picklist.list || instance.picklist.createList();
 
 			// Ensure previous results are cleared
-			instance.picklist.container.innerHTML = "";
+			instance.picklist.list.innerHTML = "";
 
 			// Reset the picklist tab count (used for keyboard navigation)
 			instance.picklist.resetTabCount();
@@ -349,7 +352,7 @@ ContactDataServices.address = function(options){
 				instance.picklist.items.forEach(function(item){
 					// Create a new item/row in the picklist
 					var listItem = instance.picklist.createListItem(item);
-					instance.picklist.container.appendChild(listItem);
+					instance.picklist.list.appendChild(listItem);
 
 					// Listen for selection on this item
 					instance.picklist.listen(listItem);
@@ -366,9 +369,9 @@ ContactDataServices.address = function(options){
 			// Remove the "use address entered" option too
 			instance.picklist.useAddressEntered.destroy();
 			// Remove the main picklist container
-			if(instance.picklist.container){
+			if(instance.picklist.list){
 				instance.input.parentNode.removeChild(instance.picklist.container);
-				instance.picklist.container = undefined;
+				instance.picklist.list = undefined;
 			}
 		},
 		useAddressEntered: {
@@ -380,14 +383,14 @@ ContactDataServices.address = function(options){
 				};
 				var listItem = instance.picklist.createListItem(item);
 				listItem.classList.add("use-address-entered");
-				instance.picklist.container.parentNode.insertBefore(listItem, instance.picklist.container.nextSibling);
+				instance.picklist.list.parentNode.insertBefore(listItem, instance.picklist.list.nextSibling);
 				listItem.addEventListener("click", instance.picklist.useAddressEntered.click);
 				return listItem;
 			},
 			// Destroy the "use address entered" option
 			destroy: function(){
 				if(instance.picklist.useAddressEntered.element){
-					instance.picklist.container.parentNode.removeChild(instance.picklist.useAddressEntered.element);
+					instance.picklist.list.parentNode.removeChild(instance.picklist.useAddressEntered.element);
 					instance.picklist.useAddressEntered.element = undefined;
 				}
 			},
@@ -418,7 +421,7 @@ ContactDataServices.address = function(options){
 				}
 
 				instance.result.show(inputData);
-				instance.result.editAddressManually();
+				instance.result.updateHeading(instance.formattedAddressContainer.manualHeadingText);
 			},
 			// Create and return an address line object with the key as the label
 			formatManualAddressLine: function(lines, i){
@@ -428,12 +431,18 @@ ContactDataServices.address = function(options){
 				return lineObject;
 			}
 		},
-		// Create the picklist container and inject after the input
+		// Create the picklist list (and container) and inject after the input
 		createList: function(){
+			var container = document.createElement("div");
+			container.classList.add("address-picklist-container");
+			// Insert the picklist container after the input
+			instance.input.parentNode.insertBefore(container, instance.input.nextSibling);
+			instance.picklist.container = container;
+
 			var list = document.createElement("div");
 			list.classList.add("address-picklist");
-			// Insert the picklist after the input
-			instance.input.parentNode.insertBefore(list, instance.input.nextSibling);
+			// Append the picklist to the container
+			container.appendChild(list);
 
 			list.addEventListener("keydown", instance.picklist.enter);
 			return list;
@@ -453,7 +462,7 @@ ContactDataServices.address = function(options){
     	},
 		// Keyboard navigation
 		keyup: function(e){
-			if(!instance.picklist.container){
+			if(!instance.picklist.list){
             	return;
             }
 
@@ -463,7 +472,7 @@ ContactDataServices.address = function(options){
             }
 
             // Get a list of all the addresses in the picklist
-            var addresses = instance.picklist.container.querySelectorAll("div"),
+            var addresses = instance.picklist.list.querySelectorAll("div"),
             				firstAddress, lastAddress;
 
 						// If the picklist is empty, just return
@@ -492,7 +501,7 @@ ContactDataServices.address = function(options){
             // Highlight the selected address
         	var currentlyHighlighted = addresses[instance.picklist.tabCount];
         	// Remove any previously highlighted ones
-        	var previouslyHighlighted = instance.picklist.container.querySelector(".selected");
+        	var previouslyHighlighted = instance.picklist.list.querySelector(".selected");
         	if(previouslyHighlighted){
         		previouslyHighlighted.classList.remove("selected");
         	}
@@ -502,24 +511,24 @@ ContactDataServices.address = function(options){
 
         	// Scroll address into view, if required
             var addressListCoords = {
-                top: instance.picklist.container.offsetTop,
-                bottom: instance.picklist.container.offsetTop + instance.picklist.container.offsetHeight,
-                scrollTop: instance.picklist.container.scrollTop,
+                top: instance.picklist.list.offsetTop,
+                bottom: instance.picklist.list.offsetTop + instance.picklist.list.offsetHeight,
+                scrollTop: instance.picklist.list.scrollTop,
                 selectedTop: currentlyHighlighted.offsetTop,
                 selectedBottom: currentlyHighlighted.offsetTop + currentlyHighlighted.offsetHeight,
                 scrollAmount: currentlyHighlighted.offsetHeight
             };
             if (firstAddress) {
-                instance.picklist.container.scrollTop = 0;
+                instance.picklist.list.scrollTop = 0;
             }
             else if (lastAddress) {
-                instance.picklist.container.scrollTop = 999;
+                instance.picklist.list.scrollTop = 999;
             }
             else if (addressListCoords.selectedBottom + addressListCoords.scrollAmount > addressListCoords.bottom) {
-                instance.picklist.container.scrollTop = addressListCoords.scrollTop + addressListCoords.scrollAmount;
+                instance.picklist.list.scrollTop = addressListCoords.scrollTop + addressListCoords.scrollAmount;
             }
             else if (addressListCoords.selectedTop - addressListCoords.scrollAmount - addressListCoords.top < addressListCoords.scrollTop) {
-                instance.picklist.container.scrollTop = addressListCoords.scrollTop - addressListCoords.scrollAmount;
+                instance.picklist.list.scrollTop = addressListCoords.scrollTop - addressListCoords.scrollAmount;
             }
 		},
 		// Add emphasis to the picklist items highlighting the match
@@ -542,7 +551,7 @@ ContactDataServices.address = function(options){
 			var picklistItem;
 			// If picklist contains 1 address then use this one to format
 			if(instance.picklist.size === 1){
-				picklistItem = instance.picklist.container.querySelectorAll("div")[0];
+				picklistItem = instance.picklist.list.querySelectorAll("div")[0];
 			} // Else use the currently highlighted one when navigation using keyboard
 			else if(instance.picklist.currentItem){
 				picklistItem = instance.picklist.currentItem;
@@ -577,15 +586,8 @@ ContactDataServices.address = function(options){
 				// Fire an event to say we've got the formatted address
 				instance.events.trigger("post-formatting-search", data);
 
-				// Get formatted address container element
-				instance.result.formattedAddress = instance.elements.formattedAddress || instance.result.createFormattedAddressContainer();
-
 				// Create an array to hold the hidden input fields
 				var inputArray = [];
-
-				// Get html address template for this country if it exists, else use the default template
-				var templateKey = ContactDataServices.addressTemplates.hasOwnProperty(instance.currentCountryCode) ? instance.currentCountryCode : 'default';
-				var addressHtml = ContactDataServices.addressTemplates[templateKey];
 
 				// Loop over each formatted address component
 				for(var i = 0; i < data.address.length; i++){
@@ -593,55 +595,66 @@ ContactDataServices.address = function(options){
 				    // The addressComponent object will only have one property, but we don't know the key
 				    for (var key in addressComponent) {
 				        if (addressComponent.hasOwnProperty(key)) {
-                            // Replace the address component placeholder with the actual value
-						    addressHtml = addressHtml.replace("{" + key + "}", addressComponent[key]);
-							// Create a hidden input to store the address line as well
-							var label = instance.result.createAddressLine.label(key);
-							inputArray.push(instance.result.createAddressLine.input(label, addressComponent[key]));
-						}
-					}
+									// Create an input to store the address line
+									var label = instance.result.createAddressLine.label(key);
+									inputArray.push(instance.result.createAddressLine.input(label, addressComponent[key]));
+								}
+				    }
 				}
 
-				// Remove any remaining address component placeholders and insert into DOM
-				addressHtml = addressHtml.replace(/{.*}/, "");
-				instance.result.formattedAddress.innerHTML += addressHtml;
+				// Hide country and address search fields
+				instance.result.hideSearchInputs();
+
+				// Get formatted address container element
+				instance.result.formattedAddressContainer = instance.elements.formattedAddressContainer || instance.result.createFormattedAddressContainer();
+
+				// Create an (optional) heading for the formattedAddressContainer
+				instance.result.createHeading();
 
 				// Write the list of hidden address line inputs to the DOM in one go
 				instance.result.renderInputList(inputArray);
-
-				// Write the 'Edit address' link and insert into DOM
-				instance.result.createEditAddressLink();
 
 				// Write the 'Search again' link and insert into DOM
 				instance.result.createSearchAgainLink();
 			}
 		},
 		hide: function(){
-			if(instance.result.formattedAddress){
-				instance.input.parentNode.removeChild(instance.result.formattedAddress);
-				instance.result.formattedAddress = undefined;
+			if(instance.result.formattedAddressContainer){
+				instance.input.parentNode.removeChild(instance.result.formattedAddressContainer);
+				instance.result.formattedAddressContainer = undefined;
 			}
 		},
 		// Create the formatted address container and inject after the input
 		createFormattedAddressContainer: function(){
 			var container = document.createElement("div");
 			container.classList.add("formatted-address");
-			// Create a heading for the formatted address
-			if(instance.formattedAddress.showHeading){
-				var heading = document.createElement(instance.formattedAddress.headingType);
-				heading.innerHTML = instance.formattedAddress.validatedHeadingText;
-				container.appendChild(heading);
-			}
+
 			// Insert the container after the input
 			instance.input.parentNode.insertBefore(container, instance.input.nextSibling);
 			return container;
 		},
+		// Create a heading for the formatted address container
+		createHeading: function(){
+			// Create a heading for the formatted address
+			if(instance.formattedAddressContainer.showHeading){
+				var heading = document.createElement(instance.formattedAddressContainer.headingType);
+				heading.innerHTML = instance.formattedAddressContainer.validatedHeadingText;
+				instance.result.formattedAddressContainer.appendChild(heading);
+			}
+		},
+		// Update the heading text in the formatted address container
+		updateHeading: function(text){
+			//Change the heading text to "Manual address entered"
+			if(instance.formattedAddressContainer.showHeading){
+				var heading = instance.result.formattedAddressContainer.querySelector(instance.formattedAddressContainer.headingType);
+				heading.innerHTML = text;
+			}
+		},
 		createAddressLine: {
-			// Create a hidden input to store the address line
+			// Create an input to store the address line
 			input: function(key, value){
-				// Create a wrapper (and hide it)
+				// Create a wrapper
 				var div  = document.createElement("div");
-				div.classList.add("hidden");
 				div.classList.add("address-line-input");
 
 				// Create the label
@@ -658,13 +671,6 @@ ContactDataServices.address = function(options){
 				input.setAttribute("value", value);
 				div.appendChild(input);
 				return div;
-			},
-			// Create a DOM element to contain the address line
-			row: function(value){
-				var row = document.createElement("div");
-				row.classList.add("toggle");
-				row.innerHTML = value;
-				return row;
 			},
 			// Create the address line label based on the country and language
 			label: function(key){
@@ -685,59 +691,30 @@ ContactDataServices.address = function(options){
 				return label;
 			}
 		},
-		// Create the 'Edit address' link that allows manual editing of address
-		createEditAddressLink: function(){
-			var link = document.createElement("a");
-			link.setAttribute("href", "#");
-			link.classList.add("edit-address-link");
-			link.innerHTML = instance.editAddressText;
-			// Insert into the formatted address container
-			instance.result.formattedAddress.appendChild(link);
-			// Bind event listener
-			link.addEventListener("click", instance.result.editAddressManually);
-		},
 		// Create the 'Search again' link that resets the search
 		createSearchAgainLink: function(){
-			var link = document.createElement("a");
-			link.setAttribute("href", "#");
-			link.classList.add("search-again-link");
-			link.innerHTML = instance.searchAgainText;
-			// Insert into the formatted address container
-			instance.result.formattedAddress.appendChild(link);
-			// Bind event listener
-			link.addEventListener("click", instance.reset);
-		},
-		editAddressManually: function(event){
-			if(event){
-				event.preventDefault();
-			}
-
-			//Change the heading text to "Manual address entered"
-			if(instance.formattedAddress.showHeading){
-				var heading = instance.result.formattedAddress.querySelector(instance.formattedAddress.headingType);
-				heading.innerHTML = instance.formattedAddress.manualHeadingText;
-			}
-
-			// Remove 'edit address link'
-			instance.result.formattedAddress.querySelector(".edit-address-link").classList.add("hidden");
-
-			// Change the visible formatted address to hidden
-			instance.toggleVisibility(instance.result.formattedAddress);
-
-
-			// Change the hidden address line inputs to show to allow editing
-			var addressLineInputs = instance.result.formattedAddress.querySelectorAll(".address-line-input");
-			for (var j = 0; j < addressLineInputs.length; j++) {
-					addressLineInputs[j].classList.remove("hidden");
+			if(instance.searchAgain.visible){
+				var link = document.createElement("a");
+				link.setAttribute("href", "#");
+				link.classList.add("search-again-link");
+				link.innerHTML = instance.searchAgain.text;
+				// Insert into the formatted address container
+				instance.result.formattedAddressContainer.appendChild(link);
+				// Bind event listener
+				link.addEventListener("click", instance.reset);
 			}
 		},
 		// Write the list of hidden address line inputs to the DOM
 		renderInputList: function(inputArray){
 			if(inputArray.length > 0){
 				for(var i = 0; i < inputArray.length; i++){
-					instance.result.formattedAddress.appendChild(inputArray[i]);
+					instance.result.formattedAddressContainer.appendChild(inputArray[i]);
 				}
 			}
+		},
+		// Hide the initial country and address search inputs
+		hideSearchInputs: function(){
+			instance.toggleVisibility(instance.input.parentNode);
 		}
 	};
 

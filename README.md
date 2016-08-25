@@ -40,10 +40,16 @@ Additional options that can be passed through include:
 |------------|-------------|---------------|
 | `token` | Your authentication token. Recommended. | |
 | `language` | The ISO 2 digit language code | "en"|
-| `placeholderText` | The placeholder text for the input | "Start typing an address"|
-| `editAddressText` | The text for the 'edit address' link | "Edit address"|
-| `searchAgainText` | The text for the 'search again' link | "Search again"|
+| `input.placeholderText` | The placeholder text for the input | "Start typing an address"|
+| `input.applyFocus` | Whether to apply focus to the search field | true|
+| `searchAgain.visible` | Whether the 'search again' link is shown | true|
+| `searchAgain.text` | The text for the 'search again' link | "Search again"|
+| `formattedAddressContainer.showHeading` | Whether to show a "Validated address" heading | false|
+| `formattedAddressContainer.headingType` | If a heading is shown, what HTML element to use | H3|
+| `formattedAddressContainer.validatedHeadingText` | Heading text for validated addresses | "Validated address"|
+| `formattedAddressContainer.manualHeadingText` | Heading text if address entered manually | "Manual address entered"|
 | `useSpinner` | Whether to display a spinner while searching | false|
+| `addressLineLabels` | An array of 7 labels for the form fields | ["addressLine1", "addressLine2", "addressLine3", "locality", "province", "postalCode", "country"] |
 
 ##### Tokens
 
@@ -114,16 +120,6 @@ en: {
 Any property you don't override will continue to use the default label.
 
 NB. You can change the language by passing this setting through, as described in [Options](/#options).
-
-#### Customising address formats
-
-To give the users of your application the best possible user experience, you may decide to format addresses differently depending on the country selected. 
-
-1. Access the [_address-templates.js file](/src/js/_address-templates.js)
-
-2. Add localised formats you wish to use, add country-format key-value pair.  
-
-Any country you don't include in this file will continue to use the default format.
 
 ## Development
 
