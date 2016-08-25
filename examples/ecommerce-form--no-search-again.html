@@ -4,8 +4,8 @@
 		<title>Real Time Address - sample code</title>
 		<meta charset="UTF-8">
 		<meta name="viewport" content="width=device-width, initial-scale=1.0, minimum-scale=1, maximum-scale=1" />
-		<link rel="stylesheet" type="text/css" href="dist/css/styles.min.css">
-		<link rel="shortcut icon" href="/dist/images/favicon.ico">
+		<link rel="stylesheet" type="text/css" href="../dist/css/styles.min.css">
+		<link rel="shortcut icon" href="../dist/images/favicon.ico">
 	</head>
 	<body>
 		<div class="filter-primary overlay-dotted">
@@ -14,12 +14,18 @@
 
 		<form>
 			<div class="loader loader-overlay hidden">
-            	<div class="spinner"></div>
-        	</div>
+				<div class="spinner"></div>
+			</div>
 
-			<label for="country" class="toggle">Country</label>
-			<select name="country" class="toggle">
-				<option value="">Please select</option>
+			<label for="name-input">Name</label>
+			<input type="text" name="name-input">
+
+			<label for="email-input">Email</label>
+			<input type="text" name="email-input">
+
+			<label for="country-input" class="toggle">Country</label>
+			<select name="country-input" class="toggle">
+				<option>Please select</option>
 				<option value="aus">Australia</option>
 				<option value="fra">France</option>
 				<option value="nzl">New Zealand</option>
@@ -29,19 +35,32 @@
 
 			<label for="address-input" class="toggle">Address</label>
 			<input type="text" name="address-input" class="toggle">
+
+			<label for="company-input">Company</label>
+			<input type="text" name="company-input">
+
+			<label for="job-title-input">Job title</label>
+			<input type="text" name="job-title-input">
+
+			<label for="phone-input">Phone</label>
+			<input type="text" name="phone-input">
+
+			<input type="submit" name="submit" value="Submit">
 		</form>
 
-		<script src="dist/js/contact-data-services.min.js"></script>
+		<script src="../dist/js/contact-data-services.min.js"></script>
 		<script>
-			// Set the custom options
 			var options = {
 				elements: {
 					input: document.querySelector("input[name='address-input']"),
-					countryList: document.querySelector("select")
+					countryList: document.querySelector("select[name='country-input']")
+				},
+				applyFocus: false,
+				searchAgain: { visible: false },
+				formattedAddressContainer: {
+					showHeading: false
 				}
 			};
-
-			// Initialise this instance
 			var address = new ContactDataServices.address(options);
 
 			// Show the spinner while we're searching for the formatted address
@@ -49,15 +68,9 @@
 				document.querySelector(".loader").classList.remove("hidden");
 			});
 
-			// Hide the country and search input when a result is found
+			// Hide the spinner when a result is found
 			address.events.on("post-formatting-search", function(){
-				// Hide the spinner
 				document.querySelector(".loader").classList.add("hidden");
-			});
-
-			// Show a message if the request is unauthorised (token is invalid)
-			address.events.on("request-error-401", function(){
-				ContactDataServices.ua.banner.show("<a href='https://github.com/experiandataquality/RealTimeAddress#tokens'>Please provide a valid token for RealTimeAddress.</a>");
 			});
 		</script>
 	</body>

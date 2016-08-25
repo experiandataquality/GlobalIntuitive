@@ -59,9 +59,8 @@
 					countryList: document.querySelector(".example1 select")
 				},
 				placeholderText: "Start typing...",
-				formattedAddress: {
-					headingText: "Shipping address",
-					headingType: "h3"
+				formattedAddressContainer: {
+					validatedHeadingText: "Shipping address"
 				}
 			};
 			var address1 = new ContactDataServices.address(options1);
@@ -72,9 +71,8 @@
 					input: document.querySelector(".example2 input[name='address-input']"),
 					countryList: document.querySelector(".example2 select")
 				},
-				formattedAddress: {
-					headingText: "Billing address",
-					headingType: "h3"
+				formattedAddressContainer: {
+					validatedHeadingText: "Billing address"
 				}
 			};
 			var address2 = new ContactDataServices.address(options2);
@@ -82,6 +80,7 @@
 			// Set up the event listeners
 			var numberOfForms = 2;
 			for(var i = 1; i <= numberOfForms; i++){
+
 				// Show the spinner while we're searching for the formatted address
 				window["address" + i].events.on("pre-formatting-search", (function(idx){
 					return function(){
@@ -89,14 +88,9 @@
 					}
 				})(i));
 
-				// Hide the country and search input when a result is found
+				// Hide the spinner when a result is found
 				window["address" + i].events.on("post-formatting-search", (function(idx){
 					return function(){
-						var searchInputs = document.querySelectorAll(".example" + idx + " .toggle");
-						for (var j = 0; j < searchInputs.length; ++j) {
-		  					searchInputs[j].classList.add("hidden");
-						}
-
 						// Hide the spinner
 						document.querySelector(".example" + idx + " .loader").classList.add("hidden");
 					}

@@ -1,5 +1,6 @@
 /* Breakpoints */
 /* Colors */
+/* Sizes */
 @font-face {
   font-family: 'OpenSansLight';
   src: url('../fonts/OpenSans-Light-webfont.eot');
@@ -113,19 +114,37 @@ form.dual-form {
   margin-right: 5%;
 }
 label {
+  color: #333;
   display: block;
   font-size: 14px;
-  margin: 10px auto 5px;
+  margin: 5px auto 2px;
 }
 input[type="text"],
 select {
-  border: 1px solid #aaa;
-  border-radius: 4px;
+  background-color: #ebeef3;
+  border: 1px solid #c3c3c3;
   box-shadow: inset 0 1px 1px rgba(0, 0, 0, 0.075);
   box-sizing: border-box;
   font-size: 14px;
-  line-height: 20px;
-  padding: 5px 10px;
+  line-height: 18px;
+  padding: 5px;
+  width: 100%;
+}
+input[type="submit"] {
+  background-color: #00be8b;
+  border: 0 none;
+  color: white;
+  font-size: 15px;
+  text-transform: uppercase;
+  line-height: 18px;
+  padding: 10px 50px;
+  margin-top: 5px;
+}
+input[type="submit"]:hover {
+  background-color: #008b66;
+}
+.address-picklist-container {
+  position: absolute;
   width: 100%;
 }
 .address-picklist {
@@ -137,7 +156,6 @@ select {
   overflow: auto;
   overflow-x: hidden;
   padding: 0;
-  width: 100%;
 }
 .address-picklist div,
 .use-address-entered {
@@ -175,17 +193,21 @@ select {
   padding: 4px 11px;
 }
 .formatted-address {
-  border: 1px solid #00be8b;
   border-radius: 4px;
   line-height: 24px;
-  margin: 10px auto;
-  padding: 10px;
+  margin: 5px auto;
 }
-.formatted-address div {
-  font-weight: bold;
-}
-.formatted-address a {
-  font-size: 12px;
+.formatted-address .search-again-link {
+  background: #d14;
+  color: white;
+  display: block;
+  padding: 5px;
+  font-size: 14px;
+  line-height: 18px;
+  margin-top: 5px;
+  text-align: center;
+  text-decoration: none;
+  width: 20%;
 }
 .formatted-address h3 {
   color: #00be8b;
@@ -193,23 +215,6 @@ select {
   font-family: "OpenSansLight", Arial, sans-serif;
   line-height: 1.1;
   margin: 0 auto 10px;
-}
-.formatted-address input {
-  width: 70%;
-}
-.formatted-address label {
-  display: inline-block;
-  width: 30%;
-}
-.search-again-link {
-  display: block;
-  text-align: center;
-  text-decoration: none;
-  background-color: #d14;
-  color: white;
-  border-radius: 5px;
-  padding: 5px;
-  margin-top: 5px;
 }
 .ua-banner {
   background: #fcf8e3;
