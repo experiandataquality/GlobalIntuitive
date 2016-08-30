@@ -101,7 +101,17 @@ After using instantiating a new instance the constructor returns an object that 
 
 #### Customising labels
 
-By default the API returns the formatted address using a global 7-line layout. This means that the field labels for every country are all the same. In your integration you might wish to change "locality" to "city" or "postalCode" to "post code", for example.
+By default the API returns the formatted address using a global 7-line layout. This means that the field labels for every country are all the same. These are:
+
+* addressLine1
+* addressLine2
+* addressLine3
+* locality
+* province
+* postalCode
+* country
+
+However, in your integration you might wish to change "locality" to "city" or "postalCode" to "post code", for example.
 
 1. Access the [_translations.js file](/src/js/_translations.js)
 
@@ -120,6 +130,16 @@ en: {
 Any property you don't override will continue to use the default label.
 
 NB. You can change the language by passing this setting through, as described in [Options](/#options).
+
+#### Returning results
+
+The API returns the formatted address in json format as **7 lines**.
+
+This sample code creates a new form field for each of the address lines and sets the value accordingly. These form fields are created for you and don't need to be specified in advance.
+
+The form fields are wrapped in a `div` with a class name of "formatted-address".
+
+The `name` attribute for each field is the same as the label discussed in [Customising labels](/#customising-labels). That is, either the default label returned by the API, or a custom key if it's overridden.
 
 ## Development
 
