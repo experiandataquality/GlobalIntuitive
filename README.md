@@ -5,7 +5,6 @@
 [![Dependency Status](https://david-dm.org/ExperianDataQuality/RealTimeAddress/dev-status.svg)](https://david-dm.org/ExperianDataQuality/RealTimeAddress#info=devDependencies)
 [![Build Status](https://travis-ci.org/experiandataquality/RealTimeAddress.svg?branch=master)](https://travis-ci.org/experiandataquality/RealTimeAddress)
 
-This repo contains sample code for integrating with Experian Data Quality's Address API. Currently available for GBR, USA, AUS, NZL and FRA.
 
 Check out the [demo](https://www.edq.com/uk/products/address-validation/#interactive-demo) on our website.
 
@@ -51,6 +50,10 @@ Additional options that can be passed through include:
 | `useSpinner` | Whether to display a spinner while searching | false|
 | `addressLineLabels` | An array of 7 labels for the form fields | ["addressLine1", "addressLine2", "addressLine3", "locality", "province", "postalCode", "country"] |
 
+##### Country list
+
+The default sample page contains the full list of supported countries. This list should be amended to include only the countries that your integration supports. A full list of available countries and their ISO codes can also be found with our [API documentation](http://support.qas.com/ua/?lang=en-us&prod=capture&flav=apiv2).
+
 ##### Tokens
 
 > For the purpose of this sample code, the tokens for the live endpoint aren't hardcoded in source control and must be appended to the URL query string. For example: **http://experiandataquality.github.io/RealTimeAddress/?token=xyz**
@@ -81,7 +84,7 @@ Invoke a new instance by calling the `address` method on the Contact Data Servic
 
 #### Events
 
-After using instantiating a new instance the constructor returns an object that can be used to subscribe to events.
+After instantiating a new instance the constructor returns an object that can be used to subscribe to events.
 
 | Event name | Description | Example usage |
 |------------|-------------|---------------|
