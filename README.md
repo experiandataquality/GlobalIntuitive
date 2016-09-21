@@ -5,7 +5,7 @@
 [![Dependency Status](https://david-dm.org/ExperianDataQuality/RealTimeAddress/dev-status.svg)](https://david-dm.org/ExperianDataQuality/RealTimeAddress#info=devDependencies)
 [![Build Status](https://travis-ci.org/experiandataquality/RealTimeAddress.svg?branch=master)](https://travis-ci.org/experiandataquality/RealTimeAddress)
 
-This repo contains sample code for integrating with Experian Data Quality's Address API. Currently available for GBR, USA, AUS, NZL and FRA.
+This repo contains sample code for integrating with Experian Data Quality's Address API. Currently available for over 235 countries and territories.
 
 Check out the [demo](https://www.edq.com/uk/products/address-validation/#interactive-demo) on our website.
 
@@ -51,6 +51,10 @@ Additional options that can be passed through include:
 | `useSpinner` | Whether to display a spinner while searching | false|
 | `addressLineLabels` | An array of 7 labels for the form fields | ["addressLine1", "addressLine2", "addressLine3", "locality", "province", "postalCode", "country"] |
 
+##### Country list
+
+The default sample page contains the full list of supported countries. This list should be amended to include only the countries that your integration supports. A full list of available countries and their ISO codes can also be found with our [API documentation](http://support.qas.com/ua/?lang=en-us&prod=capture&flav=apiv2).
+
 ##### Tokens
 
 > For the purpose of this sample code, the tokens for the live endpoint aren't hardcoded in source control and must be appended to the URL query string. For example: **http://experiandataquality.github.io/RealTimeAddress/?token=xyz**
@@ -81,7 +85,7 @@ Invoke a new instance by calling the `address` method on the Contact Data Servic
 
 #### Events
 
-After using instantiating a new instance the constructor returns an object that can be used to subscribe to events.
+After instantiating a new instance the constructor returns an object that can be used to subscribe to events.
 
 | Event name | Description | Example usage |
 |------------|-------------|---------------|
@@ -101,7 +105,17 @@ After using instantiating a new instance the constructor returns an object that 
 
 #### Customising labels
 
-By default the API returns the formatted address using a global 7-line layout. This means that the field labels for every country are all the same. In your integration you might wish to change "locality" to "city" or "postalCode" to "post code", for example.
+By default the API returns the formatted address using a global 7-line layout. This means that the field labels for every country are all the same. These are:
+
+* addressLine1
+* addressLine2
+* addressLine3
+* locality
+* province
+* postalCode
+* country
+
+However, in your integration you might wish to change "locality" to "city" or "postalCode" to "post code", for example.
 
 1. Access the [_translations.js file](/src/js/_translations.js)
 
@@ -120,6 +134,16 @@ en: {
 Any property you don't override will continue to use the default label.
 
 NB. You can change the language by passing this setting through, as described in [Options](/#options).
+
+#### Returning results
+
+The API returns the formatted address in json format as **7 lines**.
+
+This sample code creates a new form field for each of the address lines and sets the value accordingly. These form fields are created for you and don't need to be specified in advance.
+
+The form fields are wrapped in a `div` with a class name of "formatted-address".
+
+The `name` attribute for each field is the same as the label discussed in [Customising labels](/#customising-labels). That is, either the default label returned by the API, or a custom key if it's overridden.
 
 ## Development
 
