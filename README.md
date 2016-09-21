@@ -5,6 +5,7 @@
 [![Dependency Status](https://david-dm.org/ExperianDataQuality/RealTimeAddress/dev-status.svg)](https://david-dm.org/ExperianDataQuality/RealTimeAddress#info=devDependencies)
 [![Build Status](https://travis-ci.org/experiandataquality/RealTimeAddress.svg?branch=master)](https://travis-ci.org/experiandataquality/RealTimeAddress)
 
+This repo contains sample code for integrating with Experian Data Quality's Address API. Currently available for over 235 countries and territories.
 
 Check out the [demo](https://www.edq.com/uk/products/address-validation/#interactive-demo) on our website.
 
