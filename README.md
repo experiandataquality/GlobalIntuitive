@@ -1,11 +1,11 @@
-# Our Real Time Address API
+# Global Intuitive
 
 [![GitHub version](https://badge.fury.io/gh/ExperianDataQuality%2FRealTimeAddress.svg)](http://badge.fury.io/gh/ExperianDataQuality%2FRealTimeAddress)
 [![Dependency Status](https://david-dm.org/ExperianDataQuality/RealTimeAddress.svg)](https://david-dm.org/ExperianDataQuality/RealTimeAddress)
 [![Dependency Status](https://david-dm.org/ExperianDataQuality/RealTimeAddress/dev-status.svg)](https://david-dm.org/ExperianDataQuality/RealTimeAddress#info=devDependencies)
 [![Build Status](https://travis-ci.org/experiandataquality/RealTimeAddress.svg?branch=master)](https://travis-ci.org/experiandataquality/RealTimeAddress)
 
-This repo contains sample code for integrating with Experian Data Quality's Address API. Currently available for over 235 countries and territories.
+This repo contains sample code for integrating with Experian Data Quality's Global Intuitive API. Currently available for over 235 countries and territories.
 
 Check out the [demo](https://www.edq.com/uk/products/address-validation/#interactive-demo) on our website.
 
@@ -17,7 +17,7 @@ If you want to use the code for your integration *as-is*, without modifying it, 
 
 If you need to *edit* the code, then jump to the [Development](#development) section.
 
-- Include the Real Time Address API [JavaScript file](/dist/js/contact-data-services.min.js) in your form page.
+- Include the Global Intuitive [JavaScript file](/dist/js/contact-data-services.min.js) in your form page.
 - Have a token to hand (You would have received this from your Experian Data Quality account manager).
 
 #### Integration
