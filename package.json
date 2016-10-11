@@ -1,13 +1,13 @@
 {
-  "name": "RealTimeAddress",
+  "name": "GlobalIntuitive",
   "version": "1.0.0",
   "license": "Apache-2.0",
   "author": "Experian Data Quality",
   "contact": "https://github.com/experiandataquality",
-  "url": "https://github.com/experiandataquality/RealTimeAddress",
+  "url": "https://github.com/experiandataquality/GlobalIntuitive",
   "repository": {
     "type": "git",
-    "url": "git://github.com/experiandataquality/RealTimeAddress.git"
+    "url": "git://github.com/experiandataquality/GlobalIntuitive.git"
   },
   "devDependencies": {
     "grunt": "~0.4.5",
