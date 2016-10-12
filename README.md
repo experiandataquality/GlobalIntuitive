@@ -1,9 +1,9 @@
 # Global Intuitive
 
-[![GitHub version](https://badge.fury.io/gh/ExperianDataQuality%2FRealTimeAddress.svg)](http://badge.fury.io/gh/ExperianDataQuality%2FRealTimeAddress)
-[![Dependency Status](https://david-dm.org/ExperianDataQuality/RealTimeAddress.svg)](https://david-dm.org/ExperianDataQuality/RealTimeAddress)
-[![Dependency Status](https://david-dm.org/ExperianDataQuality/RealTimeAddress/dev-status.svg)](https://david-dm.org/ExperianDataQuality/RealTimeAddress#info=devDependencies)
-[![Build Status](https://travis-ci.org/experiandataquality/RealTimeAddress.svg?branch=master)](https://travis-ci.org/experiandataquality/RealTimeAddress)
+[![GitHub version](https://badge.fury.io/gh/ExperianDataQuality%2FGlobalIntuitive.svg)](http://badge.fury.io/gh/ExperianDataQuality%2FGlobalIntuitive)
+[![Dependency Status](https://david-dm.org/ExperianDataQuality/GlobalIntuitive.svg)](https://david-dm.org/ExperianDataQuality/GlobalIntuitive)
+[![Dependency Status](https://david-dm.org/ExperianDataQuality/GlobalIntuitive/dev-status.svg)](https://david-dm.org/ExperianDataQuality/GlobalIntuitive#info=devDependencies)
+[![Build Status](https://travis-ci.org/experiandataquality/GlobalIntuitive.svg?branch=master)](https://travis-ci.org/experiandataquality/GlobalIntuitive)
 
 This repo contains sample code for integrating with Experian Data Quality's Global Intuitive API. Currently available for over 235 countries and territories.
 
@@ -57,7 +57,7 @@ The default sample page contains the full list of supported countries. This list
 
 ##### Tokens
 
-> For the purpose of this sample code, the tokens for the live endpoint aren't hardcoded in source control and must be appended to the URL query string. For example: **http://experiandataquality.github.io/RealTimeAddress/?token=xyz**
+> For the purpose of this sample code, the tokens for the live endpoint aren't hardcoded in source control and must be appended to the URL query string. For example: **http://experiandataquality.github.io/GlobalIntuitive/?token=xyz**
 
 To get your token and a free trial, contact us via [edq.com](https://www.edq.com/uk/contact-us/)
 
