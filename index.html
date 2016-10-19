@@ -264,6 +264,23 @@
 
 		<label for="address-input" class="toggle">Address</label>
 		<input type="text" name="address-input" class="toggle">
+
+		<div class="formatted-address hidden">
+			<label for="addressLine1">Address line 1</label>
+			<input type="text" name="addressLine1">
+
+			<label for="addressLine2">Address line 2</label>
+			<input type="text" name="addressLine2">
+
+			<label for="city">City</label>
+			<input type="text" name="city">
+
+			<label for="state">State</label>
+			<input type="text" name="state">
+
+			<label for="zip">Zip</label>
+			<input type="text" name="zip">
+		</div>
 	</form>
 
 	<script src="dist/js/contact-data-services.min.js"></script>
@@ -272,7 +289,13 @@
 		var options = {
 			elements: {
 				input: document.querySelector("input[name='address-input']"),
-				countryList: document.querySelector("select")
+				countryList: document.querySelector("select"),
+				addressLine1: document.querySelector("input[name='addressLine1']"),
+				addressLine2: document.querySelector("input[name='addressLine2']"),
+				addressLine3: document.querySelector("input[name='addressLine2']"),
+				locality: document.querySelector("input[name='city']"),
+				province: document.querySelector("input[name='state']"),
+				postalCode: document.querySelector("input[name='zip']")
 			}
 		};
 
@@ -284,10 +307,16 @@
 			document.querySelector(".loader").classList.remove("hidden");
 		});
 
-		// Hide the country and search input when a result is found
+		// Hide the spinner when a result is found
 		address.events.on("post-formatting-search", function() {
-			// Hide the spinner
 			document.querySelector(".loader").classList.add("hidden");
+			// Show the formatted address
+			document.querySelector(".formatted-address").classList.remove("hidden");
+		});
+
+		// Hide the formatted address container again upon reset
+		address.events.on("post-reset", function(){
+			document.querySelector(".formatted-address").classList.add("hidden");
 		});
 
 		// Show a message if the request is unauthorised (token is invalid)

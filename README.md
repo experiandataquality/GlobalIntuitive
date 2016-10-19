@@ -34,6 +34,8 @@ var options = {
 	}
 };
 ```
+If you have your own return fields that you want a final address pasted to, you need to specify these in the `elements` object too.
+
 Additional options that can be passed through include:
 
 | Property name | Description | Default |
@@ -139,7 +141,27 @@ NB. You can change the language by passing this setting through, as described in
 
 The API returns the formatted address in json format as **7 lines**.
 
-This sample code creates a new form field for each of the address lines and sets the value accordingly. These form fields are created for you and don't need to be specified in advance.
+If you **have your own** fields to paste the result to, you must tell the API about your fields.
+This is done when integrating the API and specifying your elements. As well as specifying the input and country field, you'd specify your "result" fields. e.g.
+
+```
+var options = {
+	elements: {
+		input: document.querySelector("input[name='address-input']"),
+		countryList: document.querySelector("select"),
+		addressLine1: document.querySelector("input[name='addressLine1']"),
+		addressLine2: document.querySelector("input[name='addressLine2']"),
+		addressLine3: document.querySelector("input[name='addressLine2']"),
+		locality: document.querySelector("input[name='city']"),
+		province: document.querySelector("input[name='state']"),
+		postalCode: document.querySelector("input[name='zip']")
+	}
+};
+```
+
+Notice how you can return multiple address lines to the same form field.
+
+If you **don't** have your own fields, this sample code creates a new form field for each of the address lines and sets the value accordingly. These form fields are created for you and don't need to be specified in advance.
 
 The form fields are wrapped in a `div` with a class name of "formatted-address".
 

@@ -413,39 +413,59 @@ ContactDataServices.address = function(customOptions){
 				// Create an array to hold the hidden input fields
 				var inputArray = [];
 
+				// Calculate if we needed to generate the formatted address input fields later
+				instance.result.calculateIfAddressLineGenerationRequired();
+
+				// Get formatted address container element
+				// Only create a container if we're creating inputs. otherwise the user will have their own container.
+				instance.result.formattedAddressContainer = instance.elements.formattedAddressContainer;
+				if(!instance.result.formattedAddressContainer && instance.result.generateAddressLineRequired) {
+					instance.result.createFormattedAddressContainer();
+				}
+
 				// Loop over each formatted address component
 				for(var i = 0; i < data.address.length; i++){
 				    var addressComponent = data.address[i];
 				    // The addressComponent object will only have one property, but we don't know the key
 				    for (var key in addressComponent) {
 				        if (addressComponent.hasOwnProperty(key)) {
-									// Create an input to store the address line
-									var label = instance.result.createAddressLine.label(key);
-									inputArray.push(instance.result.createAddressLine.input(label, addressComponent[key]));
-								}
+							// Bind the address element to the user's address field (or create a new one)
+							instance.result.updateAddressLine(key, addressComponent);
+						}
 				    }
 				}
 
 				// Hide country and address search fields
 				instance.result.hideSearchInputs();
 
-				// Get formatted address container element
-				instance.result.formattedAddressContainer = instance.elements.formattedAddressContainer || instance.result.createFormattedAddressContainer();
-
-				// Create an (optional) heading for the formattedAddressContainer
-				instance.result.createHeading();
-
-				// Write the list of hidden address line inputs to the DOM in one go
-				instance.result.renderInputList(inputArray);
-
 				// Write the 'Search again' link and insert into DOM
 				instance.result.createSearchAgainLink();
 			}
 		},
 		hide: function(){
+			// Delete the formatted address container
 			if(instance.result.formattedAddressContainer){
 				instance.input.parentNode.removeChild(instance.result.formattedAddressContainer);
 				instance.result.formattedAddressContainer = undefined;
+			}
+			// Delete the search again link
+			if(instance.searchAgain.link){
+				instance.searchAgain.link.parentNode.removeChild(instance.searchAgain.link);
+				instance.searchAgain.link = undefined;
+			}
+			// Remove previous value from user's result field
+			// Loop over their elements
+			for(var element in instance.elements){
+				if (instance.elements.hasOwnProperty(element)) {
+					// If it matches an "address" element
+					for(var i = 0; i < ContactDataServices.defaults.addressLineLabels.length; i++){
+						var label = ContactDataServices.defaults.addressLineLabels[i];
+						if(label === element) {
+							instance.elements[element].value = "";
+							break;
+						}
+					}
+				}
 			}
 		},
 		// Create the formatted address container and inject after the input
@@ -455,7 +475,7 @@ ContactDataServices.address = function(customOptions){
 
 			// Insert the container after the input
 			instance.input.parentNode.insertBefore(container, instance.input.nextSibling);
-			return container;
+			instance.result.formattedAddressContainer = container;
 		},
 		// Create a heading for the formatted address container
 		createHeading: function(){
@@ -474,6 +494,36 @@ ContactDataServices.address = function(customOptions){
 				heading.innerHTML = text;
 			}
 		},
+		calculateIfAddressLineGenerationRequired: function(){
+			instance.result.generateAddressLineRequired = true;
+			for(var i = 0; i < ContactDataServices.defaults.addressLineLabels.length; i++){
+				var key = ContactDataServices.defaults.addressLineLabels[i];
+				if(instance.elements[key]){
+					instance.result.generateAddressLineRequired = false;
+					break;
+				}
+			}
+		},
+		updateAddressLine: function(key, addressLineObject){
+			// Either append the result to the user's address field or create a new field for them
+			if (instance.elements[key]){
+				var addressField = instance.elements[key];
+				var value = addressLineObject[key];
+				// If a value is already present, prepend a comma and space
+				if(addressField.value && value) {
+					value = ", " + value;
+				}
+				addressField.value += value;
+				// Store a record of their last address field
+				instance.result.lastAddressField = addressField;
+			} else if (instance.result.generateAddressLineRequired){
+				// Create an input to store the address line
+				var label = instance.result.createAddressLine.label(key);
+				var field = instance.result.createAddressLine.input(label, addressLineObject[key]);
+				// Insert into DOM
+				instance.result.formattedAddressContainer.appendChild(field);
+			}
+		},
 		createAddressLine: {
 			// Create an input to store the address line
 			input: function(key, value){
@@ -483,9 +533,9 @@ ContactDataServices.address = function(customOptions){
 
 				// Create the label
 				var label = document.createElement("label");
-				 label.innerHTML = key.replace(/([A-Z])/g, ' $1') //Add space before capital Letters
-                                      .replace(/([0-9])/g, ' $1') //Add space before numbers
-                                      .replace(/^./, function (str) { return str.toUpperCase(); }); //Make first letter of word a capital letter
+				 label.innerHTML = key.replace(/([A-Z])/g, ' $1') // Add space before capital Letters
+                                      .replace(/([0-9])/g, ' $1') // Add space before numbers
+                                      .replace(/^./, function (str) { return str.toUpperCase(); }); // Make first letter of word a capital letter
 				div.appendChild(label);
 
 				// Create the input
@@ -522,10 +572,18 @@ ContactDataServices.address = function(customOptions){
 				link.setAttribute("href", "#");
 				link.classList.add("search-again-link");
 				link.innerHTML = instance.searchAgain.text;
-				// Insert into the formatted address container
-				instance.result.formattedAddressContainer.appendChild(link);
 				// Bind event listener
 				link.addEventListener("click", instance.reset);
+				// Store a reference to the link element
+				instance.searchAgain.link = link;
+
+				// Insert into the formatted address container
+				if(instance.result.formattedAddressContainer) {
+					instance.result.formattedAddressContainer.appendChild(link);
+				} else {
+					// Insert after last address field
+					instance.result.lastAddressField.parentNode.insertBefore(link, instance.result.lastAddressField.nextSibling);
+				}
 			}
 		},
 		// Write the list of hidden address line inputs to the DOM
