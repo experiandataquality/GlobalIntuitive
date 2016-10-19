@@ -1,11 +1,11 @@
-# Our Real Time Address API
+# Global Intuitive
 
-[![GitHub version](https://badge.fury.io/gh/ExperianDataQuality%2FRealTimeAddress.svg)](http://badge.fury.io/gh/ExperianDataQuality%2FRealTimeAddress)
-[![Dependency Status](https://david-dm.org/ExperianDataQuality/RealTimeAddress.svg)](https://david-dm.org/ExperianDataQuality/RealTimeAddress)
-[![Dependency Status](https://david-dm.org/ExperianDataQuality/RealTimeAddress/dev-status.svg)](https://david-dm.org/ExperianDataQuality/RealTimeAddress#info=devDependencies)
-[![Build Status](https://travis-ci.org/experiandataquality/RealTimeAddress.svg?branch=master)](https://travis-ci.org/experiandataquality/RealTimeAddress)
+[![GitHub version](https://badge.fury.io/gh/ExperianDataQuality%2FGlobalIntuitive.svg)](http://badge.fury.io/gh/ExperianDataQuality%2FGlobalIntuitive)
+[![Dependency Status](https://david-dm.org/ExperianDataQuality/GlobalIntuitive.svg)](https://david-dm.org/ExperianDataQuality/GlobalIntuitive)
+[![Dependency Status](https://david-dm.org/ExperianDataQuality/GlobalIntuitive/dev-status.svg)](https://david-dm.org/ExperianDataQuality/GlobalIntuitive#info=devDependencies)
+[![Build Status](https://travis-ci.org/experiandataquality/GlobalIntuitive.svg?branch=master)](https://travis-ci.org/experiandataquality/GlobalIntuitive)
 
-This repo contains sample code for integrating with Experian Data Quality's Address API. Currently available for over 235 countries and territories.
+This repo contains sample code for integrating with Experian Data Quality's Global Intuitive API. Currently available for over 235 countries and territories.
 
 Check out the [demo](https://www.edq.com/uk/products/address-validation/#interactive-demo) on our website.
 
@@ -17,7 +17,7 @@ If you want to use the code for your integration *as-is*, without modifying it, 
 
 If you need to *edit* the code, then jump to the [Development](#development) section.
 
-- Include the Real Time Address API [JavaScript file](/dist/js/contact-data-services.min.js) in your form page.
+- Include the Global Intuitive [JavaScript file](/dist/js/contact-data-services.min.js) in your form page.
 - Have a token to hand (You would have received this from your Experian Data Quality account manager).
 
 #### Integration
@@ -34,6 +34,8 @@ var options = {
 	}
 };
 ```
+If you have your own return fields that you want a final address pasted to, you need to specify these in the `elements` object too.
+
 Additional options that can be passed through include:
 
 | Property name | Description | Default |
@@ -57,7 +59,7 @@ The default sample page contains the full list of supported countries. This list
 
 ##### Tokens
 
-> For the purpose of this sample code, the tokens for the live endpoint aren't hardcoded in source control and must be appended to the URL query string. For example: **http://experiandataquality.github.io/RealTimeAddress/?token=xyz**
+> For the purpose of this sample code, the tokens for the live endpoint aren't hardcoded in source control and must be appended to the URL query string. For example: **http://experiandataquality.github.io/GlobalIntuitive/?token=xyz**
 
 To get your token and a free trial, contact us via [edq.com](https://www.edq.com/uk/contact-us/)
 
@@ -139,7 +141,27 @@ NB. You can change the language by passing this setting through, as described in
 
 The API returns the formatted address in json format as **7 lines**.
 
-This sample code creates a new form field for each of the address lines and sets the value accordingly. These form fields are created for you and don't need to be specified in advance.
+If you **have your own** fields to paste the result to, you must tell the API about your fields.
+This is done when integrating the API and specifying your elements. As well as specifying the input and country field, you'd specify your "result" fields. e.g.
+
+```
+var options = {
+	elements: {
+		input: document.querySelector("input[name='address-input']"),
+		countryList: document.querySelector("select"),
+		addressLine1: document.querySelector("input[name='addressLine1']"),
+		addressLine2: document.querySelector("input[name='addressLine2']"),
+		addressLine3: document.querySelector("input[name='addressLine2']"),
+		locality: document.querySelector("input[name='city']"),
+		province: document.querySelector("input[name='state']"),
+		postalCode: document.querySelector("input[name='zip']")
+	}
+};
+```
+
+Notice how you can return multiple address lines to the same form field.
+
+If you **don't** have your own fields, this sample code creates a new form field for each of the address lines and sets the value accordingly. These form fields are created for you and don't need to be specified in advance.
 
 The form fields are wrapped in a `div` with a class name of "formatted-address".
 
