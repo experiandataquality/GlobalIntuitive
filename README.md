@@ -178,7 +178,7 @@ Make sure Node, Grunt and the Grunt CLI are installed.
 
 Then:
 
-0. Fork this repo (`https://github.com/ExperianDataQuality/RealTimeAddress`).
+0. Fork this repo (`https://github.com/ExperianDataQuality/GlobalIntuitive`).
 0. Run `npm install` to get the configured Grunt packages.
 0. Check the Grunt tasks to ensure your changes are built.
 0. Push your changes and, when ready, make a pull request for them to be added to master.
