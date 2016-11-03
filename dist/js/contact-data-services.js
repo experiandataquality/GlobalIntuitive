@@ -190,7 +190,7 @@ ContactDataServices.address = function(customOptions){
 			// Disable searching on this instance
 			instance.enabled = false;
 			// Display a banner informing the user that they need a token
-			ContactDataServices.ua.banner.show("<a href='https://github.com/experiandataquality/RealTimeAddress#tokens'>Please provide a token for RealTimeAddress.</a>");
+			ContactDataServices.ua.banner.show("<a href='https://github.com/experiandataquality/GlobalIntuitive#tokens'>Please provide a token for GlobalIntuitive.</a>");
 			return;
 		}
 
@@ -582,9 +582,10 @@ ContactDataServices.address = function(customOptions){
 			// Clear search input
 			instance.input.value = "";
 
-			if(data.address.length > 0){
-				// Fire an event to say we've got the formatted address
-				instance.events.trigger("post-formatting-search", data);
+			// Fire an event to say we've got the formatted address
+			instance.events.trigger("post-formatting-search", data);
+			
+			if(data.address && data.address.length > 0){				
 
 				// Create an array to hold the hidden input fields
 				var inputArray = [];
