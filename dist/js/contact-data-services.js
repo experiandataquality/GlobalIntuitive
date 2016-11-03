@@ -582,9 +582,10 @@ ContactDataServices.address = function(customOptions){
 			// Clear search input
 			instance.input.value = "";
 
-			if(data.address.length > 0){
-				// Fire an event to say we've got the formatted address
-				instance.events.trigger("post-formatting-search", data);
+			// Fire an event to say we've got the formatted address
+			instance.events.trigger("post-formatting-search", data);
+			
+			if(data.address && data.address.length > 0){				
 
 				// Create an array to hold the hidden input fields
 				var inputArray = [];
