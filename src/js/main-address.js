@@ -409,7 +409,7 @@ ContactDataServices.address = function(customOptions){
 			// Fire an event to say we've got the formatted address
 			instance.events.trigger("post-formatting-search", data);
 			
-			if(data.address.length > 0){				
+			if(data.address && data.address.length > 0){				
 
 				// Create an array to hold the hidden input fields
 				var inputArray = [];
