@@ -288,7 +288,7 @@ ContactDataServices.address = function(customOptions){
 				e = e.which || e.keyCode;
 				if (e === 9 /*Tab*/) {
 						instance.picklist.keyup(e);
-						e.preventDefault();
+						event.preventDefault();
 						return;
 				}
 	};
