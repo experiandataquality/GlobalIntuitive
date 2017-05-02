@@ -86,7 +86,12 @@ ContactDataServices.eventFactory = function(){
                 }
 
                 // Call each action for this event type, passing the args
-                events.collection[event][i].apply(events.collection, args);
+				try {
+					events.collection[event][i].apply(events.collection, args);
+				} catch (e) {
+					// What to do? Uncomment the below to show errors in your event actions
+					//console.error(e);
+				}
             }
         }
     };
