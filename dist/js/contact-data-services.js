@@ -86,7 +86,12 @@ ContactDataServices.eventFactory = function(){
                 }
 
                 // Call each action for this event type, passing the args
-                events.collection[event][i].apply(events.collection, args);
+				try {
+					events.collection[event][i].apply(events.collection, args);
+				} catch (e) {
+					// What to do? Uncomment the below to show errors in your event actions
+					//console.error(e);
+				}
             }
         }
     };
@@ -637,7 +642,8 @@ ContactDataServices.address = function(customOptions){
 					// If it matches an "address" element
 					for(var i = 0; i < ContactDataServices.defaults.addressLineLabels.length; i++){
 						var label = ContactDataServices.defaults.addressLineLabels[i];
-						if(label === element) {
+						// Only reset the value if it's not an input field
+						if(label === element && instance.elements[element] !== instance.elements.input) {
 							instance.elements[element].value = "";
 							break;
 						}
@@ -831,6 +837,8 @@ ContactDataServices.address = function(customOptions){
 		instance.enabled = true;
 		// Hide formatted address
 		instance.result.hide();
+		// Clear the input field
+		instance.input.value = "";
 		// Show search input
 		instance.toggleVisibility(instance.input.parentNode);
 		// Apply focus to input
