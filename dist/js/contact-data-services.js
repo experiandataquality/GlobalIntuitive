@@ -732,8 +732,8 @@ ContactDataServices.address = function(customOptions){
 			// Create the address line label based on the country and language
 			label: function(key){
 				var label = key;
-				var language = instance.language;
-				var country = instance.currentCountryCode;
+				var language = instance.language.toLowerCase();
+				var country = instance.currentCountryCode.toLowerCase();
 				var translations = ContactDataServices.translations;
 				if(translations){
 					try {
