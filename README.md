@@ -26,8 +26,11 @@ If you need to *edit* the code, then jump to the [Development](#development) sec
 
 After embedding the script tag in your webpage you can customise it by passing settings through to the API using an options object. By default you should at least pass through an `elements` object with the address field input and country list selectors.
 
+As well as this, you should also always provide your token.
+
 ```javascript
 var options = {
+	token: "INSERT_TOKEN",
 	elements: {
 		input: document.querySelector("input[name='address-input']"),
 		countryList: document.querySelector("select")					
