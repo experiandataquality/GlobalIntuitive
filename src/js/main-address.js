@@ -18,6 +18,7 @@ ContactDataServices.address = function(customOptions){
 			return;
 		}
 
+		instance.hasSearchInputBeenReset = true;
 		instance.setCountryList();
 
 		if(instance.elements.input){
@@ -52,6 +53,14 @@ ContactDataServices.address = function(customOptions){
 		instance.currentSearchTerm = instance.input.value;
 		instance.currentCountryCode = instance.countryList.value;
 
+		// (Re-)set the property stating whether the search input has been reset.
+		// This is needed for instances when the search input is also an address
+		// output field. After an address has been returned, you don't want a new 
+		// search being triggered until the field has been cleared.
+		if (instance.currentSearchTerm === "") {
+            instance.hasSearchInputBeenReset = true;
+        }
+		
 		// Check is searching is permitted
 		if(instance.canSearch()){
 			// Abort any outstanding requests
@@ -102,8 +111,10 @@ ContactDataServices.address = function(customOptions){
 				instance.currentSearchTerm !== "" &&
 				// If search term is not the same as previous search term, and
 				instance.lastSearchTerm !== instance.currentSearchTerm &&
-				// If the country is not empty
-				instance.countryList.value !== undefined && instance.countryList.value !== "");
+				// If the country is not empty, and
+				instance.countryList.value !== undefined && instance.countryList.value !== "" && 
+				// If search input has been reset (if applicable)
+                instance.hasSearchInputBeenReset === true);
 	};
 
 	//Determine whether tab key was pressed
@@ -436,11 +447,24 @@ ContactDataServices.address = function(customOptions){
 				    }
 				}
 
-				// Hide country and address search fields
+				// Hide country and address search fields (if they have a 'toggle' class)
 				instance.result.hideSearchInputs();
 
 				// Write the 'Search again' link and insert into DOM
 				instance.result.createSearchAgainLink();
+				
+				// If an address line is also the search input, set property to false.
+				// This ensures that typing in the field again (after an address has been
+				// returned) will not trigger a new search.
+				for(var element in instance.elements){
+					if (instance.elements.hasOwnProperty(element)) {
+						// Excluding the input itself, does another element match the input field?
+						if (element !== "input" && instance.elements[element] === instance.elements.input) {
+							instance.hasSearchInputBeenReset = false;
+							break;
+						}
+					}
+				}
 			}
 		},
 		hide: function(){
@@ -658,6 +682,8 @@ ContactDataServices.address = function(customOptions){
 		instance.result.hide();
 		// Clear the input field
 		instance.input.value = "";
+		// Reset search input back
+		instance.hasSearchInputBeenReset = true;
 		// Show search input
 		instance.toggleVisibility(instance.input.parentNode);
 		// Apply focus to input
