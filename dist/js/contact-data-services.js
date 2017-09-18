@@ -221,6 +221,18 @@ ContactDataServices.address = function(customOptions){
 			}
 		}
 	};
+
+	instance.unbind = function() {
+
+    if (instance.elements.input) {
+      instance.input = instance.elements.input;
+      // Bind an event listener on the input
+      instance.input.removeEventListener("keyup", instance.search);
+      instance.input.removeEventListener("keydown", instance.checkTab);
+      //this.init();
+    }
+
+	};
 	// Main function to search for an address from an input string
 	instance.search = function(event){
 		// Handle keyboard navigation
