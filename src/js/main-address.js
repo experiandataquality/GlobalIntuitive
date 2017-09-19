@@ -40,6 +40,18 @@ ContactDataServices.address = function(customOptions){
 			}
 		}
 	};
+
+	instance.unbind = function() {
+
+    if (instance.elements.input) {
+      instance.input = instance.elements.input;
+      // Unbind previously bound listeners.
+      instance.input.removeEventListener("keyup", instance.search);
+      instance.input.removeEventListener("keydown", instance.checkTab);
+      instance.input.parentNode.removeAttribute("autocomplete");
+    }
+
+	};
 	// Main function to search for an address from an input string
 	instance.search = function(event){
 		// Handle keyboard navigation
