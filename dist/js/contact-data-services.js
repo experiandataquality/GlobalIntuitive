@@ -10,7 +10,7 @@ var ContactDataServices = window.ContactDataServices = window.ContactDataService
 
 // Default settings
 ContactDataServices.defaults = {
-	input: { placeholderText: "Start typing an address...", applyFocus: true },
+	input: { placeholderText: "Start typing an address...", applyFocus: false },
 	formattedAddressContainer: { showHeading: false, headingType: "h3", validatedHeadingText: "Validated address", manualHeadingText: "Manual address entered"  },
 	searchAgain: { visible: true, text: "Search again"},
 	useAddressEnteredText: "<em>Enter address manually</em>",
@@ -316,7 +316,6 @@ ContactDataServices.address = function(customOptions){
 				e = e.which || e.keyCode;
 				if (e === 9 /*Tab*/) {
 						instance.picklist.keyup(e);
-						event.preventDefault();
 						return;
 				}
 	};
