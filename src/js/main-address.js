@@ -45,10 +45,10 @@ ContactDataServices.address = function(customOptions){
 
     if (instance.elements.input) {
       instance.input = instance.elements.input;
-      // Bind an event listener on the input
+      // Unbind previously bound listeners.
       instance.input.removeEventListener("keyup", instance.search);
       instance.input.removeEventListener("keydown", instance.checkTab);
-      //this.init();
+      instance.input.parentNode.removeAttribute("autocomplete");
     }
 
 	};
