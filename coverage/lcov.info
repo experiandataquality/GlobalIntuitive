@@ -1,5 +1,5 @@
 TN:
-SF:src/js/_scaffolding.js
+SF:src\js\_scaffolding.js
 FNF:0
 FNH:0
 DA:2,1
@@ -11,7 +11,7 @@ BRF:2
 BRH:2
 end_of_record
 TN:
-SF:src/js/_defaults.js
+SF:src\js\_defaults.js
 FN:21,(anonymous_1)
 FNF:1
 FNH:1
@@ -74,7 +74,7 @@ BRF:28
 BRH:21
 end_of_record
 TN:
-SF:src/js/_event-factory.js
+SF:src\js\_event-factory.js
 FN:2,(anonymous_1)
 FN:10,(anonymous_2)
 FN:18,(anonymous_3)
@@ -108,7 +108,7 @@ BRF:4
 BRH:0
 end_of_record
 TN:
-SF:src/js/_translations.js
+SF:src\js\_translations.js
 FNF:0
 FNH:0
 DA:2,1
@@ -118,7 +118,7 @@ BRF:0
 BRH:0
 end_of_record
 TN:
-SF:src/js/_ua.js
+SF:src\js\_ua.js
 FN:4,(anonymous_1)
 FN:19,(anonymous_2)
 FNF:2
@@ -146,7 +146,7 @@ BRF:4
 BRH:2
 end_of_record
 TN:
-SF:src/js/_urls.js
+SF:src\js\_urls.js
 FN:7,(anonymous_1)
 FN:16,(anonymous_2)
 FN:22,(anonymous_3)
@@ -182,7 +182,7 @@ BRF:6
 BRH:3
 end_of_record
 TN:
-SF:src/js/main-address.js
+SF:src\js\main-address.js
 FN:2,(anonymous_1)
 FN:10,(anonymous_2)
 FN:34,(anonymous_3)
