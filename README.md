@@ -172,7 +172,7 @@ The `name` attribute for each field is the same as the label discussed in [Custo
 
 #### Components and Metadata
 
-In addition to the 7 address lines. A format request also returns an array of objects containing the individual components that make up the address and a metadata object. Currently the metadata object will return Delivery Point Validation (DPV) information for USA based requests.
+In addition to the 7 address lines. A format request also returns an array of objects containing the individual components that make up the address and a metadata object. Currently the metadata object will return Delivery Point Validation (DPV) information for USA searches.
 
 Components and Metadata are not designed to be returned to the user and instead should be stored separately. This will be specific to your requirements and is not included in the sample code.
 
