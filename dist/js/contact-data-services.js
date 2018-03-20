@@ -732,7 +732,12 @@ ContactDataServices.address = function(customOptions){
 				if(addressField.value && value) {
 					value = ", " + value;
 				}
-				addressField.value += value;
+				// Decide what property of the node we need to update. i.e. if it's not a form field, update the innerText.
+				if (addressField.nodeName === "INPUT" || addressField.nodeName === "TEXTAREA" || addressField.nodeName === "SELECT") {
+					addressField.value += value;
+				} else {
+					addressField.innerText += value;
+				}
 				// Store a record of their last address field
 				instance.result.lastAddressField = addressField;
 			} else if (instance.result.generateAddressLineRequired){
