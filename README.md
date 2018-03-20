@@ -170,9 +170,17 @@ The form fields are wrapped in a `div` with a class name of "formatted-address".
 
 The `name` attribute for each field is the same as the label discussed in [Customising labels](/#customising-labels). That is, either the default label returned by the API, or a custom key if it's overridden.
 
+#### Components and Metadata
+
+In addition to the 7 address lines. A format request also returns an array of objects containing the individual components that make up the address and a metadata object. Currently the metadata object will return Delivery Point Validation (DPV) information for USA searches.
+
+Components and Metadata are not designed to be returned to the user and instead should be stored separately. This will be specific to your requirements and is not included in the sample code.
+
+More information can be found in the [documentation](http://edq.com/documentation/apis/address-validate/global-intuitive#address-components-tables).
+
 ## Development
 
-While you're free to take the JavaScript from the [`dist`](/dist/js/contact-data-servicesjs) folder and use this in your website, should you want to contribute to this repo you'll need to compile the new version from the [`src`](/src/js/).
+While you're free to take the JavaScript from the [`dist`](/dist/js/contact-data-services.js) folder and use this in your website, should you want to contribute to this repo you'll need to compile the new version from the [`src`](/src/js/).
 
 Make sure Node, Grunt and the Grunt CLI are installed.
 

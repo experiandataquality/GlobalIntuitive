@@ -10,7 +10,7 @@ var ContactDataServices = window.ContactDataServices = window.ContactDataService
 
 // Default settings
 ContactDataServices.defaults = {
-	input: { placeholderText: "Start typing an address...", applyFocus: true },
+	input: { placeholderText: "Start typing an address...", applyFocus: false },
 	formattedAddressContainer: { showHeading: false, headingType: "h3", validatedHeadingText: "Validated address", manualHeadingText: "Manual address entered"  },
 	searchAgain: { visible: true, text: "Search again"},
 	useAddressEnteredText: "<em>Enter address manually</em>",
@@ -220,6 +220,18 @@ ContactDataServices.address = function(customOptions){
 					instance.input.focus();
 			}
 		}
+	};
+
+	instance.unbind = function() {
+
+    if (instance.elements.input) {
+      instance.input = instance.elements.input;
+      // Unbind previously bound listeners.
+      instance.input.removeEventListener("keyup", instance.search);
+      instance.input.removeEventListener("keydown", instance.checkTab);
+      instance.input.parentNode.removeAttribute("autocomplete");
+    }
+
 	};
 	// Main function to search for an address from an input string
 	instance.search = function(event){
@@ -720,7 +732,12 @@ ContactDataServices.address = function(customOptions){
 				if(addressField.value && value) {
 					value = ", " + value;
 				}
-				addressField.value += value;
+				// Decide what property of the node we need to update. i.e. if it's not a form field, update the innerText.
+				if (addressField.nodeName === "INPUT" || addressField.nodeName === "TEXTAREA" || addressField.nodeName === "SELECT") {
+					addressField.value += value;
+				} else {
+					addressField.innerText += value;
+				}
 				// Store a record of their last address field
 				instance.result.lastAddressField = addressField;
 			} else if (instance.result.generateAddressLineRequired){
