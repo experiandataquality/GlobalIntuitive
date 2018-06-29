@@ -47,7 +47,6 @@ Additional options that can be passed through include:
 | `language` | The ISO 2 digit language code | "en"|
 | `input.placeholderText` | The placeholder text for the input | "Start typing an address"|
 | `input.applyFocus` | Whether to apply focus to the search field | true|
-| `input.applyFocus` | Whether to apply focus to the search field | true|
 | `searchAgain.visible` | Whether the 'search again' link is shown | true|
 | `searchAgain.text` | The text for the 'search again' link | "Search again"|
 | `formattedAddressContainer.showHeading` | Whether to show a "Validated address" heading | false|
