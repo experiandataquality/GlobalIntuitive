@@ -23,6 +23,8 @@ ContactDataServices.address = function(customOptions){
 
 		if(instance.elements.input){
 			instance.input = instance.elements.input;
+			instance.countryCodeMapping = instance.elements.countryCodeMapping || {};
+
 			// Bind an event listener on the input
 			instance.input.addEventListener("keyup", instance.search);
 			instance.input.addEventListener("keydown", instance.checkTab);
@@ -63,7 +65,8 @@ ContactDataServices.address = function(customOptions){
         }
 
 		instance.currentSearchTerm = instance.input.value;
-		instance.currentCountryCode = instance.countryList.value;
+		instance.currentCountryCode =  instance.countryCodeMapping[instance.countryList.value] || instance.countryList.value ; 
+
 
 		// (Re-)set the property stating whether the search input has been reset.
 		// This is needed for instances when the search input is also an address

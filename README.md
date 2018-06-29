@@ -148,10 +148,13 @@ If you **have your own** fields to paste the result to, you must tell the API ab
 This is done when integrating the API and specifying your elements. As well as specifying the input and country field, you'd specify your "result" fields. e.g.
 
 ```
+var countryMap = {"GB": "GBR","AF": "AFG","AX": "ALA","AL": "ALB","DZ": "DZA"};
+
 var options = {
 	elements: {
 		input: document.querySelector("input[name='address-input']"),
 		countryList: document.querySelector("select"),
+		countryCodeMapping : countryMap,
 		addressLine1: document.querySelector("input[name='addressLine1']"),
 		addressLine2: document.querySelector("input[name='addressLine2']"),
 		addressLine3: document.querySelector("input[name='addressLine2']"),
