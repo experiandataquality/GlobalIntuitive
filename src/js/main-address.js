@@ -431,9 +431,6 @@ ContactDataServices.address = function(customOptions){
 
       // Clear search input
       instance.input.value = "";
-
-      // Fire an event to say we've got the formatted address
-      instance.events.trigger("post-formatting-search", data);
       
       if(data.address && data.address.length > 0){				
 
@@ -457,7 +454,7 @@ ContactDataServices.address = function(customOptions){
             for (var key in addressComponent) {
                 if (addressComponent.hasOwnProperty(key)) {
               // Bind the address element to the user's address field (or create a new one)
-              instance.result.updateAddressLine(key, addressComponent);
+              instance.result.updateAddressLine(key, addressComponent, "address-line-input");
             }
             }
         }
@@ -481,6 +478,9 @@ ContactDataServices.address = function(customOptions){
           }
         }
       }
+
+      // Fire an event to say we've got the formatted address
+      instance.events.trigger("post-formatting-search", data);
     },
     hide: function(){
       // Delete the formatted address container
@@ -545,7 +545,7 @@ ContactDataServices.address = function(customOptions){
         }
       }
     },
-    updateAddressLine: function(key, addressLineObject){
+    updateAddressLine: function(key, addressLineObject, className){
       // Either append the result to the user's address field or create a new field for them
       if (instance.elements[key]){
         var addressField = instance.elements[key];
@@ -565,17 +565,17 @@ ContactDataServices.address = function(customOptions){
       } else if (instance.result.generateAddressLineRequired){
         // Create an input to store the address line
         var label = instance.result.createAddressLine.label(key);
-        var field = instance.result.createAddressLine.input(label, addressLineObject[key]);
+        var field = instance.result.createAddressLine.input(label, addressLineObject[key], className);
         // Insert into DOM
         instance.result.formattedAddressContainer.appendChild(field);
       }
     },
     createAddressLine: {
       // Create an input to store the address line
-      input: function(key, value){
+      input: function(key, value, className){
         // Create a wrapper
         var div  = document.createElement("div");
-        div.classList.add("address-line-input");
+        div.classList.add(className);
 
         // Create the label
         var label = document.createElement("label");
@@ -784,31 +784,34 @@ ContactDataServices.address = function(customOptions){
       instance.request.currentRequest.onload = function(xhr) {
         if (instance.request.currentRequest.status >= 200 && instance.request.currentRequest.status < 400) {
           // Success!
-          var data = JSON.parse(instance.request.currentRequest.responseText);
+        var data = JSON.parse(instance.request.currentRequest.responseText);
+        instance.request.latestResult = data;
           callback(data);
         } else {
+        instance.request.latestResult = {};
+
           // We reached our target server, but it returned an error
-          instance.searchSpinner.hide();
+        instance.searchSpinner.hide();
 
-          // Fire an event to notify users of an error
-          instance.events.trigger("request-error", xhr);
+        // Fire an event to notify users of an error
+        instance.events.trigger("request-error", xhr);
 
-          // If the request is 400 Bad Request
-          if (instance.request.currentRequest.status === 400){
-            instance.handleError.badRequest(xhr);
-          }
-          // If the request is 401 Unauthorized (invalid token) we should probably disable future requests
-          else if (instance.request.currentRequest.status === 401){
-            instance.handleError.unauthorized(xhr);
-          }
-          // If the request is 403 Forbidden
-          else if (instance.request.currentRequest.status === 403){
-            instance.handleError.forbidden(xhr);
-          }
-          // If the request is 404 Not Found
-          else if (instance.request.currentRequest.status === 404){
-            instance.handleError.notFound(xhr);
-          }
+        // If the request is 400 Bad Request
+        if (instance.request.currentRequest.status === 400){
+          instance.handleError.badRequest(xhr);
+        }
+        // If the request is 401 Unauthorized (invalid token) we should probably disable future requests
+        else if (instance.request.currentRequest.status === 401){
+          instance.handleError.unauthorized(xhr);
+        }
+        // If the request is 403 Forbidden
+        else if (instance.request.currentRequest.status === 403){
+          instance.handleError.forbidden(xhr);
+        }
+        // If the request is 404 Not Found
+        else if (instance.request.currentRequest.status === 404){
+          instance.handleError.notFound(xhr);
+        }
         }
       };
 
