@@ -30,11 +30,11 @@ As well as this, you should also always provide your token.
 
 ```javascript
 var options = {
-	token: "INSERT_TOKEN",
-	elements: {
-		input: document.querySelector("input[name='address-input']"),
-		countryList: document.querySelector("select")					
-	}
+    token: "INSERT_TOKEN",
+    elements: {
+        input: document.querySelector("input[name='address-input']"),
+        countryList: document.querySelector("select")
+    }
 };
 ```
 If you have your own return fields that you want a final address pasted to, you need to specify these in the `elements` object too.
@@ -44,6 +44,7 @@ Additional options that can be passed through include:
 | Property name | Description | Default |
 |------------|-------------|---------------|
 | `token` | Your authentication token. Recommended. | |
+| `location` | (e.g. { latitude: 40.5, longitude: -73.95 }) | null |
 | `language` | The ISO 2 digit language code | "en"|
 | `input.placeholderText` | The placeholder text for the input | "Start typing an address"|
 | `input.applyFocus` | Whether to apply focus to the search field | true|
@@ -151,17 +152,17 @@ This is done when integrating the API and specifying your elements. As well as s
 var countryMap = {"GB": "GBR","AF": "AFG","AX": "ALA","AL": "ALB","DZ": "DZA"};
 
 var options = {
-	elements: {
-		input: document.querySelector("input[name='address-input']"),
-		countryList: document.querySelector("select"),
-		countryCodeMapping : countryMap,
-		addressLine1: document.querySelector("input[name='addressLine1']"),
-		addressLine2: document.querySelector("input[name='addressLine2']"),
-		addressLine3: document.querySelector("input[name='addressLine2']"),
-		locality: document.querySelector("input[name='city']"),
-		province: document.querySelector("input[name='state']"),
-		postalCode: document.querySelector("input[name='zip']")
-	}
+    elements: {
+        input: document.querySelector("input[name='address-input']"),
+        countryList: document.querySelector("select"),
+        countryCodeMapping : countryMap,
+        addressLine1: document.querySelector("input[name='addressLine1']"),
+        addressLine2: document.querySelector("input[name='addressLine2']"),
+        addressLine3: document.querySelector("input[name='addressLine2']"),
+        locality: document.querySelector("input[name='city']"),
+        province: document.querySelector("input[name='state']"),
+        postalCode: document.querySelector("input[name='zip']")
+    }
 };
 ```
 
