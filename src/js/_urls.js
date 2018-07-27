@@ -9,9 +9,8 @@ ContactDataServices.urls = {
         url += "?query=" + encodeURIComponent(instance.currentSearchTerm);
         url += "&country=" + instance.currentCountryCode;
 
-        if (instance.elements.location != null) {
-          url += "&lat=" + instance.elements.location.latitude;
-          url += "&long=" + instance.elements.location.longitude;
+        if (instance.elements.location) {
+          url += "&location=" + instance.elements.location;
         }
 
         url += "&take=" + (instance.maxSize || instance.picklist.maxSize);
