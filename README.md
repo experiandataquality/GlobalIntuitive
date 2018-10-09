@@ -166,6 +166,8 @@ var options = {
 };
 ```
 
+A note on the country list: If you need to pass a value for the Datasets parameter to the API in order to specify a non-default dataset for a certain country, the value of the option in the country list should be in the format "{country ISO code};{dataset name}". Please see the [API Reference](https://www.edq.com/documentation/apis/address-validate/global-intuitive) for more details on the Datasets API parameter.
+
 Notice how you can return multiple address lines to the same form field.
 
 If you **don't** have your own fields, this sample code creates a new form field for each of the address lines and sets the value accordingly. These form fields are created for you and don't need to be specified in advance.

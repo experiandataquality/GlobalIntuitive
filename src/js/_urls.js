@@ -8,6 +8,7 @@ ContactDataServices.urls = {
         var url = ContactDataServices.urls.endpoint;
         url += "?query=" + encodeURIComponent(instance.currentSearchTerm);
         url += "&country=" + instance.currentCountryCode;
+        url += "&datasets=" + instance.currentDataSet;
         url += "&take=" + (instance.maxSize || instance.picklist.maxSize);
         url += "&auth-token=" + instance.token;
         return url;
