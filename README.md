@@ -30,13 +30,14 @@ As well as this, you should also always provide your token.
 
 ```javascript
 var options = {
-	token: "INSERT_TOKEN",
-	elements: {
-		input: document.querySelector("input[name='address-input']"),
-		countryList: document.querySelector("select")					
-	}
+    token: "INSERT_TOKEN",
+    elements: {
+        input: document.querySelector("input[name='address-input']"),
+        countryList: document.querySelector("select")					
+    }
 };
 ```
+
 If you have your own return fields that you want a final address pasted to, you need to specify these in the `elements` object too.
 
 Additional options that can be passed through include:
@@ -151,19 +152,21 @@ This is done when integrating the API and specifying your elements. As well as s
 var countryMap = {"GB": "GBR","AF": "AFG","AX": "ALA","AL": "ALB","DZ": "DZA"};
 
 var options = {
-	elements: {
-		input: document.querySelector("input[name='address-input']"),
-		countryList: document.querySelector("select"),
-		countryCodeMapping : countryMap,
-		addressLine1: document.querySelector("input[name='addressLine1']"),
-		addressLine2: document.querySelector("input[name='addressLine2']"),
-		addressLine3: document.querySelector("input[name='addressLine2']"),
-		locality: document.querySelector("input[name='city']"),
-		province: document.querySelector("input[name='state']"),
-		postalCode: document.querySelector("input[name='zip']")
-	}
+    elements: {
+        input: document.querySelector("input[name='address-input']"),
+        countryList: document.querySelector("select"),
+        countryCodeMapping : countryMap,
+        addressLine1: document.querySelector("input[name='addressLine1']"),
+        addressLine2: document.querySelector("input[name='addressLine2']"),
+        addressLine3: document.querySelector("input[name='addressLine2']"),
+        locality: document.querySelector("input[name='city']"),
+        province: document.querySelector("input[name='state']"),
+        postalCode: document.querySelector("input[name='zip']")
+    }
 };
 ```
+
+A note on the country list: If you need to pass a value for the Datasets parameter to the API in order to specify a non-default dataset for a certain country, the value of the option in the country list should be in the format "{country ISO code};{dataset name}". Please see the [API Reference](https://www.edq.com/documentation/apis/address-validate/global-intuitive) for more details on the Datasets API parameter.
 
 Notice how you can return multiple address lines to the same form field.
 
