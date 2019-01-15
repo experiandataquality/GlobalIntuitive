@@ -156,6 +156,11 @@ ContactDataServices.urls = {
         url += "?query=" + encodeURIComponent(instance.currentSearchTerm);
         url += "&country=" + instance.currentCountryCode;
         url += "&dataset=" + instance.currentDataSet;
+
+        if (instance.elements.location) {
+          url += "&location=" + instance.elements.location;
+        }
+
         url += "&take=" + (instance.maxSize || instance.picklist.maxSize);
         url += "&auth-token=" + instance.token;
         return url;
@@ -618,9 +623,6 @@ ContactDataServices.address = function(customOptions){
 
       // Clear search input
       instance.input.value = "";
-
-      // Fire an event to say we've got the formatted address
-      instance.events.trigger("post-formatting-search", data);
       
       if(data.address && data.address.length > 0){				
 
@@ -644,7 +646,7 @@ ContactDataServices.address = function(customOptions){
             for (var key in addressComponent) {
                 if (addressComponent.hasOwnProperty(key)) {
               // Bind the address element to the user's address field (or create a new one)
-              instance.result.updateAddressLine(key, addressComponent);
+              instance.result.updateAddressLine(key, addressComponent, "address-line-input");
             }
             }
         }
@@ -668,6 +670,9 @@ ContactDataServices.address = function(customOptions){
           }
         }
       }
+
+      // Fire an event to say we've got the formatted address
+      instance.events.trigger("post-formatting-search", data);
     },
     hide: function(){
       // Delete the formatted address container
@@ -752,17 +757,17 @@ ContactDataServices.address = function(customOptions){
       } else if (instance.result.generateAddressLineRequired){
         // Create an input to store the address line
         var label = instance.result.createAddressLine.label(key);
-        var field = instance.result.createAddressLine.input(label, addressLineObject[key]);
+        var field = instance.result.createAddressLine.input(label, addressLineObject[key], className);
         // Insert into DOM
         instance.result.formattedAddressContainer.appendChild(field);
       }
     },
     createAddressLine: {
       // Create an input to store the address line
-      input: function(key, value){
+      input: function(key, value, className){
         // Create a wrapper
         var div  = document.createElement("div");
-        div.classList.add("address-line-input");
+        div.classList.add(className);
 
         // Create the label
         var label = document.createElement("label");
@@ -972,8 +977,11 @@ ContactDataServices.address = function(customOptions){
         if (instance.request.currentRequest.status >= 200 && instance.request.currentRequest.status < 400) {
           // Success!
           var data = JSON.parse(instance.request.currentRequest.responseText);
+          instance.request.latestResult = data;
           callback(data);
         } else {
+          instance.request.latestResult = {};
+
           // We reached our target server, but it returned an error
           instance.searchSpinner.hide();
 
@@ -1027,5 +1035,4 @@ ContactDataServices.address = function(customOptions){
   // Return the instance object to the invoker
   return instance;
 };
-
 })(window, window.document);

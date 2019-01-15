@@ -9,6 +9,11 @@ ContactDataServices.urls = {
         url += "?query=" + encodeURIComponent(instance.currentSearchTerm);
         url += "&country=" + instance.currentCountryCode;
         url += "&dataset=" + instance.currentDataSet;
+
+        if (instance.elements.location) {
+          url += "&location=" + instance.elements.location;
+        }
+
         url += "&take=" + (instance.maxSize || instance.picklist.maxSize);
         url += "&auth-token=" + instance.token;
         return url;
