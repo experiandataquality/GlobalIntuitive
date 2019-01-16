@@ -737,7 +737,7 @@ ContactDataServices.address = function(customOptions){
         }
       }
     },
-    updateAddressLine: function(key, addressLineObject){
+    updateAddressLine: function(key, addressLineObject, className){
       // Either append the result to the user's address field or create a new field for them
       if (instance.elements[key]){
         var addressField = instance.elements[key];
