@@ -140,7 +140,7 @@ en: {
 
 Any property you don't override will continue to use the default label.
 
-NB. You can change the language by passing this setting through, as described in [Options](/#options).
+NB. You can change the language by passing this setting through, as described in [Options](#options).
 
 #### Returning results
 
