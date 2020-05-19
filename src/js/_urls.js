@@ -1,6 +1,6 @@
 // Generate the URLs for the various requests
 ContactDataServices.urls = {
-  endpoint: "https://api.edq.com/capture/address/v2/search",
+  endpoint: "https://api.experianaperture.io/address/search/v1",
   construct: {
     address: {
       // Construct the Search URL by appending query, country & take

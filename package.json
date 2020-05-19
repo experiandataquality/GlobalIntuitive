@@ -1,13 +1,13 @@
 {
-  "name": "GlobalIntuitive",
+  "name": "Experian-Address-Validation",
   "version": "1.0.0",
   "license": "Apache-2.0",
-  "author": "Experian Data Quality",
-  "contact": "https://github.com/experiandataquality",
-  "url": "https://github.com/experiandataquality/GlobalIntuitive",
+  "author": "Experian",
+  "contact": "https://github.com/experianplc",
+  "url": "https://github.com/experianplc/Experian-Address-Validation",
   "repository": {
     "type": "git",
-    "url": "git://github.com/experiandataquality/GlobalIntuitive.git"
+    "url": "git://github.com/experianplc/Experian-Address-Validation.git"
   },
   "devDependencies": {
     "grunt": "^1.0.1",
@@ -18,7 +18,7 @@
     "grunt-contrib-jshint": "^1.1.0",
     "grunt-contrib-less": "^1.4.1",
     "grunt-contrib-uglify": "^3.3.0",
-    "grunt-contrib-watch": "~1.0.0",
+    "grunt-contrib-watch": "^1.1.0",
     "grunt-coveralls": "~1.0.0",
     "grunt-template-jasmine-istanbul": "^0.5.0"
   },
