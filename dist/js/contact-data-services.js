@@ -1,5 +1,5 @@
-/*! contact-data-services.js | https://github.com/experiandataquality/GlobalIntuitive | Apache-2.0
-*   Experian Data Quality | https://github.com/experiandataquality */
+/*! contact-data-services.js | https://github.com/experianplc/Experian-Address-Validation | Apache-2.0
+*   Experian | https://github.com/experianplc */
 
 ;(function(window, document, undefined) {
 
@@ -147,7 +147,7 @@ ContactDataServices.ua = {
 
 // Generate the URLs for the various requests
 ContactDataServices.urls = {
-  endpoint: "https://api.edq.com/capture/address/v2/search",
+  endpoint: "https://api.experianaperture.io/address/search/v1",
   construct: {
     address: {
       // Construct the Search URL by appending query, country & take
@@ -200,7 +200,7 @@ ContactDataServices.address = function(customOptions){
       // Disable searching on this instance
       instance.enabled = false;
       // Display a banner informing the user that they need a token
-      ContactDataServices.ua.banner.show("<a href='https://github.com/experiandataquality/GlobalIntuitive#tokens'>Please provide a token for GlobalIntuitive.</a>");
+      ContactDataServices.ua.banner.show("<a href='https://github.com/experianplc/Experian-Address-Validation#tokens'>Please provide a token for Experian Address Validation.</a>");
       return;
     }
 

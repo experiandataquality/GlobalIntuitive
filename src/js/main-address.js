@@ -14,7 +14,7 @@ ContactDataServices.address = function(customOptions){
       // Disable searching on this instance
       instance.enabled = false;
       // Display a banner informing the user that they need a token
-      ContactDataServices.ua.banner.show("<a href='https://github.com/experiandataquality/GlobalIntuitive#tokens'>Please provide a token for GlobalIntuitive.</a>");
+      ContactDataServices.ua.banner.show("<a href='https://github.com/experianplc/Experian-Address-Validation#tokens'>Please provide a token for Experian Address Validation.</a>");
       return;
     }
 
