@@ -1,13 +1,11 @@
-# Global Intuitive
+# Experian Address Validation
 
-[![GitHub version](https://badge.fury.io/gh/ExperianDataQuality%2FGlobalIntuitive.svg)](http://badge.fury.io/gh/ExperianDataQuality%2FGlobalIntuitive)
-[![Dependency Status](https://david-dm.org/ExperianDataQuality/GlobalIntuitive.svg)](https://david-dm.org/ExperianDataQuality/GlobalIntuitive)
-[![Dependency Status](https://david-dm.org/ExperianDataQuality/GlobalIntuitive/dev-status.svg)](https://david-dm.org/ExperianDataQuality/GlobalIntuitive#info=devDependencies)
-[![Build Status](https://travis-ci.org/experiandataquality/GlobalIntuitive.svg?branch=master)](https://travis-ci.org/experiandataquality/GlobalIntuitive)
+[![GitHub version](https://badge.fury.io/gh/experianplc%2FExperian-Address-Validation.svg)](http://badge.fury.io/gh/experianplc%2FExperian-Address-Validation)
+[![Build Status](https://travis-ci.org/experianplc%2FExperian-Address-Validation.svg?branch=master)](https://travis-ci.org/experianplc%2FExperian-Address-Validation)
 
-This repo contains sample code for integrating with Experian Data Quality's Global Intuitive API. Currently available for over 235 countries and territories.
+This repo contains sample code for integrating with Experian's Address Validation API. Currently available for over 235 countries and territories.
 
-Check out the [demo](https://www.edq.com/uk/products/address-validation/#interactive-demo) on our website.
+Check out the [demo](https://www.experian.co.uk/business/data-management/data-validation/address-validation/) on our website.
 
 ## Usage
 
@@ -18,7 +16,7 @@ If you want to use the code for your integration *as-is*, without modifying it, 
 If you need to *edit* the code, then jump to the [Development](#development) section.
 
 - Include the Global Intuitive [JavaScript file](/dist/js/contact-data-services.min.js) in your form page.
-- Have a token to hand (You would have received this from your Experian Data Quality account manager).
+- Have a token to hand (You would have received this from your Experian account manager).
 
 #### Integration
 
@@ -60,13 +58,13 @@ Additional options that can be passed through include:
 
 ##### Country list
 
-The default sample page contains the full list of supported countries. This list should be amended to include only the countries that your integration supports. A full list of available countries and their ISO codes can also be found with our [API documentation](http://support.qas.com/ua/?lang=en-us&prod=capture&flav=apiv2).
+The default sample page contains the full list of supported countries. This list should be amended to include only the countries that your integration supports. A full list of available countries and their ISO codes can also be found with our [API documentation](https://www.edq.com/documentation/apis/address-validate/global-intuitive/#supported-countries-2).
 
 ##### Tokens
 
-> For the purpose of this sample code, the tokens for the live endpoint aren't hardcoded in source control and must be appended to the URL query string. For example: **http://experiandataquality.github.io/GlobalIntuitive/?token=xyz**
+> For the purpose of this sample code, the tokens for the live endpoint aren't hardcoded in source control and must be appended to the URL query string. For example: **https://experianplc.github.io/Experian-Address-Validation/?token=xyz**
 
-To get your token and a free trial, contact us via [edq.com](https://www.edq.com/uk/contact-us/)
+To get your token and a free trial, contact us via [www.experian.co.uk/business/enquire](https://www.experian.co.uk/business/enquire)
 
 As mentioned above in [Options](/#options) you should pass your token through as a setting. The sample page in this repo appends it to the query string to avoid hardcoding a token in source control.
 
@@ -196,7 +194,7 @@ Make sure Node, Grunt and the Grunt CLI are installed.
 
 Then:
 
-0. Fork this repo (`https://github.com/ExperianDataQuality/GlobalIntuitive`).
+0. Fork this repo (`https://github.com/experianplc/Experian-Address-Validation`).
 0. Run `npm install` to get the configured Grunt packages.
 0. Check the Grunt tasks to ensure your changes are built.
 0. Push your changes and, when ready, make a pull request for them to be added to master.
