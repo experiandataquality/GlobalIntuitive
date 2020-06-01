@@ -72,13 +72,9 @@ As mentioned above in [Options](/#options) you should pass your token through as
 
 When integrating this sample code directly against the API, a decision had to be made regarding how we authenticated ourselves.
 
-To use a token and authenticate with the API you have two integration options:
+To use a token and authenticate with the API you have to:
 
 1. Pass the `auth-token` through as a custom HTTP header.
-
-2. Append the `auth-token` as a parameter in the query string when making the GET request.
-
-If you are concerned about speed and want to reduce the latency as much as possible we recommend using the 2nd option and append the token to the query string.
 
 If you were to pass it through to the API as a custom HTTP header then the browser would make an additional [pre-flight](https://developer.mozilla.org/en-US/docs/Web/HTTP/Access_control_CORS#Preflighted_requests) OPTIONS HTTP request before each search. Whilst ensuring your token isn't visible in any URLs it would slow it down slightly.
 

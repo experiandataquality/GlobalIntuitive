@@ -92,8 +92,9 @@ ContactDataServices.address = function(customOptions){
       // Fire an event before a search takes place
       instance.events.trigger("pre-search", instance.currentSearchTerm);
 
-      // Construct the new Search URL
-      var url = ContactDataServices.urls.construct.address.search(instance);
+      // Construct the new Search URL and data
+      var url = ContactDataServices.urls.construct.address.searchUrl();
+      var data = ContactDataServices.urls.construct.address.searchData(instance);
 
       // Store the last search term
       instance.lastSearchTerm = instance.currentSearchTerm;
@@ -108,7 +109,7 @@ ContactDataServices.address = function(customOptions){
       instance.searchSpinner.show();
 
       // Initiate new Search request
-      instance.request.get(url, instance.picklist.show);
+      instance.request.send(url, "POST", instance.picklist.show, data);
     } else if(instance.lastSearchTerm !== instance.currentSearchTerm){
       // Clear the picklist if the search term is cleared/empty
       instance.picklist.hide();
@@ -162,11 +163,11 @@ ContactDataServices.address = function(customOptions){
     // Hide the searching spinner
     instance.searchSpinner.hide();
 
-    // Construct the format URL (append the token)
-    instance.currentFormatUrl = ContactDataServices.urls.construct.address.format(url, instance);
+    // Construct the format URL
+    instance.currentFormatUrl = url;
 
     // Initiate a new Format request
-    instance.request.get(instance.currentFormatUrl, instance.result.show);
+    instance.request.send(instance.currentFormatUrl, "GET", instance.result.show);
   };
 
   instance.picklist = {
@@ -782,10 +783,13 @@ ContactDataServices.address = function(customOptions){
   // Use this to initiate and track XMLHttpRequests
   instance.request = {
     currentRequest: null,
-    get: function(url, callback){
+    send: function(url, method, callback, data){
       instance.request.currentRequest = new XMLHttpRequest();
-      instance.request.currentRequest.open('GET', url, true);
+      instance.request.currentRequest.open(method, url, true);
       instance.request.currentRequest.timeout = 5000; // 5 seconds
+      instance.request.currentRequest.setRequestHeader("auth-token", instance.token);
+      instance.request.currentRequest.setRequestHeader("Content-Type", "application/json");
+      instance.request.currentRequest.setRequestHeader("Accept", "application/json");
 
       instance.request.currentRequest.onload = function(xhr) {
         if (instance.request.currentRequest.status >= 200 && instance.request.currentRequest.status < 400) {
@@ -839,7 +843,7 @@ ContactDataServices.address = function(customOptions){
         instance.events.trigger("request-timeout", xhr);
       };
 
-      instance.request.currentRequest.send();
+      instance.request.currentRequest.send(data);
     }
   };
 
