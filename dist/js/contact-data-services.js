@@ -17,12 +17,12 @@ ContactDataServices.defaults = {
 	useSpinner: false,
 	language: "en",
 	addressLineLabels: [
-		"address_line_1",
-		"address_line_2",
-		"address_line_3",
+		"addressLine1",
+		"addressLine2",
+		"addressLine3",
 		"locality",
-		"region",
-		"postal_code",
+		"province",
+		"postalCode",
 		"country"
 	]
 };
@@ -106,12 +106,12 @@ ContactDataServices.translations = {
   en: {
     gbr: {
       locality: "Town/City",
-      region: "County",
+      province: "County",
       postalCode: "Post code"
     },
     usa: {
       locality: "City",
-      region: "State",
+      province: "State",
       postalCode: "Zip code"
     }
   }
@@ -362,7 +362,7 @@ ContactDataServices.address = function(customOptions){
     // Render a picklist of search results
     show: function(items){
       // Store the picklist items
-      instance.picklist.items = items.result.suggestions;
+      instance.picklist.items = items.results.suggestions;
 
       // Reset any previously selected current item
       instance.picklist.currentItem = null;
@@ -635,21 +635,13 @@ ContactDataServices.address = function(customOptions){
           instance.result.createFormattedAddressContainer();
         }
 
-        // Loop over each formatted address component
-        var addressComponent = data.result.address.address_line_1;
-        instance.result.updateAddressLine("address_line_1", addressComponent, "address-line-input");
-        var addressComponent = data.result.address.address_line_2;
-        instance.result.updateAddressLine("address_line_2", addressComponent, "address-line-input");
-        var addressComponent = data.result.address.address_line_3;
-        instance.result.updateAddressLine("address_line_3", addressComponent, "address-line-input");
-        var addressComponent = data.result.address.locality;
-        instance.result.updateAddressLine("locality", addressComponent, "address-line-input");
-        var addressComponent = data.result.address.region;
-        instance.result.updateAddressLine("region", addressComponent, "address-line-input");
-        var addressComponent = data.result.address.postal_code;
-        instance.result.updateAddressLine("postal_code", addressComponent, "address-line-input");
-        var addressComponent = data.result.address.country;
-        instance.result.updateAddressLine("country", addressComponent, "address-line-input");
+        instance.result.updateAddressLine("address_line_1", data.result.address.address_line_1, "address-line-input");
+        instance.result.updateAddressLine("address_line_2", data.result.address.address_line_2, "address-line-input");
+        instance.result.updateAddressLine("address_line_3", data.result.address.address_line_3, "address-line-input");
+        instance.result.updateAddressLine("locality", data.result.address.locality, "address-line-input");
+        instance.result.updateAddressLine("region", data.result.address.region, "address-line-input");
+        instance.result.updateAddressLine("postal_code", data.result.address.postal_code, "address-line-input");
+        instance.result.updateAddressLine("country", data.result.address.country, "address-line-input");
 
         // Hide country and address search fields (if they have a 'toggle' class)
         instance.result.hideSearchInputs();

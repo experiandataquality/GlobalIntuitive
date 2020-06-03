@@ -136,7 +136,7 @@ ContactDataServices.address = function(customOptions){
         // If the country is not empty, and
         instance.countryList.value !== undefined && instance.countryList.value !== "" && 
         // If search input has been reset (if applicable)
-                instance.hasSearchInputBeenReset === true);
+        instance.hasSearchInputBeenReset === true);
   };
 
   //Determine whether tab key was pressed
@@ -178,7 +178,7 @@ ContactDataServices.address = function(customOptions){
     // Render a picklist of search results
     show: function(items){
       // Store the picklist items
-      instance.picklist.items = items.results;
+      instance.picklist.items = items.results.suggestions;
 
       // Reset any previously selected current item
       instance.picklist.currentItem = null;
@@ -235,7 +235,7 @@ ContactDataServices.address = function(customOptions){
       // Create a "use address entered" option
       create: function(){
         var item = {
-          suggestion: ContactDataServices.defaults.useAddressEnteredText,
+          text: ContactDataServices.defaults.useAddressEnteredText,
           format: ""
         };
         var listItem = instance.picklist.createListItem(item);
@@ -391,7 +391,7 @@ ContactDataServices.address = function(customOptions){
     // Add emphasis to the picklist items highlighting the match
     addMatchingEmphasis: function(item){
       var highlights = item.matched || [],
-              label = item.suggestion;
+              label = item.text;
 
             for (var i = 0; i < highlights.length; i++) {
                 var replacement = '<b>' + label.substring(highlights[i][0], highlights[i][1]) + '</b>';
@@ -439,13 +439,10 @@ ContactDataServices.address = function(customOptions){
       // Clear search input
       instance.input.value = "";
       
-      if(data.address && data.address.length > 0){				
+      if(data.result.address){				
 
         // Create an array to hold the hidden input fields
         var inputArray = [];
-
-        // Calculate if we needed to generate the formatted address input fields later
-        instance.result.calculateIfAddressLineGenerationRequired();
 
         // Get formatted address container element
         // Only create a container if we're creating inputs. otherwise the user will have their own container.
@@ -454,17 +451,13 @@ ContactDataServices.address = function(customOptions){
           instance.result.createFormattedAddressContainer();
         }
 
-        // Loop over each formatted address component
-        for(var i = 0; i < data.address.length; i++){
-            var addressComponent = data.address[i];
-            // The addressComponent object will only have one property, but we don't know the key
-            for (var key in addressComponent) {
-                if (addressComponent.hasOwnProperty(key)) {
-              // Bind the address element to the user's address field (or create a new one)
-              instance.result.updateAddressLine(key, addressComponent, "address-line-input");
-            }
-            }
-        }
+        instance.result.updateAddressLine("address_line_1", data.result.address.address_line_1, "address-line-input");
+        instance.result.updateAddressLine("address_line_2", data.result.address.address_line_2, "address-line-input");
+        instance.result.updateAddressLine("address_line_3", data.result.address.address_line_3, "address-line-input");
+        instance.result.updateAddressLine("locality", data.result.address.locality, "address-line-input");
+        instance.result.updateAddressLine("region", data.result.address.region, "address-line-input");
+        instance.result.updateAddressLine("postal_code", data.result.address.postal_code, "address-line-input");
+        instance.result.updateAddressLine("country", data.result.address.country, "address-line-input");
 
         // Hide country and address search fields (if they have a 'toggle' class)
         instance.result.hideSearchInputs();
@@ -542,21 +535,11 @@ ContactDataServices.address = function(customOptions){
         heading.innerHTML = text;
       }
     },
-    calculateIfAddressLineGenerationRequired: function(){
-      instance.result.generateAddressLineRequired = true;
-      for(var i = 0; i < ContactDataServices.defaults.addressLineLabels.length; i++){
-        var key = ContactDataServices.defaults.addressLineLabels[i];
-        if(instance.elements[key]){
-          instance.result.generateAddressLineRequired = false;
-          break;
-        }
-      }
-    },
     updateAddressLine: function(key, addressLineObject, className){
       // Either append the result to the user's address field or create a new field for them
       if (instance.elements[key]){
         var addressField = instance.elements[key];
-        var value = addressLineObject[key];
+        var value = addressLineObject;
         // If a value is already present, prepend a comma and space
         if(addressField.value && value) {
           value = ", " + value;
@@ -572,7 +555,7 @@ ContactDataServices.address = function(customOptions){
       } else if (instance.result.generateAddressLineRequired){
         // Create an input to store the address line
         var label = instance.result.createAddressLine.label(key);
-        var field = instance.result.createAddressLine.input(label, addressLineObject[key], className);
+        var field = instance.result.createAddressLine.input(label, addressLineObject, className);
         // Insert into DOM
         instance.result.formattedAddressContainer.appendChild(field);
       }
