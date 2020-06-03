@@ -266,11 +266,11 @@
 		<input type="text" name="address-input" id="address-input" class="toggle">
 
 		<div class="formatted-address hidden">
-			<label for="addressLine1">Address line 1</label>
-			<input type="text" name="addressLine1" id="addressLine1">
+			<label for="address_line_1">Address line 1</label>
+			<input type="text" name="address_line_1" id="address_line_1">
 
-			<label for="addressLine2">Address line 2</label>
-			<input type="text" name="addressLine2" id="addressLine2">
+			<label for="address_line_2">Address line 2</label>
+			<input type="text" name="address_line_2" id="address_line_2">
 
 			<label for="city">City</label>
 			<input type="text" name="city" id="city">
@@ -280,6 +280,9 @@
 
 			<label for="zip">Zip</label>
 			<input type="text" name="zip" id="zip">
+
+			<label for="country">Country</label>
+			<input type="text" name="country" id="country">
 		</div>
 	</form>
 
@@ -287,15 +290,18 @@
 	<script>
 		// Set the custom options
 		var options = {
+			token: "51c8b12e-1b99-4b8d-8427-4366400f4c3b",
+			//token: "d961cc02-0b14-46e6-93cd-ff1591a0982f",
 			elements: {
 				input: document.querySelector("input[name='address-input']"),
 				countryList: document.querySelector("select"),
-				addressLine1: document.querySelector("input[name='addressLine1']"),
-				addressLine2: document.querySelector("input[name='addressLine2']"),
-				addressLine3: document.querySelector("input[name='addressLine2']"),
+				address_line_1: document.querySelector("input[name='address_line_1']"),
+				address_line_2: document.querySelector("input[name='address_line_2']"),
+				address_line_3: document.querySelector("input[name='address_line_2']"),
 				locality: document.querySelector("input[name='city']"),
-				province: document.querySelector("input[name='state']"),
-				postalCode: document.querySelector("input[name='zip']")
+				region: document.querySelector("input[name='state']"),
+				postal_code: document.querySelector("input[name='zip']"),
+				country: document.querySelector("input[name='country']")
 			},
 		};
 
