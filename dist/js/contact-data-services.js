@@ -362,7 +362,7 @@ ContactDataServices.address = function(customOptions){
     // Render a picklist of search results
     show: function(items){
       // Store the picklist items
-      instance.picklist.items = items.results.suggestions;
+      instance.picklist.items = items.result.suggestions;
 
       // Reset any previously selected current item
       instance.picklist.currentItem = null;
