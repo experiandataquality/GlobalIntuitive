@@ -7,12 +7,12 @@ ContactDataServices.defaults = {
 	useSpinner: false,
 	language: "en",
 	addressLineLabels: [
-		"addressLine1",
-		"addressLine2",
-		"addressLine3",
+		"address_line_1",
+		"address_line_2",
+		"address_line_3",
 		"locality",
-		"province",
-		"postalCode",
+		"region",
+		"postal_code",
 		"country"
 	]
 };
