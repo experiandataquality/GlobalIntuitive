@@ -272,14 +272,14 @@
 			<label for="address_line_2">Address line 2</label>
 			<input type="text" name="address_line_2" id="address_line_2">
 
-			<label for="city">City</label>
-			<input type="text" name="city" id="city">
+			<label for="locality">City</label>
+			<input type="text" name="locality" id="locality">
 
-			<label for="state">State</label>
-			<input type="text" name="state" id="state">
+			<label for="region">State</label>
+			<input type="text" name="region" id="region">
 
-			<label for="zip">Zip</label>
-			<input type="text" name="zip" id="zip">
+			<label for="postal_code">Zip</label>
+			<input type="text" name="postal_code" id="postal_code">
 
 			<label for="country">Country</label>
 			<input type="text" name="country" id="country">
@@ -290,16 +290,17 @@
 	<script>
 		// Set the custom options
 		var options = {
+			token: "d961cc02-0b14-46e6-93cd-ff1591a0982f",
 			elements: {
 				input: document.querySelector("input[name='address-input']"),
 				countryList: document.querySelector("select"),
 				address_line_1: document.querySelector("input[name='address_line_1']"),
 				address_line_2: document.querySelector("input[name='address_line_2']"),
 				address_line_3: document.querySelector("input[name='address_line_2']"),
-				locality: document.querySelector("input[name='city']"),
-				region: document.querySelector("input[name='state']"),
-				postal_code: document.querySelector("input[name='zip']"),
-				country: document.querySelector("input[name='country']")
+				locality: document.querySelector("input[name='locality']"),
+				region: document.querySelector("input[name='region']"),
+				postal_code: document.querySelector("input[name='postal_code']"),
+				country: document.querySelector("input[name='country']"),
 			},
 		};
 

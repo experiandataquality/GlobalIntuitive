@@ -4,13 +4,13 @@ ContactDataServices.translations = {
   en: {
     gbr: {
       locality: "Town/City",
-      province: "County",
-      postalCode: "Post code"
+      region: "County",
+      postal_code: "Post code"
     },
     usa: {
       locality: "City",
-      province: "State",
-      postalCode: "Zip code"
+      region: "State",
+      postal_code: "Zip code"
     }
   }
   // Add other languages below

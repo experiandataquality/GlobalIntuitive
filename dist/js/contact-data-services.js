@@ -106,13 +106,13 @@ ContactDataServices.translations = {
   en: {
     gbr: {
       locality: "Town/City",
-      province: "County",
-      postalCode: "Post code"
+      region: "County",
+      postal_code: "Post code"
     },
     usa: {
       locality: "City",
-      province: "State",
-      postalCode: "Zip code"
+      region: "State",
+      postal_code: "Zip code"
     }
   }
   // Add other languages below
@@ -736,54 +736,33 @@ ContactDataServices.address = function(customOptions){
         }
         // Store a record of their last address field
         instance.result.lastAddressField = addressField;
-      } else if (instance.result.generateAddressLineRequired){
-        // Create an input to store the address line
-        var label = instance.result.createAddressLine.label(key);
-        var field = instance.result.createAddressLine.input(label, addressLineObject, className);
-        // Insert into DOM
-        instance.result.formattedAddressContainer.appendChild(field);
       }
     },
-    createAddressLine: {
-      // Create an input to store the address line
-      input: function(key, value, className){
-        // Create a wrapper
-        var div  = document.createElement("div");
-        div.classList.add(className);
-
-        // Create the label
-        var label = document.createElement("label");
-         label.innerHTML = key.replace(/([A-Z])/g, ' $1') // Add space before capital Letters
-                                      .replace(/([0-9])/g, ' $1') // Add space before numbers
-                                      .replace(/^./, function (str) { return str.toUpperCase(); }); // Make first letter of word a capital letter
-        div.appendChild(label);
-
-        // Create the input
-        var input = document.createElement("input");
-        input.setAttribute("type", "text");
-        input.setAttribute("name", key);
-        input.setAttribute("value", value);
-        div.appendChild(input);
-        return div;
-      },
-      // Create the address line label based on the country and language
-      label: function(key){
-        var label = key;
-        var language = instance.language.toLowerCase();
-        var country = instance.currentCountryCode.toLowerCase();
-        var translations = ContactDataServices.translations;
-        if(translations){
-          try {
-            var translatedLabel = translations[language][country][key];
-            if(translatedLabel){
-              label = translatedLabel;
+    // Update the label if translation is present
+    updateLabel: function(key){
+      var label = key;
+      var language = instance.language.toLowerCase();
+      var country = instance.currentCountryCode.toLowerCase();
+      var translations = ContactDataServices.translations;
+      if(translations){
+        try {
+          var translatedLabel = translations[language][country][key];
+          if(translatedLabel){
+            label = translatedLabel;
+            var labels = document.getElementsByTagName("label");
+            for(var i=0; i<labels.length; i++)
+            {
+              if(labels[i].htmlFor === key)
+              {
+                labels[i].innerHTML = translatedLabel;
+              }
             }
-          } catch(e) {
-            // Translation doesn't exist for key
           }
+        } catch(e) {
+          // Translation doesn't exist for key
         }
-        return label;
       }
+      return label;
     },
     // Create the 'Search again' link that resets the search
     createSearchAgainLink: function(){
