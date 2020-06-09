@@ -3,24 +3,22 @@ ContactDataServices.urls = {
   endpoint: "https://api.experianaperture.io/address/search/v1",
   construct: {
     address: {
-      // Construct the Search URL by appending query, country & take
-      search: function(instance){
-        var url = ContactDataServices.urls.endpoint;
-        url += "?query=" + encodeURIComponent(instance.currentSearchTerm);
-        url += "&country=" + instance.currentCountryCode;
-        url += "&dataset=" + instance.currentDataSet;
+      // Construct the Search URL
+      searchUrl: function(){
+        return ContactDataServices.urls.endpoint;
+      },
+      searchData: function(instance){
+        var data = {
+          country_iso: instance.currentCountryCode,
+          components: {unspecified: [instance.currentSearchTerm]},
+          dataset: instance.currentDataSet,
+          take: (instance.maxSize || instance.picklist.maxSize)
+        };
 
         if (instance.elements.location) {
-          url += "&location=" + instance.elements.location;
+          data.location = instance.elements.location;
         }
-
-        url += "&take=" + (instance.maxSize || instance.picklist.maxSize);
-        url += "&auth-token=" + instance.token;
-        return url;
-      },
-      // Append the token to the Format URL
-      format: function(url, instance){
-        return url + "&auth-token=" + instance.token;
+        return JSON.stringify(data);
       }
     }
   },

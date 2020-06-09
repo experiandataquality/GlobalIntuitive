@@ -62,25 +62,11 @@ The default sample page contains the full list of supported countries. This list
 
 ##### Tokens
 
-> For the purpose of this sample code, the tokens for the live endpoint aren't hardcoded in source control and must be appended to the URL query string. For example: **https://experianplc.github.io/Experian-Address-Validation/?token=xyz**
+> For the purpose of this sample code, the tokens for the live endpoint aren't hardcoded in source control and must be appended to the query as a header parameter.
 
 To get your token and a free trial, contact us via [www.experian.co.uk/business/enquire](https://www.experian.co.uk/business/enquire)
 
 As mentioned above in [Options](/#options) you should pass your token through as a setting. The sample page in this repo appends it to the query string to avoid hardcoding a token in source control.
-
-**Development remark:** *Header vs. query string*
-
-When integrating this sample code directly against the API, a decision had to be made regarding how we authenticated ourselves.
-
-To use a token and authenticate with the API you have two integration options:
-
-1. Pass the `auth-token` through as a custom HTTP header.
-
-2. Append the `auth-token` as a parameter in the query string when making the GET request.
-
-If you are concerned about speed and want to reduce the latency as much as possible we recommend using the 2nd option and append the token to the query string.
-
-If you were to pass it through to the API as a custom HTTP header then the browser would make an additional [pre-flight](https://developer.mozilla.org/en-US/docs/Web/HTTP/Access_control_CORS#Preflighted_requests) OPTIONS HTTP request before each search. Whilst ensuring your token isn't visible in any URLs it would slow it down slightly.
 
 ##### Invocation
 

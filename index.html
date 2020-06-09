@@ -2,7 +2,7 @@
 <html lang="en">
 
 <head>
-	<title>Global Intuitive - sample page</title>
+	<title>Experian Address Validation - sample page</title>
 	<meta charset="UTF-8">
 	<meta name="viewport" content="width=device-width, initial-scale=1.0, minimum-scale=1, maximum-scale=1" />
 	<link rel="stylesheet" type="text/css" href="dist/css/styles.min.css">
@@ -11,7 +11,7 @@
 
 <body>
 	<div class="filter-primary overlay-dotted">
-		<h1>Global Intuitive</h1>
+		<h1>Experian Address Validation</h1>
 	</div>
 
 	<form>
@@ -144,7 +144,6 @@
 				<option value="LTU">Lithuania</option>
 				<option value="LUX">Luxembourg</option>
 				<option value="MAC">Macao</option>
-				<option value="MKD">Macedonia, The Former Yugoslav Republic Of</option>
 				<option value="MDG">Madagascar</option>
 				<option value="MWI">Malawi</option>
 				<option value="MYS">Malaysia</option>
@@ -177,6 +176,7 @@
 				<option value="NGA">Nigeria</option>
 				<option value="NIU">Niue</option>
 				<option value="NFK">Norfolk Island</option>
+				<option value="MKD">North Macedonia</option>
 				<option value="NNP">Northern Mariana Islands</option>
 				<option value="NOR">Norway</option>
 				<option value="OMN">Oman</option>
@@ -266,36 +266,40 @@
 		<input type="text" name="address-input" id="address-input" class="toggle">
 
 		<div class="formatted-address hidden">
-			<label for="addressLine1">Address line 1</label>
-			<input type="text" name="addressLine1" id="addressLine1">
+			<label for="address_line_1">Address line 1</label>
+			<input type="text" name="address_line_1" id="address_line_1">
 
-			<label for="addressLine2">Address line 2</label>
-			<input type="text" name="addressLine2" id="addressLine2">
+			<label for="address_line_2">Address line 2</label>
+			<input type="text" name="address_line_2" id="address_line_2">
 
-			<label for="city">City</label>
-			<input type="text" name="city" id="city">
+			<label for="locality">City</label>
+			<input type="text" name="locality" id="locality">
 
-			<label for="state">State</label>
-			<input type="text" name="state" id="state">
+			<label for="region">State</label>
+			<input type="text" name="region" id="region">
 
-			<label for="zip">Zip</label>
-			<input type="text" name="zip" id="zip">
+			<label for="postal_code">Zip</label>
+			<input type="text" name="postal_code" id="postal_code">
+
+			<label for="country">Country</label>
+			<input type="text" name="country" id="country">
 		</div>
 	</form>
 
-	<script src="dist/js/contact-data-services.min.js"></script>
+	<script src="dist/js/contact-data-services.js"></script>
 	<script>
 		// Set the custom options
 		var options = {
 			elements: {
 				input: document.querySelector("input[name='address-input']"),
 				countryList: document.querySelector("select"),
-				addressLine1: document.querySelector("input[name='addressLine1']"),
-				addressLine2: document.querySelector("input[name='addressLine2']"),
-				addressLine3: document.querySelector("input[name='addressLine2']"),
-				locality: document.querySelector("input[name='city']"),
-				province: document.querySelector("input[name='state']"),
-				postalCode: document.querySelector("input[name='zip']")
+				address_line_1: document.querySelector("input[name='address_line_1']"),
+				address_line_2: document.querySelector("input[name='address_line_2']"),
+				address_line_3: document.querySelector("input[name='address_line_2']"),
+				locality: document.querySelector("input[name='locality']"),
+				region: document.querySelector("input[name='region']"),
+				postal_code: document.querySelector("input[name='postal_code']"),
+				country: document.querySelector("input[name='country']"),
 			},
 		};
 
@@ -321,7 +325,7 @@
 
 		// Show a message if the request is unauthorised (token is invalid)
 		address.events.on("request-error-401", function() {
-			ContactDataServices.ua.banner.show("<a href='https://github.com/experiandataquality/RealTimeAddress#tokens'>Please provide a valid token for RealTimeAddress.</a>");
+			ContactDataServices.ua.banner.show("<a href='https://github.com/experianplc/Experian-Address-Validation#tokens'>Please provide a valid token for Experian Address Validation.</a>");
 		});
 	</script>
 </body>

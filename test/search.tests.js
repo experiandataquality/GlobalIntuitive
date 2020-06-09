@@ -75,7 +75,7 @@ describe("ContactDataServices", function() {
 
       var selectList = document.createElement("select");
       selectList.name = "countryCode";
-      //Create and append the options   
+      //Create and append the options
       var option = document.createElement("option");
       option.value = "GB";
       option.text = "UK";
@@ -101,10 +101,10 @@ describe("ContactDataServices", function() {
       // Act
       var address = new ContactDataServices.address(options);
       address.search("Term");
-      var url = ContactDataServices.urls.construct.address.search(address);
+      var url = ContactDataServices.urls.construct.address.searchData(address);
 
       // Assert
-      expect(url.indexOf("country=GBR")>=0).toBe(true);
+      expect(url.indexOf('"country_iso":"GBR"')>=0).toBe(true);
 
     });
 
