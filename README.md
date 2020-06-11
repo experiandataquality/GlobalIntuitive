@@ -58,7 +58,7 @@ Additional options that can be passed through include:
 
 ##### Country list
 
-The default sample page contains the full list of supported countries. This list should be amended to include only the countries that your integration supports. A full list of available countries and their ISO codes can also be found with our [API documentation](https://www.edq.com/documentation/apis/address-validate/global-intuitive/#supported-countries-2).
+The default sample page contains the full list of supported countries. This list should be amended to include only the countries that your integration supports. A full list of available countries and their ISO codes can also be found with our [API documentation](https://www.edq.com/documentation/apis/address-validate/experian-address-validation/#supported-countries-2).
 
 ##### Tokens
 
@@ -98,12 +98,12 @@ After instantiating a new instance the constructor returns an object that can be
 
 By default the API returns the formatted address using a global 7-line layout. This means that the field labels for every country are all the same. These are:
 
-* addressLine1
-* addressLine2
-* addressLine3
+* address_line_1
+* address_line_2
+* address_line_3
 * locality
-* province
-* postalCode
+* region
+* postal_code
 * country
 
 However, in your integration you might wish to change "locality" to "city" or "postalCode" to "post code", for example.
@@ -116,8 +116,8 @@ However, in your integration you might wish to change "locality" to "city" or "p
 en: {
     gbr: {
       locality: "Town/City",
-      province: "County",
-      postalCode: "Post code"
+      region: "County",
+      postal_code: "Post code"
     }
 }
 ```
@@ -141,17 +141,18 @@ var options = {
         input: document.querySelector("input[name='address-input']"),
         countryList: document.querySelector("select"),
         countryCodeMapping : countryMap,
-        addressLine1: document.querySelector("input[name='addressLine1']"),
-        addressLine2: document.querySelector("input[name='addressLine2']"),
-        addressLine3: document.querySelector("input[name='addressLine2']"),
-        locality: document.querySelector("input[name='city']"),
-        province: document.querySelector("input[name='state']"),
-        postalCode: document.querySelector("input[name='zip']")
+        address_line_1: document.querySelector("input[name='address_line_1']"),
+        address_line_2: document.querySelector("input[name='address_line_2']"),
+        address_line_3: document.querySelector("input[name='address_line_2']"),
+        locality: document.querySelector("input[name='locality']"),
+        region: document.querySelector("input[name='locality']"),
+        postal_code: document.querySelector("input[name='postal_code']")
+        country: document.querySelector("input[name='country']")
     }
 };
 ```
 
-A note on the country list: If you need to pass a value for the Datasets parameter to the API in order to specify a non-default dataset for a certain country, the value of the option in the country list should be in the format "{country ISO code};{dataset name}". Please see the [API Reference](https://www.edq.com/documentation/apis/address-validate/global-intuitive) for more details on the Datasets API parameter.
+A note on the country list: If you need to pass a value for the Datasets parameter to the API in order to specify a non-default dataset for a certain country, the value of the option in the country list should be in the format "{country ISO code};{dataset name}". Please see the [API Reference](https://www.edq.com/documentation/apis/address-validate/experian-address-validation/) for more details on the Datasets API parameter.
 
 Notice how you can return multiple address lines to the same form field.
 
@@ -167,7 +168,7 @@ In addition to the 7 address lines. A format request also returns an array of ob
 
 Components and Metadata are not designed to be returned to the user and instead should be stored separately. This will be specific to your requirements and is not included in the sample code.
 
-More information can be found in the [documentation](http://edq.com/documentation/apis/address-validate/global-intuitive#address-components-tables).
+More information can be found in the [documentation](https://www.edq.com/documentation/apis/address-validate/experian-address-validation/).
 
 ## Development
 
