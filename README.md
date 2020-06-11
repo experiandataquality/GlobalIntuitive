@@ -214,4 +214,4 @@ Now each time you push to GitHub, Travis will build the project and run any Jasm
 
 ## Support
 
-At the time of writing, this sample code is currently supported in Chrome, Firefox and Safari latest, as well as IE 10.
+At the time of writing, this sample code is currently supported in Chrome, Firefox, Safari and Edge latest, as well as IE 11.
