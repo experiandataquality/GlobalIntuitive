@@ -398,8 +398,12 @@ ContactDataServices.address = function(customOptions){
     },
     // Add emphasis to the picklist items highlighting the match
     addMatchingEmphasis: function(item){
+      let dataset= '';
+      if(item.dataset){
+        dataset = '['+dataset+']'
+      }
       var highlights = item.matched || [],
-            label = item.text;
+            label = dataset + item.text;
             for (var i = 0; i < highlights.length; i++) {
                 var replacement = '<b>' + label.substring(highlights[i][0], highlights[i][1]) + '</b>';
                 label = label.substring(0, highlights[i][0]) + replacement + label.substring(highlights[i][1]);
